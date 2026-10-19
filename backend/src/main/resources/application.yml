@@ -12,6 +12,17 @@ spring:
 server:
   port: ${PORT:8080}
 
+inventory:
+  sharding:
+    enabled: ${SHARDING_ENABLED:true}
+    virtual-nodes: ${SHARD_VIRTUAL_NODES:32}
+    initial-shards: [shard-1, shard-2, shard-3]
+    databases:
+      shard-1: ${SHARD_DB_1:inventory_shard_1}
+      shard-2: ${SHARD_DB_2:inventory_shard_2}
+      shard-3: ${SHARD_DB_3:inventory_shard_3}
+      shard-4: ${SHARD_DB_4:inventory_shard_4}
+
 management:
   endpoints:
     web:

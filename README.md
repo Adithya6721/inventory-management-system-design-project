@@ -4,6 +4,12 @@ This repository houses the core inventory and database backend for the System De
 
 Developed by **Member 1: Core Inventory & Database**.
 
+**Member 2 is now implemented:** inventory persistence uses three logical MongoDB
+shards and a consistent-hashing ring with 32 virtual nodes per shard. Shard
+addition/removal physically migrates records and preserves stock reservations.
+See [the Member 2 run guide, management API and verification results](docs/sharding.md).
+Run `.\scripts\demo-sharding.ps1` against the running backend for the demonstration.
+
 ---
 
 ## 1. Member 1 Responsibilities & Backend Scope

@@ -2,7 +2,7 @@ package com.example.inventory.inventory;
 
 import com.example.inventory.integration.InventoryPersistencePort;
 import org.bson.Document;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.BasicQuery;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@ConditionalOnMissingBean(value = InventoryPersistencePort.class, ignored = MongoInventoryPersistenceAdapter.class)
+@ConditionalOnProperty(prefix = "inventory.sharding", name = "enabled", havingValue = "false")
 public class MongoInventoryPersistenceAdapter implements InventoryPersistencePort {
 
     private final InventoryRepository inventoryRepository;

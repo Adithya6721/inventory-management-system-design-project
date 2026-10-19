@@ -35,6 +35,11 @@ This document explains how team members (Members 2, 3, 4, and 5) integrate with 
 ## 1. Member 2: Sharding & Consistent Hashing
 
 ### Interface to Implement: `InventoryPersistencePort`
+**Implemented by Member 2:** `ShardedInventoryPersistenceRouter` is the primary
+port implementation when sharding is enabled (the default). The existing service
+and API contracts are unchanged. See [sharding.md](sharding.md) for configuration,
+membership management, migration recovery and the working demonstration.
+
 - **Location:** `com.example.inventory.integration.InventoryPersistencePort`
 - **Responsibility:** Route inventory reads, writes, and atomic reservations to the appropriate shard determined by hashing `productId` or composite key `(productId, warehouseId)`.
 
