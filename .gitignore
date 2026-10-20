@@ -20,3 +20,6 @@ buildNumber.properties
 *.log
 .DS_Store
 Thumbs.db
+
+# Local verification database and logs
+.verification/
