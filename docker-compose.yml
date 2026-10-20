@@ -55,6 +55,20 @@ services:
     networks:
       - inventory-net
 
+  supplier-simulator:
+    build:
+      context: .
+      dockerfile: crawler/Dockerfile
+    container_name: inventory-supplier-simulator
+    restart: unless-stopped
+    ports:
+      - "8085:8085"
+    environment:
+      - PORT=8085
+      - BACKEND_API_URL=http://backend:8080
+    networks:
+      - inventory-net
+
 volumes:
   mongo_data:
 

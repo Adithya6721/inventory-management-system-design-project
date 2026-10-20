@@ -9,7 +9,8 @@ import {
   AlertTriangle,
   Zap,
   Cpu,
-  Boxes
+  Boxes,
+  Globe
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, lowStockCount = 0 }) {
@@ -21,6 +22,7 @@ export default function Sidebar({ activeTab, setActiveTab, lowStockCount = 0 }) 
     { id: 'sales', label: 'Sales Orders', icon: ShoppingCart },
     { id: 'transfers', label: 'Stock Transfers', icon: ArrowLeftRight },
     { id: 'alerts', label: 'Low-Stock Alerts', icon: AlertTriangle, badge: lowStockCount },
+    { id: 'supplier-crawler', label: 'Supplier Crawler', icon: Globe, member5: true },
     { id: 'autocomplete', label: 'Autocomplete Lab', icon: Zap, highlight: true },
     { id: 'system-design', label: 'System Architecture', icon: Cpu },
   ];
@@ -168,6 +170,11 @@ export default function Sidebar({ activeTab, setActiveTab, lowStockCount = 0 }) 
               {item.highlight && (
                 <span className="badge badge-cyan" style={{ fontSize: '0.65rem' }}>
                   Member 4
+                </span>
+              )}
+              {item.member5 && (
+                <span className="badge badge-emerald" style={{ fontSize: '0.65rem' }}>
+                  Member 5
                 </span>
               )}
             </button>

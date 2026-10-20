@@ -11,6 +11,7 @@ import PurchaseOrders from './pages/PurchaseOrders';
 import SalesOrders from './pages/SalesOrders';
 import StockTransfers from './pages/StockTransfers';
 import LowStockAlerts from './pages/LowStockAlerts';
+import SupplierCrawler from './pages/SupplierCrawler';
 import AutocompleteLab from './pages/AutocompleteLab';
 import SystemDesignLab from './pages/SystemDesignLab';
 
@@ -190,6 +191,15 @@ export default function App() {
               onRefreshAlerts={loadInitialData}
               onSelectProduct={(p) => setInspectedProduct(p)}
               onQuickRestock={handleQuickRestock}
+            />
+          )}
+
+          {activeTab === 'supplier-crawler' && (
+            <SupplierCrawler
+              products={products}
+              warehouses={warehouses}
+              onShowToast={showToast}
+              onRefreshAll={loadInitialData}
             />
           )}
 
