@@ -52,8 +52,9 @@ Member 1 serves as the foundational backbone for the entire system design projec
 | **Member 1 (This Module)** | **Core Inventory, Database & Business Logic** | Owns MongoDB schemas, transactional stock rules, order processing, transfers, alerts, and integration ports. |
 | **Member 2** | Sharding & Consistent Hashing | Member 1 provides `InventoryPersistencePort`. Member 2 plugs in shard routing without touching core service logic. |
 | **Member 3** | Redis, Rate Limiting & Unique IDs | Member 1 provides `InventoryCachePort` and `IdGeneratorPort`. |
-| **Member 4** | React Frontend & Autocomplete | Member 1 provides documented REST APIs (`docs/api-contracts.md`) and pre-configured CORS. |
+| **Member 4** | React Frontend & Autocomplete | **Implemented (`frontend/`):** React dashboard, In-memory Trie autocomplete (<2ms), stock distribution, concurrency simulator, and evaluation reports (`docs/member-4-frontend-and-autocomplete.md`). |
 | **Member 5** | Supplier Crawler & Integration | Member 1 provides `POST /api/suppliers/import` via `SupplierImportPort`, preventing artificial warehouse stock inflation. |
+
 
 ---
 
@@ -336,39 +337,42 @@ For orders containing multiple line items across different products:
 
 ```
 .
-├── backend/
+├── frontend/                           # Member 4: React UI & Autocomplete Component
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   └── src/
+│       ├── services/
+│       │   ├── trie.js                 # In-Memory Trie data structure (<2ms lookups)
+│       │   └── api.js                  # REST API Client (429 & 409 handling)
+│       ├── components/
+│       │   ├── AutocompleteSearch.jsx  # Member 4 System Design Component
+│       │   ├── Navbar.jsx
+│       │   ├── Sidebar.jsx
+│       │   ├── StockModal.jsx
+│       │   └── ToastContainer.jsx
+│       └── pages/
+│           ├── Dashboard.jsx
+│           ├── ProductCatalog.jsx
+│           ├── WarehouseInventory.jsx
+│           ├── PurchaseOrders.jsx
+│           ├── SalesOrders.jsx
+│           ├── StockTransfers.jsx
+│           ├── LowStockAlerts.jsx
+│           ├── AutocompleteLab.jsx      # Deliverable 4 Benchmark Evaluator
+│           └── SystemDesignLab.jsx     # Concurrency & Rate Limit Simulator
+├── backend/                            # Member 1: Core Inventory & Database
 │   ├── pom.xml
 │   ├── Dockerfile
 │   └── src/
-│       ├── main/
-│       │   ├── java/com/example/inventory/
-│       │   │   ├── config/             # Mongo & CORS configurations
-│       │   │   ├── common/             # GlobalExceptionHandler, ApiError, Exceptions
-│       │   │   ├── product/            # Products CRUD, search & pagination
-│       │   │   ├── warehouse/          # Warehouses & inventory query
-│       │   │   ├── inventory/          # Core stock, movements & persistence adapter
-│       │   │   ├── purchase/           # Purchase orders & stock receipts
-│       │   │   ├── sales/              # Sales orders with atomic reservation
-│       │   │   ├── transfer/           # Warehouse-to-warehouse stock transfers
-│       │   │   ├── notification/       # Low-stock alerts with deduplication
-│       │   │   └── integration/        # Ports for Members 2, 3, and 5
-│       │   └── resources/
-│       │       └── application.yml
-│       └── test/
-│           └── java/com/example/inventory/
-│               ├── product/ProductServiceTest.java
-│               ├── warehouse/WarehouseServiceTest.java
-│               ├── inventory/InventoryServiceTest.java
-│               ├── purchase/PurchaseOrderServiceTest.java
-│               ├── sales/SalesOrderServiceTest.java
-│               ├── sales/SalesOrderConcurrencyTest.java
-│               ├── transfer/StockTransferServiceTest.java
-│               ├── notification/LowStockServiceTest.java
-│               └── integration/InventoryIntegrationTest.java
+│       ├── main/java/com/example/inventory/
+│       └── test/java/com/example/inventory/
 ├── docker-compose.yml
 ├── docs/
 │   ├── api-contracts.md                # Full REST API documentation & JSON examples
 │   ├── integration-guide.md            # Integration guides for Members 2, 3, 4, 5
+│   ├── member-4-frontend-and-autocomplete.md # Member 4 architecture & benchmark report
 │   └── testing.md                      # Test report & 100-thread concurrency results
 └── README.md
 ```
@@ -392,7 +396,15 @@ mvn spring-boot:run
 ```
 The server will start on `http://localhost:8080`.
 
-### 3. Run via Docker Compose
+### 3. Run Frontend Locally (Member 4)
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+The dashboard will start on `http://localhost:3000` with hot-reload and backend proxying.
+
+### 4. Run Full Stack via Docker Compose
 ```powershell
 docker compose up -d --build
 ```
@@ -400,6 +412,8 @@ Spins up:
 - `inventory-mongodb`: MongoDB 7.0 on `27017`
 - `inventory-redis`: Redis 7.2 on `6379`
 - `inventory-backend`: Spring Boot REST API on `8080`
+- `inventory-frontend`: Production Nginx React SPA on `3000`
+
 
 ---
 

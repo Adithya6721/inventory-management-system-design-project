@@ -39,9 +39,23 @@ services:
     networks:
       - inventory-net
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: inventory-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - inventory-net
+
 volumes:
   mongo_data:
 
 networks:
   inventory-net:
     driver: bridge
+
