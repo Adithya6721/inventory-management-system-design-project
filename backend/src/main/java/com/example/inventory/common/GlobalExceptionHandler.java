@@ -55,6 +55,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(com.example.inventory.ratelimit.RateLimitExceededException.class)
+    public ResponseEntity<ApiError> handleRateLimitExceeded(com.example.inventory.ratelimit.RateLimitExceededException ex, HttpServletRequest request) {
+        log.warn("Rate limit exceeded at path {}: {}", request.getRequestURI(), ex.getMessage());
+        ApiError error = new ApiError(
+                HttpStatus.TOO_MANY_REQUESTS.value(),
+                HttpStatus.TOO_MANY_REQUESTS.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                .header("Retry-After", String.valueOf(ex.getRetryAfterSeconds()))
+                .header("X-RateLimit-Remaining", String.valueOf(ex.getRemainingTokens()))
+                .body(error);
+    }
+
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<ApiError> handleDuplicateKey(DuplicateKeyException ex, HttpServletRequest request) {
         log.warn("Duplicate key collision at path {}: {}", request.getRequestURI(), ex.getMessage());
