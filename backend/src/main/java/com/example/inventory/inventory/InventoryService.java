@@ -43,13 +43,18 @@ public class InventoryService {
     }
 
     public InventoryResponse getInventory(String productId, String warehouseId) {
-        // Ensure product & warehouse exist
-        productService.getProductEntity(productId);
-        warehouseService.getWarehouseEntity(warehouseId);
+        return inventoryCachePort.getCachedInventory(productId, warehouseId)
+                .orElseGet(() -> {
+                    // Ensure product & warehouse exist
+                    productService.getProductEntity(productId);
+                    warehouseService.getWarehouseEntity(warehouseId);
 
-        return persistencePort.findByProductIdAndWarehouseId(productId, warehouseId)
-                .map(InventoryResponse::fromDomain)
-                .orElseGet(() -> new InventoryResponse(productId, warehouseId, 0, 0, 0, null));
+                    InventoryResponse response = persistencePort.findByProductIdAndWarehouseId(productId, warehouseId)
+                            .map(InventoryResponse::fromDomain)
+                            .orElseGet(() -> new InventoryResponse(productId, warehouseId, 0, 0, 0, null));
+                    inventoryCachePort.cacheInventory(productId, warehouseId, response);
+                    return response;
+                });
     }
 
     public List<InventoryResponse> getInventoryByProduct(String productId) {

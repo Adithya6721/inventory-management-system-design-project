@@ -35,8 +35,11 @@ services:
       - MONGO_PORT=27017
       - MONGO_DB=inventory_db
       - SHARDING_ENABLED=true
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
       - mongodb
+      - redis
     networks:
       - inventory-net
 

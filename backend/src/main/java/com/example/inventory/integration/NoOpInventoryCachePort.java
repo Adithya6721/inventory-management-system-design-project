@@ -1,19 +1,43 @@
 package com.example.inventory.integration;
 
+import com.example.inventory.inventory.InventoryResponse;
+import com.example.inventory.product.ProductResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 /**
  * Default no-op cache adapter that logs invalidation events.
- * Member 3 will provide the Redis-backed cache adapter.
+ * Used as a fallback when Redis is unavailable.
  */
 @Component
 @ConditionalOnMissingBean(value = InventoryCachePort.class, ignored = NoOpInventoryCachePort.class)
 public class NoOpInventoryCachePort implements InventoryCachePort {
 
     private static final Logger log = LoggerFactory.getLogger(NoOpInventoryCachePort.class);
+
+    @Override
+    public Optional<ProductResponse> getCachedProduct(String productId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<InventoryResponse> getCachedInventory(String productId, String warehouseId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void cacheProduct(String productId, ProductResponse product) {
+        // no-op
+    }
+
+    @Override
+    public void cacheInventory(String productId, String warehouseId, InventoryResponse inventory) {
+        // no-op
+    }
 
     @Override
     public void evictProduct(String productId) {
@@ -28,5 +52,10 @@ public class NoOpInventoryCachePort implements InventoryCachePort {
     @Override
     public void evictAllProductInventory(String productId) {
         log.debug("[Cache Invalidation Hook] Evicted all inventory records for product {}", productId);
+    }
+
+    @Override
+    public CacheMetrics getMetrics() {
+        return new CacheMetrics(0, 0, 0, 0.0, 0.0);
     }
 }

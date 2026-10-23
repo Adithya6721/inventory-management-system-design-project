@@ -49,7 +49,12 @@ public class ProductService {
     }
 
     public ProductResponse getProduct(String productId) {
-        return ProductResponse.fromDomain(getProductEntity(productId));
+        return inventoryCachePort.getCachedProduct(productId)
+                .orElseGet(() -> {
+                    ProductResponse response = ProductResponse.fromDomain(getProductEntity(productId));
+                    inventoryCachePort.cacheProduct(productId, response);
+                    return response;
+                });
     }
 
     public Product getProductEntity(String productId) {
