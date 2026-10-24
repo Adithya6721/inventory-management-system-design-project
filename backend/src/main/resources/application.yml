@@ -24,8 +24,12 @@ app:
     refill-tokens: ${RATELIMIT_REFILL_TOKENS:5}
     refill-period-seconds: ${RATELIMIT_REFILL_PERIOD_SECONDS:1}
   cache:
+    enabled: ${CACHE_ENABLED:true}
+    namespace: ${CACHE_NAMESPACE:cache}
     product-ttl-minutes: ${CACHE_PRODUCT_TTL_MINUTES:10}
     stock-ttl-seconds: ${CACHE_STOCK_TTL_SECONDS:60}
+  evaluation:
+    enabled: ${EVALUATION_ENABLED:false}
 
 server:
   port: ${PORT:8080}

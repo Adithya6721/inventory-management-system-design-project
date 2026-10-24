@@ -72,4 +72,14 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>benchmark</id>
+            <build>
+                <!-- Keep benchmark packaging separate from a running app's JAR. -->
+                <finalName>inventory-benchmark</finalName>
+            </build>
+        </profile>
+    </profiles>
 </project>

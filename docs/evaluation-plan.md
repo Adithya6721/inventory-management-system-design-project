@@ -10,6 +10,15 @@ the current design, required replica-set setup, executed tests and remaining
 failure scenarios. The audit below records the pre-hardening state; its baseline
 matrix and workload protocol remain the next evaluation phase.
 
+Update 2026-10-24 (JMeter): explicit cache on/off selection, isolated cache
+namespaces, read/failure counters, a GUI-readable JMX plan and a CLI experiment
+runner are now available under `evaluation/jmeter`. The initial cache experiment
+uses a 5-second ramp and 30-second steady window, three repetitions and a separate
+Redis outage/recovery scenario. See that README for reproducible commands and
+timestamped raw evidence. Stock availability still bypasses the cache. The
+historical gaps below regarding non-transactional stock and cached availability
+have been addressed on this branch; other scope limits remain.
+
 ## Current position
 
 The repository is a working single-backend inventory prototype with logical

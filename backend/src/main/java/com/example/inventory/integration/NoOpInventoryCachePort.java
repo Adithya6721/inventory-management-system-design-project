@@ -4,17 +4,17 @@ import com.example.inventory.inventory.InventoryResponse;
 import com.example.inventory.product.ProductResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 /**
  * Default no-op cache adapter that logs invalidation events.
- * Used as a fallback when Redis is unavailable.
+ * Explicit no-cache baseline. Redis outages use the Redis adapter's failure path.
  */
 @Component
-@ConditionalOnMissingBean(value = InventoryCachePort.class, ignored = NoOpInventoryCachePort.class)
+@ConditionalOnProperty(prefix = "app.cache", name = "enabled", havingValue = "false")
 public class NoOpInventoryCachePort implements InventoryCachePort {
 
     private static final Logger log = LoggerFactory.getLogger(NoOpInventoryCachePort.class);

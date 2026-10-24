@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.concurrent.atomic.LongAdder;
 
 @Service
 public class ProductService {
@@ -17,6 +18,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final IdGeneratorPort idGeneratorPort;
     private final InventoryCachePort inventoryCachePort;
+    private final LongAdder detailRequests = new LongAdder();
+    private final LongAdder detailDatabaseLoads = new LongAdder();
 
     public ProductService(ProductRepository productRepository,
                           IdGeneratorPort idGeneratorPort,
@@ -49,13 +52,21 @@ public class ProductService {
     }
 
     public ProductResponse getProduct(String productId) {
+        detailRequests.increment();
         return inventoryCachePort.getCachedProduct(productId)
                 .orElseGet(() -> {
+                    detailDatabaseLoads.increment();
                     ProductResponse response = ProductResponse.fromDomain(getProductEntity(productId));
                     inventoryCachePort.cacheProduct(productId, response);
                     return response;
                 });
     }
+
+    public ReadMetrics getReadMetrics() {
+        return new ReadMetrics(detailRequests.sum(), detailDatabaseLoads.sum());
+    }
+
+    public record ReadMetrics(long detailRequests, long detailDatabaseLoads) { }
 
     public Product getProductEntity(String productId) {
         return productRepository.findByProductId(productId)

@@ -27,3 +27,8 @@ Thumbs.db
 __pycache__/
 frontend/node_modules/
 frontend/dist/
+
+# Large, reproducible JMeter evidence remains available locally.
+evaluation/load-results/**/raw.jtl*
+evaluation/load-results/**/measured.jtl*
+evaluation/load-results/**/html/

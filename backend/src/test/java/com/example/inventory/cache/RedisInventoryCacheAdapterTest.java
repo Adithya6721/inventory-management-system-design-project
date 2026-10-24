@@ -130,5 +130,17 @@ class RedisInventoryCacheAdapterTest {
             Optional<ProductResponse> result = cacheAdapter.getCachedProduct("prod_fail");
             assertTrue(result.isEmpty(), "Should treat Redis failure as cache miss");
         });
+        assertEquals(1, cacheAdapter.getDiagnostics().lookupFailures());
+        assertTrue(cacheAdapter.getDiagnostics().totalLookupTimeNs() > 0);
+    }
+
+    @Test
+    void namespacesDoNotReadOrEvictAnotherExperimentsKeys() {
+        var isolated = new RedisInventoryCacheAdapter(redisTemplate, 10, 60, "experiment-123");
+        isolated.getCachedProduct("p");
+        isolated.evictInventory("p", "w");
+        verify(valueOperations).get("experiment-123:product:p");
+        verify(redisTemplate).delete("experiment-123:stock:p:w");
+        verify(redisTemplate, never()).delete("cache:stock:p:w");
     }
 }
