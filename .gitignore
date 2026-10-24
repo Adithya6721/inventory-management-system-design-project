@@ -32,3 +32,4 @@ frontend/dist/
 evaluation/load-results/**/raw.jtl*
 evaluation/load-results/**/measured.jtl*
 evaluation/load-results/**/html/
+evaluation/results/**/raw.jtl*

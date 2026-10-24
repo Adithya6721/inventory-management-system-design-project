@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="AetherStock component experiments" enabled="true">
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments"><collectionProp name="Arguments.arguments"/></elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Concurrent API users" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${__P(loops,-1)}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(users,5)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(ramp,2)}</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${__P(duration,12)}</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Requests from CSV" enabled="true">
+          <stringProp name="filename">${__P(dataFile,requests.csv)}</stringProp>
+          <stringProp name="fileEncoding">UTF-8</stringProp><stringProp name="variableNames"></stringProp>
+          <boolProp name="ignoreFirstLine">false</boolProp><stringProp name="delimiter">,</stringProp>
+          <boolProp name="quotedData">true</boolProp><boolProp name="recycle">true</boolProp>
+          <boolProp name="stopThread">false</boolProp><stringProp name="shareMode">shareMode.all</stringProp>
+        </CSVDataSet><hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="JSON" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="Content-Type" elementType="Header"><stringProp name="Header.name">Content-Type</stringProp><stringProp name="Header.value">application/json</stringProp></elementProp>
+            <elementProp name="X-Forwarded-For" elementType="Header"><stringProp name="Header.name">X-Forwarded-For</stringProp><stringProp name="Header.value">${__P(clientKey,127.0.0.1)}</stringProp></elementProp>
+          </collectionProp>
+        </HeaderManager><hashTree/>
+        <JSR223Timer guiclass="TestBeanGUI" testclass="JSR223Timer" testname="Optional fixed request rate" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp><stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script"><![CDATA[
+if (props.getProperty('pace', 'false') != 'true') return 0L
+long now = System.nanoTime()
+long next = (vars.getObject('nextRequestNs') ?: now) as long
+long interval = (1_000_000_000d * props.getProperty('users').toInteger() / props.getProperty('rps').toDouble()) as long
+vars.putObject('nextRequestNs', next + interval)
+long delay = Math.max(0L, (next - now) / 1_000_000L as long)
+vars.putObject('scheduledEpochMs', System.currentTimeMillis() + (next - now) / 1_000_000L)
+return delay
+          ]]></stringProp>
+        </JSR223Timer><hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${kind}" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments"><collectionProp name="Arguments.arguments">
+            <elementProp name="body" elementType="HTTPArgument"><boolProp name="HTTPArgument.always_encode">false</boolProp><stringProp name="Argument.value">${requestBody}</stringProp><stringProp name="Argument.metadata">=</stringProp></elementProp>
+          </collectionProp></elementProp>
+          <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp><stringProp name="HTTPSampler.port">${__P(port,8082)}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp><stringProp name="HTTPSampler.path">${path}</stringProp>
+          <stringProp name="HTTPSampler.method">${__P(method,GET)}</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp><boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout">5000</stringProp><stringProp name="HTTPSampler.response_timeout">30000</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Unique order retry key" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp><stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script"><![CDATA[
+String key = props.getProperty('runId', 'manual') + '-' + ctx.getThreadNum() + '-' + vars.getIteration()
+vars.put('requestBody', (vars.get('body') ?: '').replace('RUN_KEY', key))
+vars.put('orderId', ''); vars.put('outcome', 'unexpected'); vars.put('scheduledLagMs', '')
+            ]]></stringProp>
+          </JSR223PreProcessor><hashTree/>
+          <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Validate business outcome" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp><stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script"><![CDATA[
+try {
+  if (props.getProperty('pace', 'false') == 'true') {
+    long scheduled = vars.getObject('scheduledEpochMs') as long
+    vars.put('scheduledLagMs', Math.max(0L, prev.getStartTime() - scheduled).toString())
+  }
+  String code = prev.getResponseCode()
+  def value = new groovy.json.JsonSlurper().parseText(prev.getResponseDataAsString())
+  String kind = vars.get('kind')
+  if (code == '429' && props.getProperty('limiterOn', 'false') == 'true') {
+    assert value.status == 429
+    assert prev.getResponseHeaders() =~ /(?im)^Retry-After:\s*[1-9][0-9]*/
+    vars.put('outcome', 'rate_limited'); prev.setSuccessful(true)
+  } else if (code == '409' && kind in ['point','scatter'] && value.message.startsWith('Shard membership changed after this transaction began')) {
+    vars.put('outcome', 'migration_conflict'); prev.setSuccessful(true)
+  } else if (kind == 'sales' && code == '409') {
+    if (value.message.startsWith('Insufficient available stock')) vars.put('outcome', 'insufficient_stock')
+    else if (value.message.startsWith('Concurrent inventory update')) vars.put('outcome', 'write_conflict')
+    else assert false: value.message
+    prev.setSuccessful(true)
+  } else if (kind == 'sales') {
+    assert code == '201'; assert value.status == 'RESERVED'; assert value.orderId
+    assert value.items.size() == 1
+    assert value.items[0].productId == vars.get('productId') && value.items[0].warehouseId == vars.get('warehouseId')
+    assert value.items[0].quantity == 1
+    vars.put('orderId', value.orderId); vars.put('outcome', 'reserved')
+  } else {
+    assert code == '200'
+    if (kind == 'product') {
+      assert value.productId == vars.get('productId') && value.sku == vars.get('sku')
+    } else {
+      def records = kind == 'scatter' ? value : [value]
+      assert records.size() == (kind == 'scatter' ? 5 : 1)
+      assert records.collect { it.warehouseId }.unique().size() == records.size()
+      records.each {
+        assert it.productId == vars.get('productId')
+        if (kind == 'point') assert it.warehouseId == vars.get('warehouseId')
+        assert it.quantity == 1000 && it.reservedQuantity == 0 && it.availableQuantity == 1000
+      }
+    }
+    vars.put('outcome', 'accepted')
+  }
+} catch (Throwable error) {
+  AssertionResult.setFailure(true)
+  AssertionResult.setFailureMessage(error.toString())
+}
+            ]]></stringProp>
+          </JSR223Assertion><hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
