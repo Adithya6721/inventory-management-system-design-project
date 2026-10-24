@@ -21,6 +21,23 @@ $mongodArgs = @('--bind_ip', '127.0.0.1', '--port', "$Port", '--replSet', 'inven
     '--logpath', ('"' + (Join-Path $testRoot 'mongod.log') + '"'), '--logappend')
 $testProcess = Start-Process -FilePath $mongodPath -ArgumentList $mongodArgs -WindowStyle Hidden -PassThru
 $testProcess.Id | Set-Content -LiteralPath (Join-Path $testRoot 'mongod.pid')
+# Reopening an existing data directory can require recovery before mongosh connects.
+$listening = $false
+for ($attempt = 0; $attempt -lt 100; $attempt++) {
+    $testProcess.Refresh()
+    if ($testProcess.HasExited) { throw "MongoDB exited during startup. Inspect $testRoot\mongod.log" }
+    $startupProbe = [Net.Sockets.TcpClient]::new()
+    try {
+        if ($startupProbe.ConnectAsync('127.0.0.1', $Port).Wait(100) -and $startupProbe.Connected) {
+            $listening = $true
+            break
+        }
+    } catch [AggregateException] {
+        # A connection refusal is normal during database recovery.
+    } finally { $startupProbe.Dispose() }
+    Start-Sleep -Milliseconds 200
+}
+if (-not $listening) { throw "MongoDB did not open port $Port. Inspect $testRoot\mongod.log" }
 $uri = "mongodb://127.0.0.1:$Port/?directConnection=true&serverSelectionTimeoutMS=15000"
 $init = "try { rs.status(); } catch(e) { if(e.code !== 94) throw e; rs.initiate({_id:'inventory-rs',members:[{_id:0,host:'127.0.0.1:$Port'}]}); } let ok=false; for(let i=0;i<60;i++){ if(db.hello().isWritablePrimary){ok=true;break;} sleep(500); } if(!ok) throw new Error('No primary'); print('Test replica set ready');"
 & $mongoshPath $uri --quiet --eval $init

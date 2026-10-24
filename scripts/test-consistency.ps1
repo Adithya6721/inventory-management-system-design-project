@@ -5,6 +5,7 @@ $runId = Get-Date -Format 'yyyyMMdd-HHmmss-fff'
 $logRoot = Join-Path $projectRoot '.verification'
 New-Item -ItemType Directory -Path $logRoot -Force | Out-Null
 $consoleLog = Join-Path $logRoot "consistency-$runId.log"
+$mavenExecutable = (Get-Command mvn.cmd -ErrorAction Stop).Source
 $settings = @{
     MONGO_PORT = "$Port"
     MONGO_DB = 'inventory_consistency_e2e'
@@ -22,8 +23,16 @@ foreach ($name in $settings.Keys) {
 }
 Push-Location (Join-Path $projectRoot 'backend')
 try {
-    & mvn.cmd test '-Dconsistency.mongo.tests=true' '-Dsharding.mongo.tests=true' -q *> $consoleLog
-    $testExitCode = $LASTEXITCODE
+    # Windows PowerShell 5 represents native stderr as ErrorRecords. Java/Mockito
+    # emits harmless VM warnings there; Maven's exit code determines test success.
+    $nativeErrorPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = 'Continue'
+        & $mavenExecutable test '-Dconsistency.mongo.tests=true' '-Dsharding.mongo.tests=true' -q *> $consoleLog
+        $testExitCode = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $nativeErrorPreference
+    }
 } finally {
     Pop-Location
     foreach ($name in $previous.Keys) {

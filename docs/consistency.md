@@ -91,8 +91,11 @@ retained. An existing standalone service on port 27017 is not changed.
 `inventory_consistency_e2e*` core AND shard databases. It restores environment
 variables when finished and exports results to a timestamped directory under
 `evaluation/results/`. Do not run multiple copies against these fixed test
-names concurrently. The runner script was syntax checked; its underlying Maven
-command and result collector were executed separately for this recorded run.
+names concurrently. The complete PowerShell runner was executed successfully on
+2026-10-24: all 82 backend tests passed without skips. It captures harmless Java
+stderr warnings and determines success using Maven's exit code. The latest
+verified runner output is in
+`../evaluation/results/20261024-114110-514-consistency/README.md`.
 
 Compose now starts MongoDB with `--replSet inventory-rs`, initializes the set in a
 one-shot service, waits for a primary, and only then starts the backend. Docker
