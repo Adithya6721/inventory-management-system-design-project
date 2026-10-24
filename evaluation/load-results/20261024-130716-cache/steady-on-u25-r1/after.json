@@ -1,0 +1,22 @@
+{
+  "pid": 12596,
+  "cacheEnabled": true,
+  "cache": {
+    "hits": 329588,
+    "misses": 1000,
+    "evictions": 0,
+    "hitRatio": 99.69750868150085,
+    "avgLookupLatencyMs": 1.9794287227606568
+  },
+  "diagnostics": {
+    "namespace": "load:20261024-130716",
+    "lookupFailures": 0,
+    "writeFailures": 0,
+    "invalidationFailures": 0,
+    "totalLookupTimeNs": 654375382600
+  },
+  "productReads": {
+    "detailRequests": 330588,
+    "detailDatabaseLoads": 1000
+  }
+}

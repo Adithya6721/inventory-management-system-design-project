@@ -1,0 +1,661 @@
+{
+  "collected_at_utc": "2026-10-24T07:28:37.147197+00:00",
+  "scope": "Correctness tests; test durations are not HTTP throughput or load-test measurements",
+  "revision": "5bdb14bf5a910d4a0b4d9943fa570763d5c50f86",
+  "branch": "consistency/hardening",
+  "working_tree_dirty": true,
+  "java_version": "17.0.17",
+  "logical_cpu_count": 12,
+  "mongodb_test_port": 27019,
+  "totals": {
+    "tests": 85,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 85
+  },
+  "sum_suite_seconds": 54.008,
+  "note": "Suite times can include shared Spring startup and are not independent component latencies.",
+  "observations": [
+    "Consistency: 100 real orders, 10 reservations, 90 insufficient-stock conflicts, no orphan stock",
+    "[Snowflake Benchmark] Generated 25000 IDs across 50 threads in 73 ms (~342466 IDs/sec). Collisions: 0",
+    "Mongo migration: added=RebalanceResult[previousShards=[shard-1, shard-2, shard-3], activeShards=[shard-1, shard-2, shard-3, shard-4], recordsScanned=200, recordsMoved=51, remappedPercent=25.5, durationMs=784], removed=RebalanceResult[previousShards=[shard-1, shard-2, shard-3, shard-4], activeShards=[shard-1, shard-3, shard-4], recordsScanned=200, recordsMoved=40, remappedPercent=20.0, durationMs=643]",
+    "Mongo reservations: 100 attempts, 10 succeeded, 90 rejected"
+  ],
+  "suites": [
+    {
+      "class": "com.example.inventory.cache.CacheSelectionTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 3.205,
+      "report_modified_utc": "2026-10-24T07:27:40.701648+00:00",
+      "cases": [
+        {
+          "name": "defaultModeHasOneRedisAdapter",
+          "seconds": 1.501,
+          "status": "passed"
+        },
+        {
+          "name": "disabledModeHasOneNoOpAdapterAndNeverContactsRedis",
+          "seconds": 0.064,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.cache.RedisInventoryCacheAdapterTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.492,
+      "report_modified_utc": "2026-10-24T07:27:41.193966+00:00",
+      "cases": [
+        {
+          "name": "shouldReturnCachedProductOnHit",
+          "seconds": 0.318,
+          "status": "passed"
+        },
+        {
+          "name": "shouldCacheInventoryWithTtl",
+          "seconds": 0.068,
+          "status": "passed"
+        },
+        {
+          "name": "shouldReturnEmptyOnMiss",
+          "seconds": 0.015,
+          "status": "passed"
+        },
+        {
+          "name": "namespacesDoNotReadOrEvictAnotherExperimentsKeys",
+          "seconds": 0.013,
+          "status": "passed"
+        },
+        {
+          "name": "shouldEvictInventoryOnMutation",
+          "seconds": 0.014,
+          "status": "passed"
+        },
+        {
+          "name": "shouldDegradeGracefullyOnRedisFailure",
+          "seconds": 0.019,
+          "status": "passed"
+        },
+        {
+          "name": "shouldPurgeAllStockCachesForProduct",
+          "seconds": 0.011,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.common.TransactionErrorsTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.026,
+      "report_modified_utc": "2026-10-24T07:27:41.220967+00:00",
+      "cases": [
+        {
+          "name": "unknownCommitIsNotSafeToBlindlyReplayAsAnAbortedTransaction",
+          "seconds": 0.016,
+          "status": "passed"
+        },
+        {
+          "name": "recognisesLabelEvenWhenSpringCannotCategoriseConflict",
+          "seconds": 0.003,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.config.MongoConfigTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 1.221,
+      "report_modified_utc": "2026-10-24T07:27:42.411012+00:00",
+      "cases": [
+        {
+          "name": "refusesStandaloneInsteadOfSilentlyRunningNonAtomicWorkflows",
+          "seconds": 1.204,
+          "status": "passed"
+        },
+        {
+          "name": "acceptsReplicaSetAndMongos",
+          "seconds": 0.008,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.consistency.ConsistencyMongoIntegrationTest",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 26.274,
+      "report_modified_utc": "2026-10-24T07:28:08.984445+00:00",
+      "cases": [
+        {
+          "name": "concurrentSalesCompletionAndCancellationHaveOneTerminalEffect",
+          "seconds": 1.122,
+          "status": "passed"
+        },
+        {
+          "name": "completionVersusCancellationConservesStock",
+          "seconds": 0.475,
+          "status": "passed"
+        },
+        {
+          "name": "fullReceiptWithoutBodyCanBeReplayedAfterResponseLoss",
+          "seconds": 0.376,
+          "status": "passed"
+        },
+        {
+          "name": "failedSecondDeductionRollsBackEarlierDeductionAndOrderState",
+          "seconds": 0.595,
+          "status": "passed"
+        },
+        {
+          "name": "overflowingAdjustmentCannotWrapIntoAValidLookingQuantity",
+          "seconds": 0.335,
+          "status": "passed"
+        },
+        {
+          "name": "auditFailureRollsBackStockAndAlert",
+          "seconds": 0.308,
+          "status": "passed"
+        },
+        {
+          "name": "receiptReplayAndChangedPayloadHaveOneEffect",
+          "seconds": 0.381,
+          "status": "passed"
+        },
+        {
+          "name": "migrationWaitsForBusinessCommitThenCopiesCommittedState",
+          "seconds": 0.591,
+          "status": "passed"
+        },
+        {
+          "name": "concurrentTransferCreationWithSameKeyDeductsOnce",
+          "seconds": 0.728,
+          "status": "passed"
+        },
+        {
+          "name": "differentProductWarehousePairsCannotCollideOnConcatenatedId",
+          "seconds": 0.292,
+          "status": "passed"
+        },
+        {
+          "name": "snapshotTakenBeforeMigrationMustNotReadUsingNewRouting",
+          "seconds": 0.338,
+          "status": "passed"
+        },
+        {
+          "name": "concurrentReceiptsWithSameKeyCreditOnce",
+          "seconds": 0.534,
+          "status": "passed"
+        },
+        {
+          "name": "insufficientSecondItemRollsBackFirstItemOnAnotherShard",
+          "seconds": 0.381,
+          "status": "passed"
+        },
+        {
+          "name": "hundredRealOrdersForTenUnitsReconcileWithPersistedReservations",
+          "seconds": 1.262,
+          "status": "passed"
+        },
+        {
+          "name": "concurrentSameKeyCreatesOnlyOneReservation",
+          "seconds": 0.41,
+          "status": "passed"
+        },
+        {
+          "name": "blankCreationKeysAreAbsentRatherThanOneSharedUniqueKey",
+          "seconds": 0.304,
+          "status": "passed"
+        },
+        {
+          "name": "stockReadIgnoresStaleRedisValue",
+          "seconds": 0.269,
+          "status": "passed"
+        },
+        {
+          "name": "failedTransferCompletionAndRetryCannotDuplicateDestinationStock",
+          "seconds": 0.371,
+          "status": "passed"
+        },
+        {
+          "name": "orderSaveFailureRollsBackReservationAuditAndAlertAcrossDatabases",
+          "seconds": 0.233,
+          "status": "passed"
+        },
+        {
+          "name": "receiptSaveFailureRollsBackCreditAndAllowsSafeRetry",
+          "seconds": 0.302,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.idgen.SnowflakeIdGeneratorTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.106,
+      "report_modified_utc": "2026-10-24T07:28:09.022452+00:00",
+      "cases": [
+        {
+          "name": "shouldBeMonotonicallyIncreasing",
+          "seconds": 0.007,
+          "status": "passed"
+        },
+        {
+          "name": "shouldGuaranteeZeroCollisionsUnderHighConcurrency",
+          "seconds": 0.086,
+          "status": "passed"
+        },
+        {
+          "name": "shouldGeneratePrefixedIds",
+          "seconds": 0.002,
+          "status": "passed"
+        },
+        {
+          "name": "shouldRejectInvalidConfig",
+          "seconds": 0.003,
+          "status": "passed"
+        },
+        {
+          "name": "shouldParseTimestamp",
+          "seconds": 0.001,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.integration.InventoryIntegrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 6.805,
+      "report_modified_utc": "2026-10-24T07:28:15.829925+00:00",
+      "cases": [
+        {
+          "name": "testEndToEndInventoryFlow",
+          "seconds": 3.257,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.inventory.InventoryServiceTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.453,
+      "report_modified_utc": "2026-10-24T07:28:16.295686+00:00",
+      "cases": [
+        {
+          "name": "testReserveStock_CreatesMovementAndEvictsCache",
+          "seconds": 0.431,
+          "status": "passed"
+        },
+        {
+          "name": "testCreditStock_Success",
+          "seconds": 0.018,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.notification.LowStockServiceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.188,
+      "report_modified_utc": "2026-10-24T07:28:16.491614+00:00",
+      "cases": [
+        {
+          "name": "testEvaluateStock_ResolvesAlert",
+          "seconds": 0.166,
+          "status": "passed"
+        },
+        {
+          "name": "testEvaluateStock_DeduplicatesExistingActiveAlert",
+          "seconds": 0.006,
+          "status": "passed"
+        },
+        {
+          "name": "testEvaluateStock_TriggersAlert",
+          "seconds": 0.009,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.product.ProductServiceTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.174,
+      "report_modified_utc": "2026-10-24T07:28:16.656344+00:00",
+      "cases": [
+        {
+          "name": "testRegisterProduct_DuplicateSku",
+          "seconds": 0.141,
+          "status": "passed"
+        },
+        {
+          "name": "testSearchProducts",
+          "seconds": 0.011,
+          "status": "passed"
+        },
+        {
+          "name": "testRegisterProduct_Success",
+          "seconds": 0.007,
+          "status": "passed"
+        },
+        {
+          "name": "testGetProduct_NotFound",
+          "seconds": 0.007,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.purchase.PurchaseOrderServiceTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.062,
+      "report_modified_utc": "2026-10-24T07:28:16.721171+00:00",
+      "cases": [
+        {
+          "name": "testCreatePurchaseOrder",
+          "seconds": 0.01,
+          "status": "passed"
+        },
+        {
+          "name": "duplicateReceiptLinesMustNotBypassRemainingQuantityCheck",
+          "seconds": 0.01,
+          "status": "passed"
+        },
+        {
+          "name": "testReceiveStock_OverReceiptRejected",
+          "seconds": 0.009,
+          "status": "passed"
+        },
+        {
+          "name": "testReceiveStock_Success",
+          "seconds": 0.008,
+          "status": "passed"
+        },
+        {
+          "name": "repeatedPartialReceiptKeyMustNotCreditTwice",
+          "seconds": 0.015,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.ratelimit.TokenBucketTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.471,
+      "report_modified_utc": "2026-10-24T07:28:17.199699+00:00",
+      "cases": [
+        {
+          "name": "shouldIsolatePerClientBuckets",
+          "seconds": 0.006,
+          "status": "passed"
+        },
+        {
+          "name": "shouldAllowBurstTrafficUpToCapacity",
+          "seconds": 0.002,
+          "status": "passed"
+        },
+        {
+          "name": "shouldRefillTokensOverTime",
+          "seconds": 0.459,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.sales.SalesOrderConcurrencyTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 5.232,
+      "report_modified_utc": "2026-10-24T07:28:22.454964+00:00",
+      "cases": [
+        {
+          "name": "test100ConcurrentOrdersFor10Units",
+          "seconds": 5.229,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.sales.SalesOrderServiceTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.071,
+      "report_modified_utc": "2026-10-24T07:28:22.513978+00:00",
+      "cases": [
+        {
+          "name": "testPlaceOrder_InsufficientStock",
+          "seconds": 0.014,
+          "status": "passed"
+        },
+        {
+          "name": "sameIdempotencyKeyCannotDescribeDifferentOrder",
+          "seconds": 0.009,
+          "status": "passed"
+        },
+        {
+          "name": "testPlaceOrder_Success",
+          "seconds": 0.008,
+          "status": "passed"
+        },
+        {
+          "name": "testCancelOrder_ReleasesReservation",
+          "seconds": 0.01,
+          "status": "passed"
+        },
+        {
+          "name": "failedDeductionMustNotCompleteOrder",
+          "seconds": 0.004,
+          "status": "passed"
+        },
+        {
+          "name": "testPlaceOrder_SagaRollbackOnFailure",
+          "seconds": 0.007,
+          "status": "passed"
+        },
+        {
+          "name": "failedReleaseMustNotCancelOrder",
+          "seconds": 0.006,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.sharding.ConsistentHashRingTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.212,
+      "report_modified_utc": "2026-10-24T07:28:22.723959+00:00",
+      "cases": [
+        {
+          "name": "stableAcrossConstructionOrderAndRestart",
+          "seconds": 0.111,
+          "status": "passed"
+        },
+        {
+          "name": "usesClockwiseSuccessorAndWrapsPastLastToken",
+          "seconds": 0.004,
+          "status": "passed"
+        },
+        {
+          "name": "onlyNewServerAcquiresKeysAndOnlyRemovedServerLosesKeys",
+          "seconds": 0.089,
+          "status": "passed"
+        },
+        {
+          "name": "validatesRingAndCompositeKey",
+          "seconds": 0.004,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.sharding.ShardedInventoryPersistenceRouterTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.487,
+      "report_modified_utc": "2026-10-24T07:28:23.212420+00:00",
+      "cases": [
+        {
+          "name": "rejectsInvalidMembershipAndConfigurationChanges",
+          "seconds": 0.125,
+          "status": "passed"
+        },
+        {
+          "name": "routesEveryMutationAndPointReadToSameOwnerAndFansOutPartialQueries",
+          "seconds": 0.023,
+          "status": "passed"
+        },
+        {
+          "name": "movesOnlyChangedOwnersAndPreservesAllFieldsThroughAdditionRemovalAndRestart",
+          "seconds": 0.13,
+          "status": "passed"
+        },
+        {
+          "name": "interruptedCopyBlocksInventoryAndRestartResumesWithoutLossOrDuplicates",
+          "seconds": 0.028,
+          "status": "passed"
+        },
+        {
+          "name": "uncertainCommitAndInterruptedCleanupCanBeRetriedSafely",
+          "seconds": 0.037,
+          "status": "passed"
+        },
+        {
+          "name": "inventoryMutationWaitsUntilMigrationCompletesThenUsesNewOwner",
+          "seconds": 0.137,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.sharding.ShardingMongoIntegrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 8.467,
+      "report_modified_utc": "2026-10-24T07:28:31.691853+00:00",
+      "cases": [
+        {
+          "name": "migratesRealDocumentsAndPreservesEveryFieldAndScatterQueries",
+          "seconds": 3.554,
+          "status": "passed"
+        },
+        {
+          "name": "memberOneInventoryApisStillReadAndWriteAfterMembershipChanges",
+          "seconds": 2.029,
+          "status": "passed"
+        },
+        {
+          "name": "allAtomicStockOperationsAndOneHundredConcurrentReservations",
+          "seconds": 0.43,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.transfer.StockTransferServiceTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.042,
+      "report_modified_utc": "2026-10-24T07:28:31.734956+00:00",
+      "cases": [
+        {
+          "name": "testInitiateTransfer_Success",
+          "seconds": 0.008,
+          "status": "passed"
+        },
+        {
+          "name": "testCompleteTransfer_IdempotentOnDuplicate",
+          "seconds": 0.006,
+          "status": "passed"
+        },
+        {
+          "name": "testCompleteTransfer_Success",
+          "seconds": 0.007,
+          "status": "passed"
+        },
+        {
+          "name": "testInitiateTransfer_SameWarehouseRejected",
+          "seconds": 0.006,
+          "status": "passed"
+        },
+        {
+          "name": "mustNotDeliverTransferThatHasNotBeenDispatched",
+          "seconds": 0.006,
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "class": "com.example.inventory.warehouse.WarehouseServiceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.02,
+      "report_modified_utc": "2026-10-24T07:28:31.759955+00:00",
+      "cases": [
+        {
+          "name": "testValidateWarehouseActive_Inactive",
+          "seconds": 0.006,
+          "status": "passed"
+        },
+        {
+          "name": "testCreateWarehouse",
+          "seconds": 0.005,
+          "status": "passed"
+        },
+        {
+          "name": "testGetWarehouse_NotFound",
+          "seconds": 0.004,
+          "status": "passed"
+        }
+      ]
+    }
+  ]
+}

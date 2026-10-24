@@ -1,0 +1,64 @@
+{
+  "raw_samples": 160127,
+  "raw_errors": 0,
+  "samples": 151706,
+  "errors": 0,
+  "error_pct": 0.0,
+  "status_counts": {
+    "200": 151706
+  },
+  "measurement_seconds": 30.0,
+  "window_start_ms": 1792828034812,
+  "window_end_ms": 1792828064812,
+  "mean_ms": 0.9134114669162723,
+  "p50_ms": 1.0,
+  "p95_ms": 1.0,
+  "p99_ms": 2.0,
+  "successful_mean_ms": 0.9134114669162723,
+  "attempted_rps": 5056.866666666667,
+  "successful_rps": 5056.866666666667,
+  "mode": "off",
+  "users": 5,
+  "repeat": 2,
+  "phase": "steady",
+  "folder": "steady-off-u5-r2",
+  "requests_including_ramp": 160127,
+  "db_loads_including_ramp": 160127,
+  "db_loads_per_request": 1.0,
+  "cache_hits_including_ramp": 0,
+  "cache_misses_including_ramp": 0,
+  "cache_hit_pct": null,
+  "cache_lookup_mean_ms": null,
+  "cache_failures": {
+    "lookupFailures": 0,
+    "writeFailures": 0,
+    "invalidationFailures": 0
+  },
+  "resources": {
+    "backend": {
+      "samples": 30,
+      "mean_cpu_host_pct": 23.025277777777777,
+      "mean_cpu_one_core_pct": 276.30333333333334,
+      "peak_rss_mib": 421.6328125
+    },
+    "mongodb": {
+      "samples": 30,
+      "mean_cpu_host_pct": 13.119722222222222,
+      "mean_cpu_one_core_pct": 157.43666666666667,
+      "peak_rss_mib": 154.4140625
+    },
+    "jmeter": {
+      "samples": 30,
+      "mean_cpu_host_pct": 9.494166666666667,
+      "mean_cpu_one_core_pct": 113.92999999999999,
+      "peak_rss_mib": 308.33203125
+    },
+    "redis": {
+      "samples": 30,
+      "mean_cpu_host_pct": 0.0,
+      "mean_cpu_one_core_pct": 0.0,
+      "peak_rss_mib": 39.33984375
+    }
+  },
+  "counter_sample_count_agrees": true
+}

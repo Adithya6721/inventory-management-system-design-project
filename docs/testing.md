@@ -1,6 +1,16 @@
 # Testing & Verification Report — Member 1 (Core Inventory)
 
-## 1. Test Suite Summary
+## Current automated evaluation
+
+The timestamped correctness rerun is in
+[`evaluation/results/20261024-125728-079-consistency/README.md`](../evaluation/results/20261024-125728-079-consistency/README.md):
+85 backend tests passed without failures or skips. The reproducible JMeter
+cache baseline plan and commands are in
+[`evaluation/jmeter/README.md`](../evaluation/jmeter/README.md).
+The older observations below are retained as historical context; unit/service
+test timings are not HTTP load-test performance measurements.
+
+## 1. Historical test suite summary
 
 The backend contains **25 automated tests** covering unit, integration, and high-concurrency scenarios across all core business modules.
 

@@ -1,0 +1,80 @@
+{
+  "started_utc": "2026-10-24T07:37:16.439298+00:00",
+  "git_commit": "943488aa54ae8efb9f329db99397247a4f0bed50",
+  "branch": "consistency/hardening",
+  "working_tree_dirty": true,
+  "backend_jar_sha256": "5966e8c53263aac96f2c359f1e7c36860f4fcda18b1fde08c3d0267d3f37e9ea",
+  "runner_sha256": "38c1c589aabbbae0110b63356b9681c702306ecdb1e8ec59de149f1ad6ed6174",
+  "plan_sha256": "13c51ecbad78bf9289b031b23ebb69c77cc754289282a04c020ca2c87f06ce3f",
+  "jmeter_jar": "C:\\Program Files\\apache-jmeter-5.6.3\\bin\\ApacheJMeter.jar",
+  "java": "C:\\Program Files\\Microsoft\\jdk-17.0.17.10-hotspot\\bin\\java.EXE",
+  "os": "Windows-11-10.0.26300-SP0",
+  "logical_cpus": 12,
+  "physical_cpus": 8,
+  "ram_gib": 15.648929595947266,
+  "settings": {
+    "users": [
+      5,
+      25,
+      100
+    ],
+    "duration": 30,
+    "ramp": 5,
+    "warmup": 15,
+    "repeats": 3,
+    "products": 1000,
+    "mongo_port": 27019,
+    "base_port": 8082,
+    "redis_port": 6381,
+    "jmeter_home": "C:\\Program Files\\apache-jmeter-5.6.3",
+    "redis_exe": "C:\\Program Files\\Memurai\\memurai.exe",
+    "html": "representative",
+    "keep_services": false,
+    "redis_failure": true
+  },
+  "mongo_pid": 24620,
+  "database": "inventory_load_20261024_130716",
+  "cache_namespace": "load:20261024-130716",
+  "request": "GET /api/products/{productId}",
+  "limiter_enabled": false,
+  "stock_availability_cache": false,
+  "topology": "one host; one shared MongoDB replica-set member; isolated Redis process; two benchmark backend JVMs; one active JMeter load at a time",
+  "load_model": "closed loop, no think time; ramp excluded from steady-state comparison",
+  "limitations": [
+    "Existing applications/background processes remain running on the shared host",
+    "This measures product detail reads, not authoritative stock availability or full order throughput",
+    "Hot MongoDB working set; a cold Redis population probe is separate from warm-cache comparisons"
+  ],
+  "backend_settings": {
+    "off": {
+      "MONGO_URI": "mongodb://127.0.0.1:27019/inventory_load_20261024_130716?replicaSet=inventory-rs",
+      "PORT": "8082",
+      "CACHE_ENABLED": "false",
+      "CACHE_NAMESPACE": "load:20261024-130716",
+      "CACHE_PRODUCT_TTL_MINUTES": "60",
+      "RATELIMIT_ENABLED": "false",
+      "REDIS_PORT": "6381"
+    },
+    "on": {
+      "MONGO_URI": "mongodb://127.0.0.1:27019/inventory_load_20261024_130716?replicaSet=inventory-rs",
+      "PORT": "8083",
+      "CACHE_ENABLED": "true",
+      "CACHE_NAMESPACE": "load:20261024-130716",
+      "CACHE_PRODUCT_TTL_MINUTES": "60",
+      "RATELIMIT_ENABLED": "false",
+      "REDIS_PORT": "6381"
+    }
+  },
+  "pids": {
+    "redis": 2700,
+    "backend-off": 7000,
+    "backend-on": 12596
+  },
+  "finished_utc": "2026-10-24T07:54:36.097214+00:00",
+  "keep_services": false,
+  "final_pids": {
+    "redis": 25068,
+    "backend-off": 7000,
+    "backend-on": 12596
+  }
+}

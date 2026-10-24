@@ -1,0 +1,16 @@
+{
+  "pid": 7000,
+  "cacheEnabled": false,
+  "cache": {
+    "hits": 0,
+    "misses": 0,
+    "evictions": 0,
+    "hitRatio": 0.0,
+    "avgLookupLatencyMs": 0.0
+  },
+  "diagnostics": null,
+  "productReads": {
+    "detailRequests": 1461558,
+    "detailDatabaseLoads": 1461558
+  }
+}

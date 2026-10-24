@@ -162,6 +162,13 @@ isolate database correctness. They do not establish Redis outage performance.
 
 The experiment protocol and baseline matrix remain in `evaluation-plan.md`.
 
+The subsequent cache experiment added three cache selection/namespace checks;
+the 2026-10-24 rerun has **85 passing backend tests**, with no failures or skips.
+See `../evaluation/results/20261024-125728-079-consistency/README.md`.
+The JMeter plan, cache switch and reproducible load-test commands are documented
+in `../evaluation/jmeter/README.md`. These load results are reported separately
+from correctness-suite timings. Reservation expiry remains deferred.
+
 Transaction requirements and session participation were checked against the
 [MongoDB transaction documentation](https://www.mongodb.com/docs/manual/core/transactions/)
 and the installed Spring Data MongoDB 4.3.4 API. A single shared factory/session is

@@ -1,0 +1,1404 @@
+[
+  {
+    "raw_samples": 1000,
+    "raw_errors": 0,
+    "samples": 1000,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 1000
+    },
+    "measurement_seconds": 2.602,
+    "window_start_ms": 1792827471166,
+    "window_end_ms": 1792827473768,
+    "mean_ms": 25.316,
+    "p50_ms": 17.0,
+    "p95_ms": 35.0,
+    "p99_ms": 83.87999999999465,
+    "successful_mean_ms": 25.316,
+    "attempted_rps": 384.31975403535745,
+    "successful_rps": 384.31975403535745,
+    "mode": "on",
+    "users": 10,
+    "repeat": 0,
+    "phase": "cold-cache",
+    "folder": "cold-cache-on-u10-r0",
+    "requests_including_ramp": 1000,
+    "db_loads_including_ramp": 1000,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 1000,
+    "cache_hit_pct": 0.0,
+    "cache_lookup_mean_ms": 3.9111021999999998,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 2,
+        "mean_cpu_host_pct": 46.425,
+        "mean_cpu_one_core_pct": 557.1,
+        "peak_rss_mib": 408.1171875
+      },
+      "mongodb": {
+        "samples": 2,
+        "mean_cpu_host_pct": 2.4541666666666666,
+        "mean_cpu_one_core_pct": 29.45,
+        "peak_rss_mib": 120.4453125
+      },
+      "jmeter": {
+        "samples": 2,
+        "mean_cpu_host_pct": 8.858333333333333,
+        "mean_cpu_one_core_pct": 106.3,
+        "peak_rss_mib": 163.3671875
+      },
+      "redis": {
+        "samples": 2,
+        "mean_cpu_host_pct": 0.4541666666666667,
+        "mean_cpu_one_core_pct": 5.45,
+        "peak_rss_mib": 38.88671875
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 152250,
+    "raw_errors": 0,
+    "samples": 143489,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 143489
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827525510,
+    "window_end_ms": 1792827555510,
+    "mean_ms": 0.9636627197903672,
+    "p50_ms": 1.0,
+    "p95_ms": 2.0,
+    "p99_ms": 3.0,
+    "successful_mean_ms": 0.9636627197903672,
+    "attempted_rps": 4782.966666666666,
+    "successful_rps": 4782.966666666666,
+    "mode": "off",
+    "users": 5,
+    "repeat": 1,
+    "phase": "steady",
+    "folder": "steady-off-u5-r1",
+    "requests_including_ramp": 152250,
+    "db_loads_including_ramp": 152250,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": null,
+    "cache_lookup_mean_ms": null,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 23.544722222222223,
+        "mean_cpu_one_core_pct": 282.5366666666667,
+        "peak_rss_mib": 424.5703125
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 13.338888888888889,
+        "mean_cpu_one_core_pct": 160.06666666666666,
+        "peak_rss_mib": 122.80859375
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 9.286666666666667,
+        "mean_cpu_one_core_pct": 111.44,
+        "peak_rss_mib": 309.1875
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.0,
+        "mean_cpu_one_core_pct": 0.0,
+        "peak_rss_mib": 39.08984375
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 124376,
+    "raw_errors": 0,
+    "samples": 111566,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 111566
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827572885,
+    "window_end_ms": 1792827602885,
+    "mean_ms": 1.2710413566857286,
+    "p50_ms": 1.0,
+    "p95_ms": 3.0,
+    "p99_ms": 4.0,
+    "successful_mean_ms": 1.2710413566857286,
+    "attempted_rps": 3718.866666666667,
+    "successful_rps": 3718.866666666667,
+    "mode": "on",
+    "users": 5,
+    "repeat": 1,
+    "phase": "steady",
+    "folder": "steady-on-u5-r1",
+    "requests_including_ramp": 124376,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 124376,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 0.4237657015822988,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 25.149444444444445,
+        "mean_cpu_one_core_pct": 301.79333333333335,
+        "peak_rss_mib": 413.84765625
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.49833333333333335,
+        "mean_cpu_one_core_pct": 5.98,
+        "peak_rss_mib": 123.05859375
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 6.741944444444444,
+        "mean_cpu_one_core_pct": 80.90333333333334,
+        "peak_rss_mib": 302.2890625
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 1.5508333333333333,
+        "mean_cpu_one_core_pct": 18.61,
+        "peak_rss_mib": 39.03515625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 156601,
+    "raw_errors": 0,
+    "samples": 135546,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 135546
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827617762,
+    "window_end_ms": 1792827647762,
+    "mean_ms": 5.42084605964027,
+    "p50_ms": 5.0,
+    "p95_ms": 12.0,
+    "p99_ms": 15.0,
+    "successful_mean_ms": 5.42084605964027,
+    "attempted_rps": 4518.2,
+    "successful_rps": 4518.2,
+    "mode": "on",
+    "users": 25,
+    "repeat": 1,
+    "phase": "steady",
+    "folder": "steady-on-u25-r1",
+    "requests_including_ramp": 156601,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 156601,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 3.4016816093128397,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 28.633055555555554,
+        "mean_cpu_one_core_pct": 343.5966666666667,
+        "peak_rss_mib": 423.2578125
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.4702777777777778,
+        "mean_cpu_one_core_pct": 5.6433333333333335,
+        "peak_rss_mib": 123.078125
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 8.087777777777777,
+        "mean_cpu_one_core_pct": 97.05333333333333,
+        "peak_rss_mib": 291.47265625
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 1.8855555555555557,
+        "mean_cpu_one_core_pct": 22.626666666666665,
+        "peak_rss_mib": 39.0625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 111298,
+    "raw_errors": 0,
+    "samples": 94922,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 94922
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827664378,
+    "window_end_ms": 1792827694378,
+    "mean_ms": 7.769674048165863,
+    "p50_ms": 8.0,
+    "p95_ms": 15.0,
+    "p99_ms": 19.0,
+    "successful_mean_ms": 7.769674048165863,
+    "attempted_rps": 3164.0666666666666,
+    "successful_rps": 3164.0666666666666,
+    "mode": "off",
+    "users": 25,
+    "repeat": 1,
+    "phase": "steady",
+    "folder": "steady-off-u25-r1",
+    "requests_including_ramp": 111298,
+    "db_loads_including_ramp": 111298,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": null,
+    "cache_lookup_mean_ms": null,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 23.468055555555555,
+        "mean_cpu_one_core_pct": 281.6166666666667,
+        "peak_rss_mib": 426.55078125
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 17.434444444444445,
+        "mean_cpu_one_core_pct": 209.21333333333334,
+        "peak_rss_mib": 127.44140625
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 6.675833333333333,
+        "mean_cpu_one_core_pct": 80.11,
+        "peak_rss_mib": 279.92578125
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.0044444444444444444,
+        "mean_cpu_one_core_pct": 0.05333333333333334,
+        "peak_rss_mib": 39.0625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 203065,
+    "raw_errors": 0,
+    "samples": 182265,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 182265
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827708561,
+    "window_end_ms": 1792827738561,
+    "mean_ms": 16.27513784873673,
+    "p50_ms": 16.0,
+    "p95_ms": 23.0,
+    "p99_ms": 45.0,
+    "successful_mean_ms": 16.27513784873673,
+    "attempted_rps": 6075.5,
+    "successful_rps": 6075.5,
+    "mode": "off",
+    "users": 100,
+    "repeat": 1,
+    "phase": "steady",
+    "folder": "steady-off-u100-r1",
+    "requests_including_ramp": 203065,
+    "db_loads_including_ramp": 203065,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": null,
+    "cache_lookup_mean_ms": null,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 28.13888888888889,
+        "mean_cpu_one_core_pct": 337.6666666666667,
+        "peak_rss_mib": 443.74609375
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 25.781666666666666,
+        "mean_cpu_one_core_pct": 309.38,
+        "peak_rss_mib": 153.85546875
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 9.750555555555556,
+        "mean_cpu_one_core_pct": 117.00666666666666,
+        "peak_rss_mib": 312.16015625
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.0,
+        "mean_cpu_one_core_pct": 0.0,
+        "peak_rss_mib": 39.0625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 131680,
+    "raw_errors": 0,
+    "samples": 110027,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 110027
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827757883,
+    "window_end_ms": 1792827787883,
+    "mean_ms": 26.96206385705327,
+    "p50_ms": 26.0,
+    "p95_ms": 33.0,
+    "p99_ms": 38.0,
+    "successful_mean_ms": 26.96206385705327,
+    "attempted_rps": 3667.5666666666666,
+    "successful_rps": 3667.5666666666666,
+    "mode": "on",
+    "users": 100,
+    "repeat": 1,
+    "phase": "steady",
+    "folder": "steady-on-u100-r1",
+    "requests_including_ramp": 131680,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 131680,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 23.058311594015795,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 25.43611111111111,
+        "mean_cpu_one_core_pct": 305.23333333333335,
+        "peak_rss_mib": 424.85546875
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.47861111111111115,
+        "mean_cpu_one_core_pct": 5.743333333333333,
+        "peak_rss_mib": 154.05859375
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 8.79111111111111,
+        "mean_cpu_one_core_pct": 105.49333333333334,
+        "peak_rss_mib": 293.32421875
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 1.3191666666666668,
+        "mean_cpu_one_core_pct": 15.83,
+        "peak_rss_mib": 39.2421875
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 131590,
+    "raw_errors": 0,
+    "samples": 109957,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 109957
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827803149,
+    "window_end_ms": 1792827833149,
+    "mean_ms": 27.004365342815827,
+    "p50_ms": 26.0,
+    "p95_ms": 33.0,
+    "p99_ms": 41.0,
+    "successful_mean_ms": 27.004365342815827,
+    "attempted_rps": 3665.233333333333,
+    "successful_rps": 3665.233333333333,
+    "mode": "on",
+    "users": 100,
+    "repeat": 2,
+    "phase": "steady",
+    "folder": "steady-on-u100-r2",
+    "requests_including_ramp": 131590,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 131590,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 23.159849860171747,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 25.571666666666665,
+        "mean_cpu_one_core_pct": 306.86,
+        "peak_rss_mib": 446.0625
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.4955555555555556,
+        "mean_cpu_one_core_pct": 5.946666666666667,
+        "peak_rss_mib": 154.08984375
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 8.380833333333333,
+        "mean_cpu_one_core_pct": 100.57,
+        "peak_rss_mib": 290.484375
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 1.5302777777777778,
+        "mean_cpu_one_core_pct": 18.363333333333333,
+        "peak_rss_mib": 39.3046875
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 211968,
+    "raw_errors": 0,
+    "samples": 190468,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 190468
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827848800,
+    "window_end_ms": 1792827878800,
+    "mean_ms": 15.567743662977508,
+    "p50_ms": 16.0,
+    "p95_ms": 20.0,
+    "p99_ms": 24.0,
+    "successful_mean_ms": 15.567743662977508,
+    "attempted_rps": 6348.933333333333,
+    "successful_rps": 6348.933333333333,
+    "mode": "off",
+    "users": 100,
+    "repeat": 2,
+    "phase": "steady",
+    "folder": "steady-off-u100-r2",
+    "requests_including_ramp": 211968,
+    "db_loads_including_ramp": 211968,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": null,
+    "cache_lookup_mean_ms": null,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 28.30777777777778,
+        "mean_cpu_one_core_pct": 339.6933333333333,
+        "peak_rss_mib": 447.30859375
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 27.285555555555554,
+        "mean_cpu_one_core_pct": 327.4266666666667,
+        "peak_rss_mib": 153.5859375
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 10.551388888888889,
+        "mean_cpu_one_core_pct": 126.61666666666666,
+        "peak_rss_mib": 310.203125
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.0,
+        "mean_cpu_one_core_pct": 0.0,
+        "peak_rss_mib": 39.2734375
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 96357,
+    "raw_errors": 0,
+    "samples": 79840,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 79840
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827899676,
+    "window_end_ms": 1792827929676,
+    "mean_ms": 9.231450400801604,
+    "p50_ms": 9.0,
+    "p95_ms": 18.0,
+    "p99_ms": 24.0,
+    "successful_mean_ms": 9.231450400801604,
+    "attempted_rps": 2661.3333333333335,
+    "successful_rps": 2661.3333333333335,
+    "mode": "off",
+    "users": 25,
+    "repeat": 2,
+    "phase": "steady",
+    "folder": "steady-off-u25-r2",
+    "requests_including_ramp": 96357,
+    "db_loads_including_ramp": 96357,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": null,
+    "cache_lookup_mean_ms": null,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 23.651666666666667,
+        "mean_cpu_one_core_pct": 283.82,
+        "peak_rss_mib": 425.21875
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 16.646944444444443,
+        "mean_cpu_one_core_pct": 199.76333333333332,
+        "peak_rss_mib": 153.77734375
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 6.934166666666667,
+        "mean_cpu_one_core_pct": 83.21,
+        "peak_rss_mib": 287.203125
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.004166666666666667,
+        "mean_cpu_one_core_pct": 0.05,
+        "peak_rss_mib": 39.2734375
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 147734,
+    "raw_errors": 0,
+    "samples": 126052,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 126052
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827943048,
+    "window_end_ms": 1792827973048,
+    "mean_ms": 5.8305461238219145,
+    "p50_ms": 6.0,
+    "p95_ms": 12.0,
+    "p99_ms": 15.0,
+    "successful_mean_ms": 5.8305461238219145,
+    "attempted_rps": 4201.733333333334,
+    "successful_rps": 4201.733333333334,
+    "mode": "on",
+    "users": 25,
+    "repeat": 2,
+    "phase": "steady",
+    "folder": "steady-on-u25-r2",
+    "requests_including_ramp": 147734,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 147734,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 3.867272265693747,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 27.34027777777778,
+        "mean_cpu_one_core_pct": 328.0833333333333,
+        "peak_rss_mib": 443.9140625
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.5180555555555556,
+        "mean_cpu_one_core_pct": 6.216666666666667,
+        "peak_rss_mib": 154.40625
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 8.245833333333334,
+        "mean_cpu_one_core_pct": 98.95,
+        "peak_rss_mib": 292.80859375
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 1.7605555555555557,
+        "mean_cpu_one_core_pct": 21.126666666666665,
+        "peak_rss_mib": 39.31640625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 121918,
+    "raw_errors": 0,
+    "samples": 108688,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 108688
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792827988991,
+    "window_end_ms": 1792828018991,
+    "mean_ms": 1.3043758280582953,
+    "p50_ms": 1.0,
+    "p95_ms": 3.0,
+    "p99_ms": 5.0,
+    "successful_mean_ms": 1.3043758280582953,
+    "attempted_rps": 3622.9333333333334,
+    "successful_rps": 3622.9333333333334,
+    "mode": "on",
+    "users": 5,
+    "repeat": 2,
+    "phase": "steady",
+    "folder": "steady-on-u5-r2",
+    "requests_including_ramp": 121918,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 121918,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 0.42229399186338357,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 24.72222222222222,
+        "mean_cpu_one_core_pct": 296.6666666666667,
+        "peak_rss_mib": 444.19921875
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.5063888888888889,
+        "mean_cpu_one_core_pct": 6.076666666666667,
+        "peak_rss_mib": 154.40625
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 6.799722222222222,
+        "mean_cpu_one_core_pct": 81.59666666666666,
+        "peak_rss_mib": 308.05859375
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 1.675,
+        "mean_cpu_one_core_pct": 20.1,
+        "peak_rss_mib": 39.31640625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 160127,
+    "raw_errors": 0,
+    "samples": 151706,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 151706
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792828034812,
+    "window_end_ms": 1792828064812,
+    "mean_ms": 0.9134114669162723,
+    "p50_ms": 1.0,
+    "p95_ms": 1.0,
+    "p99_ms": 2.0,
+    "successful_mean_ms": 0.9134114669162723,
+    "attempted_rps": 5056.866666666667,
+    "successful_rps": 5056.866666666667,
+    "mode": "off",
+    "users": 5,
+    "repeat": 2,
+    "phase": "steady",
+    "folder": "steady-off-u5-r2",
+    "requests_including_ramp": 160127,
+    "db_loads_including_ramp": 160127,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": null,
+    "cache_lookup_mean_ms": null,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 23.025277777777777,
+        "mean_cpu_one_core_pct": 276.30333333333334,
+        "peak_rss_mib": 421.6328125
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 13.119722222222222,
+        "mean_cpu_one_core_pct": 157.43666666666667,
+        "peak_rss_mib": 154.4140625
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 9.494166666666667,
+        "mean_cpu_one_core_pct": 113.92999999999999,
+        "peak_rss_mib": 308.33203125
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.0,
+        "mean_cpu_one_core_pct": 0.0,
+        "peak_rss_mib": 39.33984375
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 158394,
+    "raw_errors": 0,
+    "samples": 149508,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 149508
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792828082381,
+    "window_end_ms": 1792828112381,
+    "mean_ms": 0.9289737004039917,
+    "p50_ms": 1.0,
+    "p95_ms": 2.0,
+    "p99_ms": 2.0,
+    "successful_mean_ms": 0.9289737004039917,
+    "attempted_rps": 4983.6,
+    "successful_rps": 4983.6,
+    "mode": "off",
+    "users": 5,
+    "repeat": 3,
+    "phase": "steady",
+    "folder": "steady-off-u5-r3",
+    "requests_including_ramp": 158394,
+    "db_loads_including_ramp": 158394,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": null,
+    "cache_lookup_mean_ms": null,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 23.650833333333335,
+        "mean_cpu_one_core_pct": 283.81,
+        "peak_rss_mib": 421.78125
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 12.833333333333334,
+        "mean_cpu_one_core_pct": 154.0,
+        "peak_rss_mib": 154.42578125
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 9.251388888888888,
+        "mean_cpu_one_core_pct": 111.01666666666667,
+        "peak_rss_mib": 310.91796875
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.0,
+        "mean_cpu_one_core_pct": 0.0,
+        "peak_rss_mib": 39.33984375
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 133352,
+    "raw_errors": 0,
+    "samples": 121612,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 121612
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792828129264,
+    "window_end_ms": 1792828159264,
+    "mean_ms": 1.162730651580436,
+    "p50_ms": 1.0,
+    "p95_ms": 2.0,
+    "p99_ms": 4.0,
+    "successful_mean_ms": 1.162730651580436,
+    "attempted_rps": 4053.733333333333,
+    "successful_rps": 4053.733333333333,
+    "mode": "on",
+    "users": 5,
+    "repeat": 3,
+    "phase": "steady",
+    "folder": "steady-on-u5-r3",
+    "requests_including_ramp": 133352,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 133352,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 0.37049363639090527,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 25.101944444444445,
+        "mean_cpu_one_core_pct": 301.22333333333336,
+        "peak_rss_mib": 443.57421875
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.4763888888888889,
+        "mean_cpu_one_core_pct": 5.716666666666667,
+        "peak_rss_mib": 155.1796875
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 7.046388888888889,
+        "mean_cpu_one_core_pct": 84.55666666666667,
+        "peak_rss_mib": 299.44921875
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 1.715,
+        "mean_cpu_one_core_pct": 20.58,
+        "peak_rss_mib": 39.31640625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 151346,
+    "raw_errors": 0,
+    "samples": 129555,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 129555
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792828174766,
+    "window_end_ms": 1792828204766,
+    "mean_ms": 5.679240477017483,
+    "p50_ms": 5.0,
+    "p95_ms": 11.0,
+    "p99_ms": 14.0,
+    "successful_mean_ms": 5.679240477017483,
+    "attempted_rps": 4318.5,
+    "successful_rps": 4318.5,
+    "mode": "on",
+    "users": 25,
+    "repeat": 3,
+    "phase": "steady",
+    "folder": "steady-on-u25-r3",
+    "requests_including_ramp": 151346,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 151346,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 3.7291662059122803,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 26.851944444444445,
+        "mean_cpu_one_core_pct": 322.2233333333333,
+        "peak_rss_mib": 445.75
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.5133333333333333,
+        "mean_cpu_one_core_pct": 6.16,
+        "peak_rss_mib": 128.8515625
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 7.947777777777778,
+        "mean_cpu_one_core_pct": 95.37333333333333,
+        "peak_rss_mib": 303.35546875
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 1.6658333333333333,
+        "mean_cpu_one_core_pct": 19.990000000000002,
+        "peak_rss_mib": 37.69140625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 113418,
+    "raw_errors": 0,
+    "samples": 100406,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 100406
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792828221118,
+    "window_end_ms": 1792828251118,
+    "mean_ms": 7.321076429695436,
+    "p50_ms": 7.0,
+    "p95_ms": 14.0,
+    "p99_ms": 18.0,
+    "successful_mean_ms": 7.321076429695436,
+    "attempted_rps": 3346.866666666667,
+    "successful_rps": 3346.866666666667,
+    "mode": "off",
+    "users": 25,
+    "repeat": 3,
+    "phase": "steady",
+    "folder": "steady-off-u25-r3",
+    "requests_including_ramp": 113418,
+    "db_loads_including_ramp": 113418,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": null,
+    "cache_lookup_mean_ms": null,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 24.301388888888887,
+        "mean_cpu_one_core_pct": 291.6166666666667,
+        "peak_rss_mib": 423.4296875
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 17.91777777777778,
+        "mean_cpu_one_core_pct": 215.01333333333332,
+        "peak_rss_mib": 129.12890625
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 7.831666666666667,
+        "mean_cpu_one_core_pct": 93.98,
+        "peak_rss_mib": 304.015625
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.0044444444444444444,
+        "mean_cpu_one_core_pct": 0.05333333333333334,
+        "peak_rss_mib": 37.69140625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 213567,
+    "raw_errors": 0,
+    "samples": 191444,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 191444
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792828265262,
+    "window_end_ms": 1792828295262,
+    "mean_ms": 15.493042351810452,
+    "p50_ms": 15.0,
+    "p95_ms": 20.0,
+    "p99_ms": 45.0,
+    "successful_mean_ms": 15.493042351810452,
+    "attempted_rps": 6381.466666666666,
+    "successful_rps": 6381.466666666666,
+    "mode": "off",
+    "users": 100,
+    "repeat": 3,
+    "phase": "steady",
+    "folder": "steady-off-u100-r3",
+    "requests_including_ramp": 213567,
+    "db_loads_including_ramp": 213567,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": null,
+    "cache_lookup_mean_ms": null,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 28.69611111111111,
+        "mean_cpu_one_core_pct": 344.35333333333335,
+        "peak_rss_mib": 443.0390625
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 26.12638888888889,
+        "mean_cpu_one_core_pct": 313.51666666666665,
+        "peak_rss_mib": 145.84375
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 10.336944444444445,
+        "mean_cpu_one_core_pct": 124.04333333333334,
+        "peak_rss_mib": 320.03125
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.004166666666666667,
+        "mean_cpu_one_core_pct": 0.05,
+        "peak_rss_mib": 37.69140625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 140647,
+    "raw_errors": 0,
+    "samples": 118162,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 118162
+    },
+    "measurement_seconds": 30.0,
+    "window_start_ms": 1792828315982,
+    "window_end_ms": 1792828345982,
+    "mean_ms": 25.124075421878437,
+    "p50_ms": 25.0,
+    "p95_ms": 31.0,
+    "p99_ms": 35.0,
+    "successful_mean_ms": 25.124075421878437,
+    "attempted_rps": 3938.733333333333,
+    "successful_rps": 3938.733333333333,
+    "mode": "on",
+    "users": 100,
+    "repeat": 3,
+    "phase": "steady",
+    "folder": "steady-on-u100-r3",
+    "requests_including_ramp": 140647,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 140647,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 21.568816693566163,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 30,
+        "mean_cpu_host_pct": 25.98472222222222,
+        "mean_cpu_one_core_pct": 311.81666666666666,
+        "peak_rss_mib": 451.29296875
+      },
+      "mongodb": {
+        "samples": 30,
+        "mean_cpu_host_pct": 0.4752777777777778,
+        "mean_cpu_one_core_pct": 5.703333333333333,
+        "peak_rss_mib": 145.89453125
+      },
+      "jmeter": {
+        "samples": 30,
+        "mean_cpu_host_pct": 8.165,
+        "mean_cpu_one_core_pct": 97.98,
+        "peak_rss_mib": 296.65625
+      },
+      "redis": {
+        "samples": 30,
+        "mean_cpu_host_pct": 1.4572222222222222,
+        "mean_cpu_one_core_pct": 17.486666666666668,
+        "peak_rss_mib": 37.72265625
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 15,
+    "raw_errors": 0,
+    "samples": 15,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 15
+    },
+    "measurement_seconds": 12.155,
+    "window_start_ms": 1792828362158,
+    "window_end_ms": 1792828374313,
+    "mean_ms": 4049.0666666666666,
+    "p50_ms": 4035.0,
+    "p95_ms": 4082.0,
+    "p99_ms": 4082.0,
+    "successful_mean_ms": 4049.0666666666666,
+    "attempted_rps": 1.2340600575894694,
+    "successful_rps": 1.2340600575894694,
+    "mode": "on",
+    "users": 5,
+    "repeat": 0,
+    "phase": "redis-outage",
+    "folder": "redis-outage-on-u5-r0",
+    "requests_including_ramp": 15,
+    "db_loads_including_ramp": 15,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 15,
+    "cache_hit_pct": 0.0,
+    "cache_lookup_mean_ms": 2013.9604533333334,
+    "cache_failures": {
+      "lookupFailures": 15,
+      "writeFailures": 15,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 13,
+        "mean_cpu_host_pct": 0.35128205128205126,
+        "mean_cpu_one_core_pct": 4.2153846153846155,
+        "peak_rss_mib": 498.17578125
+      },
+      "mongodb": {
+        "samples": 13,
+        "mean_cpu_host_pct": 0.4294871794871795,
+        "mean_cpu_one_core_pct": 5.153846153846154,
+        "peak_rss_mib": 145.96484375
+      },
+      "jmeter": {
+        "samples": 13,
+        "mean_cpu_host_pct": 1.941025641025641,
+        "mean_cpu_one_core_pct": 23.292307692307695,
+        "peak_rss_mib": 150.80859375
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 19766,
+    "raw_errors": 0,
+    "samples": 19766,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 19766
+    },
+    "measurement_seconds": 4.821,
+    "window_start_ms": 1792828378240,
+    "window_end_ms": 1792828383061,
+    "mean_ms": 2.3073965395122937,
+    "p50_ms": 1.0,
+    "p95_ms": 7.0,
+    "p99_ms": 13.0,
+    "successful_mean_ms": 2.3073965395122937,
+    "attempted_rps": 4099.979257415474,
+    "successful_rps": 4099.979257415474,
+    "mode": "on",
+    "users": 10,
+    "repeat": 0,
+    "phase": "recovery-warmup",
+    "folder": "recovery-warmup-on-u10-r0",
+    "requests_including_ramp": 19766,
+    "db_loads_including_ramp": 1000,
+    "db_loads_per_request": 0.05059192552868562,
+    "cache_hits_including_ramp": 18766,
+    "cache_misses_including_ramp": 1000,
+    "cache_hit_pct": 94.94080744713143,
+    "cache_lookup_mean_ms": 0.9069955479105535,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 5,
+        "mean_cpu_host_pct": 29.726666666666667,
+        "mean_cpu_one_core_pct": 356.71999999999997,
+        "peak_rss_mib": 513.14453125
+      },
+      "mongodb": {
+        "samples": 5,
+        "mean_cpu_host_pct": 1.8383333333333334,
+        "mean_cpu_one_core_pct": 22.06,
+        "peak_rss_mib": 146.06640625
+      },
+      "jmeter": {
+        "samples": 5,
+        "mean_cpu_host_pct": 25.751666666666665,
+        "mean_cpu_one_core_pct": 309.02,
+        "peak_rss_mib": 301.14453125
+      },
+      "redis": {
+        "samples": 5,
+        "mean_cpu_host_pct": 1.19,
+        "mean_cpu_one_core_pct": 14.28,
+        "peak_rss_mib": 39.0078125
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  {
+    "raw_samples": 36943,
+    "raw_errors": 0,
+    "samples": 36943,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 36943
+    },
+    "measurement_seconds": 9.741,
+    "window_start_ms": 1792828388836,
+    "window_end_ms": 1792828398577,
+    "mean_ms": 1.2244538884227052,
+    "p50_ms": 1.0,
+    "p95_ms": 2.0,
+    "p99_ms": 4.0,
+    "successful_mean_ms": 1.2244538884227052,
+    "attempted_rps": 3792.5264346576328,
+    "successful_rps": 3792.5264346576328,
+    "mode": "on",
+    "users": 5,
+    "repeat": 0,
+    "phase": "redis-recovery",
+    "folder": "redis-recovery-on-u5-r0",
+    "requests_including_ramp": 36943,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 36943,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 0.4239936605040197,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 10,
+        "mean_cpu_host_pct": 22.1875,
+        "mean_cpu_one_core_pct": 266.25,
+        "peak_rss_mib": 472.12890625
+      },
+      "mongodb": {
+        "samples": 10,
+        "mean_cpu_host_pct": 0.61,
+        "mean_cpu_one_core_pct": 7.32,
+        "peak_rss_mib": 146.06640625
+      },
+      "jmeter": {
+        "samples": 10,
+        "mean_cpu_host_pct": 15.066666666666668,
+        "mean_cpu_one_core_pct": 180.8,
+        "peak_rss_mib": 308.87109375
+      },
+      "redis": {
+        "samples": 10,
+        "mean_cpu_host_pct": 1.48,
+        "mean_cpu_one_core_pct": 17.759999999999998,
+        "peak_rss_mib": 39.01953125
+      }
+    },
+    "counter_sample_count_agrees": true
+  }
+]

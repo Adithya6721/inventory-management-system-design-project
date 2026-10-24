@@ -51,6 +51,10 @@ Default workloads are 5/25/100 concurrent users, with a 5-second ramp followed b
 `--duration 60` for a longer run. There is no think time, so these users represent
 continuous load, not a count of human operators. A pilot can use
 `--users 2 5 10 --duration 3 --ramp 1 --warmup 2 --repeats 1 --products 100`.
+Each backend gets an initial 15-second warm-up. JMeter starts a new JVM per point;
+its startup and the ramp are excluded, but this does not guarantee all JIT work
+has finished. Treat this as a local comparative experiment, with repeat variation,
+rather than an isolated production-capacity estimate.
 
 The default isolated backends use ports 8082 (off) and 8083 (on); the dedicated
 Redis uses 6381. Occupied ports cause an abort. Fresh database names are recorded

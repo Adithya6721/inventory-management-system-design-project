@@ -1,0 +1,127 @@
+{
+  "passed": true,
+  "scope": "product read fallback and recovery; dedicated Redis process unavailable",
+  "outage": {
+    "raw_samples": 15,
+    "raw_errors": 0,
+    "samples": 15,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 15
+    },
+    "measurement_seconds": 12.155,
+    "window_start_ms": 1792828362158,
+    "window_end_ms": 1792828374313,
+    "mean_ms": 4049.0666666666666,
+    "p50_ms": 4035.0,
+    "p95_ms": 4082.0,
+    "p99_ms": 4082.0,
+    "successful_mean_ms": 4049.0666666666666,
+    "attempted_rps": 1.2340600575894694,
+    "successful_rps": 1.2340600575894694,
+    "mode": "on",
+    "users": 5,
+    "repeat": 0,
+    "phase": "redis-outage",
+    "folder": "redis-outage-on-u5-r0",
+    "requests_including_ramp": 15,
+    "db_loads_including_ramp": 15,
+    "db_loads_per_request": 1.0,
+    "cache_hits_including_ramp": 0,
+    "cache_misses_including_ramp": 15,
+    "cache_hit_pct": 0.0,
+    "cache_lookup_mean_ms": 2013.9604533333334,
+    "cache_failures": {
+      "lookupFailures": 15,
+      "writeFailures": 15,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 13,
+        "mean_cpu_host_pct": 0.35128205128205126,
+        "mean_cpu_one_core_pct": 4.2153846153846155,
+        "peak_rss_mib": 498.17578125
+      },
+      "mongodb": {
+        "samples": 13,
+        "mean_cpu_host_pct": 0.4294871794871795,
+        "mean_cpu_one_core_pct": 5.153846153846154,
+        "peak_rss_mib": 145.96484375
+      },
+      "jmeter": {
+        "samples": 13,
+        "mean_cpu_host_pct": 1.941025641025641,
+        "mean_cpu_one_core_pct": 23.292307692307695,
+        "peak_rss_mib": 150.80859375
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  "recovery": {
+    "raw_samples": 36943,
+    "raw_errors": 0,
+    "samples": 36943,
+    "errors": 0,
+    "error_pct": 0.0,
+    "status_counts": {
+      "200": 36943
+    },
+    "measurement_seconds": 9.741,
+    "window_start_ms": 1792828388836,
+    "window_end_ms": 1792828398577,
+    "mean_ms": 1.2244538884227052,
+    "p50_ms": 1.0,
+    "p95_ms": 2.0,
+    "p99_ms": 4.0,
+    "successful_mean_ms": 1.2244538884227052,
+    "attempted_rps": 3792.5264346576328,
+    "successful_rps": 3792.5264346576328,
+    "mode": "on",
+    "users": 5,
+    "repeat": 0,
+    "phase": "redis-recovery",
+    "folder": "redis-recovery-on-u5-r0",
+    "requests_including_ramp": 36943,
+    "db_loads_including_ramp": 0,
+    "db_loads_per_request": 0.0,
+    "cache_hits_including_ramp": 36943,
+    "cache_misses_including_ramp": 0,
+    "cache_hit_pct": 100.0,
+    "cache_lookup_mean_ms": 0.4239936605040197,
+    "cache_failures": {
+      "lookupFailures": 0,
+      "writeFailures": 0,
+      "invalidationFailures": 0
+    },
+    "resources": {
+      "backend": {
+        "samples": 10,
+        "mean_cpu_host_pct": 22.1875,
+        "mean_cpu_one_core_pct": 266.25,
+        "peak_rss_mib": 472.12890625
+      },
+      "mongodb": {
+        "samples": 10,
+        "mean_cpu_host_pct": 0.61,
+        "mean_cpu_one_core_pct": 7.32,
+        "peak_rss_mib": 146.06640625
+      },
+      "jmeter": {
+        "samples": 10,
+        "mean_cpu_host_pct": 15.066666666666668,
+        "mean_cpu_one_core_pct": 180.8,
+        "peak_rss_mib": 308.87109375
+      },
+      "redis": {
+        "samples": 10,
+        "mean_cpu_host_pct": 1.48,
+        "mean_cpu_one_core_pct": 17.759999999999998,
+        "peak_rss_mib": 39.01953125
+      }
+    },
+    "counter_sample_count_agrees": true
+  },
+  "note": "Existing Redis on port 6379 and the walkthrough application were untouched"
+}
