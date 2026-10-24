@@ -1,9 +1,12 @@
+import useCreateRequest from '../hooks/useCreateRequest';
 import React, { useState } from 'react';
 import { Package, Plus, Search, Filter, Eye, Trash2, Edit3, AlertCircle } from 'lucide-react';
 import { api } from '../services/api';
 import { globalProductTrie } from '../services/trie';
 
 export default function ProductCatalog({
+  createRequested = false,
+  onCreateRequestHandled,
   products = [],
   loading = false,
   onRefresh,
@@ -13,6 +16,7 @@ export default function ProductCatalog({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [showCreateModal, setShowCreateModal] = useState(false);
+  useCreateRequest(createRequested, onCreateRequestHandled, setShowCreateModal);
   const [submitting, setSubmitting] = useState(false);
 
   // New product form state
@@ -103,9 +107,9 @@ export default function ProductCatalog({
       {/* Page Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
-          <h1 style={{ fontSize: '1.5rem', marginBottom: '4px' }}>Product Catalog</h1>
+          <h1 style={{ fontSize: '1.875rem', marginBottom: '4px' }}>Product catalog</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Register products, enforce global SKU uniqueness, and monitor inventory thresholds (FR1, FR2)
+            Manage your products, pricing, and replenishment thresholds.
           </p>
         </div>
         <button id="btn-add-product" className="btn btn-primary" onClick={() => setShowCreateModal(true)}>
@@ -142,7 +146,7 @@ export default function ProductCatalog({
                   cursor: 'pointer',
                   borderColor: selectedCategory === cat ? 'var(--primary)' : 'var(--border-subtle)',
                   background: selectedCategory === cat ? 'var(--primary-light)' : 'transparent',
-                  color: selectedCategory === cat ? '#fff' : 'var(--text-secondary)'
+                  color: selectedCategory === cat ? 'var(--primary)' : 'var(--text-secondary)'
                 }}
               >
                 {cat}
@@ -184,7 +188,7 @@ export default function ProductCatalog({
                 {filteredProducts.map(p => (
                   <tr key={p.productId}>
                     <td>
-                      <div style={{ fontWeight: 600, color: '#fff' }}>{p.name}</div>
+                      <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{p.name}</div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', maxWidth: '320px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                         {p.description || 'No description provided'}
                       </div>
@@ -197,11 +201,11 @@ export default function ProductCatalog({
                     <td>
                       <span className="badge badge-indigo">{p.category}</span>
                     </td>
-                    <td style={{ fontWeight: 600, color: '#34d399' }}>
+                    <td style={{ fontWeight: 600, color: 'var(--accent-emerald)' }}>
                       ${Number(p.price || 0).toFixed(2)}
                     </td>
                     <td>
-                      <span style={{ fontSize: '0.875rem', color: '#fbbf24' }}>
+                      <span style={{ fontSize: '0.875rem', color: 'var(--accent-amber)' }}>
                         {p.reorderLevel} units
                       </span>
                     </td>
@@ -241,20 +245,20 @@ export default function ProductCatalog({
       {/* Register Product Modal */}
       {showCreateModal && (
         <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <h2 style={{ fontSize: '1.25rem', marginBottom: '6px' }}>Register Product (FR1)</h2>
+          <div className="modal-content" role="dialog" aria-modal="true" aria-label="Register product" onClick={e => e.stopPropagation()}>
+            <h2 style={{ fontSize: '1.25rem', marginBottom: '6px' }}>Register Product</h2>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
-              Enforces global SKU uniqueness across MongoDB persistence layer.
+              Use a unique SKU to identify this product across your warehouses.
             </p>
 
             {formError && (
               <div style={{
-                background: 'rgba(244, 63, 94, 0.15)',
+                background: 'var(--accent-rose-light)',
                 border: '1px solid var(--accent-rose)',
                 borderRadius: '8px',
                 padding: '12px',
                 marginBottom: '16px',
-                color: '#fb7185',
+                color: 'var(--accent-rose)',
                 fontSize: '0.8125rem',
                 display: 'flex',
                 gap: '8px',
@@ -268,8 +272,8 @@ export default function ProductCatalog({
             <form onSubmit={handleCreateSubmit}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div className="form-group">
-                  <label className="form-label">SKU (Unique Identifier) *</label>
-                  <input
+                  <label className="form-label" htmlFor="productcatalog-field-1">SKU (Unique Identifier) *</label>
+                  <input id="productcatalog-field-1"
                     type="text"
                     className="form-input"
                     placeholder="e.g. SKU-DELL-XPS15"
@@ -279,8 +283,8 @@ export default function ProductCatalog({
                   />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Category *</label>
-                  <input
+                  <label className="form-label" htmlFor="productcatalog-field-2">Category *</label>
+                  <input id="productcatalog-field-2"
                     type="text"
                     className="form-input"
                     placeholder="e.g. Laptops"
@@ -292,8 +296,8 @@ export default function ProductCatalog({
               </div>
 
               <div className="form-group">
-                <label className="form-label">Product Name *</label>
-                <input
+                <label className="form-label" htmlFor="productcatalog-field-3">Product Name *</label>
+                <input id="productcatalog-field-3"
                   type="text"
                   className="form-input"
                   placeholder="e.g. Dell XPS 15 OLED"
@@ -304,8 +308,8 @@ export default function ProductCatalog({
               </div>
 
               <div className="form-group">
-                <label className="form-label">Description</label>
-                <textarea
+                <label className="form-label" htmlFor="productcatalog-field-4">Description</label>
+                <textarea id="productcatalog-field-4"
                   className="form-textarea"
                   rows={2}
                   placeholder="Specifications, details, color..."
@@ -316,8 +320,8 @@ export default function ProductCatalog({
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div className="form-group">
-                  <label className="form-label">Selling Price ($) *</label>
-                  <input
+                  <label className="form-label" htmlFor="productcatalog-field-5">Selling Price ($) *</label>
+                  <input id="productcatalog-field-5"
                     type="number"
                     step="0.01"
                     min="0"
@@ -328,8 +332,8 @@ export default function ProductCatalog({
                   />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Reorder Level Threshold *</label>
-                  <input
+                  <label className="form-label" htmlFor="productcatalog-field-6">Reorder Level Threshold *</label>
+                  <input id="productcatalog-field-6"
                     type="number"
                     min="1"
                     className="form-input"

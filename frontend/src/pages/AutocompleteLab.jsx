@@ -26,7 +26,7 @@ export default function AutocompleteLab({ products = [] }) {
     setTrieStats(globalProductTrie.getStats());
   };
 
-  // Automated Benchmark for Report Deliverable 4
+  // Automated Benchmark for Report search performance
   const runFullBenchmark = async () => {
     setBenchmarking(true);
     const testCases = [
@@ -87,8 +87,8 @@ export default function AutocompleteLab({ products = [] }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-            <h1 style={{ fontSize: '1.5rem' }}>Autocomplete Engine & Trie Lab</h1>
-            <span className="badge badge-cyan">Member 4 Core Deliverable</span>
+            <h1 style={{ fontSize: '1.875rem' }}>Autocomplete Engine</h1>
+
           </div>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
             In-memory Trie prefix index with sub-millisecond lookups, hybrid debouncing, and latency benchmarking
@@ -141,8 +141,8 @@ export default function AutocompleteLab({ products = [] }) {
             <BarChart2 size={24} />
           </div>
           <div>
-            <div className="stat-val">~85%</div>
-            <div className="stat-lbl">Debounce Network Savings</div>
+            <div className="stat-val">250 ms</div>
+            <div className="stat-lbl">API fallback debounce window</div>
           </div>
         </div>
       </div>
@@ -154,16 +154,16 @@ export default function AutocompleteLab({ products = [] }) {
           Test prefix traversal directly in the client Trie and inspect microsecond execution times.
         </p>
 
-        <div style={{ display: 'flex', gap: '14px', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginBottom: '20px' }}>
           <input
             type="text"
             className="form-input"
             value={testPrefix}
             onChange={e => runSingleSearch(e.target.value)}
             placeholder="Type a prefix (e.g. 'mac', 'app', 'sku', 'lap')..."
-            style={{ maxWidth: '400px' }}
+            style={{ flex: '1 1 220px', minWidth: 0, maxWidth: '400px' }}
           />
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {['mac', 'appl', 'sku', 'lap', 'pro'].map(preset => (
               <button
                 key={preset}
@@ -180,7 +180,7 @@ export default function AutocompleteLab({ products = [] }) {
         {/* Live Search Telemetry Box */}
         {testResult && (
           <div style={{
-            background: 'rgba(255, 255, 255, 0.02)',
+            background: 'var(--bg-glass-subtle)',
             border: '1px solid var(--border-subtle)',
             borderRadius: '10px',
             padding: '16px'
@@ -202,12 +202,12 @@ export default function AutocompleteLab({ products = [] }) {
                 No product names or SKUs match prefix "{testResult.prefix}".
               </div>
             ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '10px' }}>
                 {testResult.results.map(prod => (
                   <div
                     key={prod.productId}
                     style={{
-                      background: 'rgba(255, 255, 255, 0.03)',
+                      background: 'var(--bg-glass-subtle)',
                       border: '1px solid var(--border-subtle)',
                       borderRadius: '8px',
                       padding: '10px 14px',
@@ -220,7 +220,7 @@ export default function AutocompleteLab({ products = [] }) {
                       <div style={{ fontWeight: 600, fontSize: '0.875rem' }}>{prod.name}</div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--accent-cyan)' }}>{prod.sku}</div>
                     </div>
-                    <span style={{ fontWeight: 700, color: '#34d399', fontSize: '0.875rem' }}>
+                    <span style={{ fontWeight: 700, color: 'var(--accent-emerald)', fontSize: '0.875rem' }}>
                       ${Number(prod.price).toFixed(2)}
                     </span>
                   </div>
@@ -231,11 +231,11 @@ export default function AutocompleteLab({ products = [] }) {
         )}
       </div>
 
-      {/* Benchmark Report Table (Deliverable 4) */}
+      {/* Benchmark Report Table (search performance) */}
       <div className="card">
         <div className="card-header">
           <div>
-            <h3 style={{ fontSize: '1.125rem' }}>Deliverable 4: Autocomplete Performance Benchmark</h3>
+            <h3 style={{ fontSize: '1.125rem' }}>Autocomplete performance</h3>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
               Comparative evaluation: In-Memory Client Trie vs Server-side Database Query
             </p>
@@ -250,7 +250,7 @@ export default function AutocompleteLab({ products = [] }) {
             <BarChart2 size={36} style={{ margin: '0 auto 10px auto', opacity: 0.4 }} />
             <div>No benchmark data recorded yet</div>
             <p style={{ fontSize: '0.8125rem', marginTop: '4px' }}>
-              Click "Run Automated Benchmark" above to populate the latency comparison table for your report.
+              Click "Run Automated Benchmark" above to populate the latency comparison table for this session.
             </p>
           </div>
         ) : (
@@ -277,7 +277,7 @@ export default function AutocompleteLab({ products = [] }) {
                     <td>
                       <span className="badge badge-indigo" style={{ fontSize: '0.7rem' }}>{row.type}</span>
                     </td>
-                    <td style={{ fontWeight: 700, color: '#34d399' }}>
+                    <td style={{ fontWeight: 700, color: 'var(--accent-emerald)' }}>
                       {row.trieLatency} ms
                     </td>
                     <td style={{ color: 'var(--text-secondary)' }}>
@@ -289,7 +289,7 @@ export default function AutocompleteLab({ products = [] }) {
                       </span>
                     </td>
                     <td>
-                      <span style={{ color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                      <span style={{ color: 'var(--accent-emerald)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                         <CheckCircle2 size={13} /> {row.accuracy}
                       </span>
                     </td>

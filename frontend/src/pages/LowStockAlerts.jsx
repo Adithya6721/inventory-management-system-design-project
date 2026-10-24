@@ -16,9 +16,9 @@ export default function LowStockAlerts({
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
-          <h1 style={{ fontSize: '1.5rem', marginBottom: '4px' }}>Low-Stock Threshold Alerts</h1>
+          <h1 style={{ fontSize: '1.875rem', marginBottom: '4px' }}>Low-stock alerts</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Automated alerts triggered when Available Stock drops below configured Reorder Level (FR9)
+            Review products that need replenishment across your warehouses.
           </p>
         </div>
         <button className="btn btn-secondary" onClick={onRefreshAlerts}>
@@ -28,7 +28,7 @@ export default function LowStockAlerts({
 
       {/* Explanatory Banner */}
       <div style={{
-        background: 'rgba(245, 158, 11, 0.08)',
+        background: 'var(--accent-amber-light)',
         border: '1px solid rgba(245, 158, 11, 0.25)',
         borderRadius: '12px',
         padding: '16px 20px',
@@ -42,11 +42,11 @@ export default function LowStockAlerts({
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <AlertTriangle size={24} style={{ color: 'var(--accent-amber)' }} />
           <div>
-            <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#fef3c7' }}>
-              Deduplicated Event Trigger Mechanism
+            <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+              Replenishment thresholds
             </div>
             <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-              Evaluated on every sales order or stock transfer. MongoDB maintains at most <strong>1 active alert</strong> per <code>(productId, warehouseId)</code> to avoid alert spamming.
+              An alert stays active until available stock rises above the product’s reorder level.
             </div>
           </div>
         </div>
@@ -59,8 +59,8 @@ export default function LowStockAlerts({
       <div className="card" style={{ padding: 0 }}>
         {alerts.length === 0 ? (
           <div style={{ padding: '48px', textAlign: 'center', color: 'var(--text-muted)' }}>
-            <CheckCircle size={40} style={{ margin: '0 auto 12px auto', color: '#10b981' }} />
-            <div style={{ fontSize: '1rem', fontWeight: 600, color: '#f9fafb' }}>All Inventory Levels Healthy</div>
+            <CheckCircle size={40} style={{ margin: '0 auto 12px auto', color: 'var(--accent-emerald)' }} />
+            <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)' }}>All Inventory Levels Healthy</div>
             <p style={{ fontSize: '0.875rem', marginTop: '4px' }}>
               No warehouse currently has available stock at or below its reorder threshold.
             </p>

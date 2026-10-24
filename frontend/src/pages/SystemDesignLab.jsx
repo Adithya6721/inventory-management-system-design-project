@@ -1,8 +1,10 @@
+import ArchitectureOverview from '../components/ArchitectureOverview';
 import React, { useState } from 'react';
 import { Cpu, ShieldAlert, Zap, Link, CheckCircle, RefreshCw, AlertTriangle, Layers, Play } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function SystemDesignLab({
+  onNavigate,
   products = [],
   warehouses = [],
   onShowToast,
@@ -98,7 +100,7 @@ export default function SystemDesignLab({
     if (onRefreshAll) onRefreshAll();
   };
 
-  // 2. Rate Limiting Test (Bursts 25 requests in parallel to trigger Member 3's 429)
+  // 2. Rate Limiting Test (Bursts 25 requests in parallel to trigger 429)
   const runRateLimitBurst = async () => {
     setRateLimitRunning(true);
     setRateLimitStats({ submitted: 25, passed: 0, throttled429: 0 });
@@ -137,25 +139,27 @@ export default function SystemDesignLab({
 
   return (
     <div>
+      <ArchitectureOverview onNavigate={onNavigate} />
+      <div className="developer-notice">Interactive checks modify inventory in this workspace. Use test data for load experiments.</div>
       {/* Header */}
       <div style={{ marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '1.5rem', marginBottom: '4px' }}>System Design Evaluation Lab</h1>
+        <h2 style={{ fontSize: '1.25rem', marginBottom: '4px' }}>Interactive checks</h2>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-          Interactive validation for Concurrency Consistency (Deliverable 5), Rate Limiting, and URL Shortener
+          Inspect concurrency, traffic controls, and integration prototypes.
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))', gap: '24px' }}>
         {/* Module 1: Concurrency Consistency Test */}
         <div className="card">
           <div className="card-header">
             <div>
               <h3 style={{ fontSize: '1.125rem' }}>Atomic Concurrency Stress Test</h3>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                Scenario E: 100 concurrent requests competing for 10 available units
+                Contention scenario: 100 concurrent requests competing for 10 available units
               </p>
             </div>
-            <span className="badge badge-indigo">Deliverable 5</span>
+
           </div>
 
           <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>
@@ -176,7 +180,7 @@ export default function SystemDesignLab({
 
           {concurrencyStats && (
             <div style={{
-              background: 'rgba(255, 255, 255, 0.02)',
+              background: 'var(--bg-glass-subtle)',
               border: '1px solid var(--border-subtle)',
               borderRadius: '10px',
               padding: '16px'
@@ -185,21 +189,21 @@ export default function SystemDesignLab({
                 Tested: <strong>{concurrencyStats.testedItem}</strong>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', textAlign: 'center' }}>
-                <div style={{ background: 'rgba(99, 102, 241, 0.1)', padding: '10px', borderRadius: '8px' }}>
+                <div style={{ background: 'var(--primary-light)', padding: '10px', borderRadius: '8px' }}>
                   <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Orders Sent</div>
                   <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{concurrencyStats.total}</div>
                 </div>
-                <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '10px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '0.72rem', color: '#34d399' }}>Reserved (201)</div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#34d399' }}>{concurrencyStats.success}</div>
+                <div style={{ background: 'var(--accent-emerald-light)', padding: '10px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--accent-emerald)' }}>Reserved (201)</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent-emerald)' }}>{concurrencyStats.success}</div>
                 </div>
-                <div style={{ background: 'rgba(244, 63, 94, 0.1)', padding: '10px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '0.72rem', color: '#fb7185' }}>Rejected (409)</div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fb7185' }}>{concurrencyStats.rejected}</div>
+                <div style={{ background: 'var(--accent-rose-light)', padding: '10px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--accent-rose)' }}>Rejected (409)</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent-rose)' }}>{concurrencyStats.rejected}</div>
                 </div>
               </div>
 
-              <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8125rem', color: '#34d399' }}>
+              <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8125rem', color: 'var(--accent-emerald)' }}>
                 <CheckCircle size={16} />
                 <span>Zero Overselling Verified: Stock remained non-negative throughout!</span>
               </div>
@@ -211,12 +215,12 @@ export default function SystemDesignLab({
         <div className="card">
           <div className="card-header">
             <div>
-              <h3 style={{ fontSize: '1.125rem' }}>Rate Limiter Traffic Control (Member 3)</h3>
+              <h3 style={{ fontSize: '1.125rem' }}>Rate Limiter Traffic Control</h3>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
                 Token-Bucket traffic enforcement returning HTTP 429
               </p>
             </div>
-            <span className="badge badge-amber">Member 3</span>
+
           </div>
 
           <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>
@@ -235,23 +239,23 @@ export default function SystemDesignLab({
 
           {rateLimitStats && (
             <div style={{
-              background: 'rgba(255, 255, 255, 0.02)',
+              background: 'var(--bg-glass-subtle)',
               border: '1px solid var(--border-subtle)',
               borderRadius: '10px',
               padding: '16px'
             }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', textAlign: 'center' }}>
-                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '10px', borderRadius: '8px' }}>
+                <div style={{ background: 'var(--bg-glass-subtle)', padding: '10px', borderRadius: '8px' }}>
                   <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Requests Sent</div>
                   <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{rateLimitStats.submitted}</div>
                 </div>
-                <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '10px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '0.72rem', color: '#34d399' }}>Handled (200)</div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#34d399' }}>{rateLimitStats.passed}</div>
+                <div style={{ background: 'var(--accent-emerald-light)', padding: '10px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--accent-emerald)' }}>Handled (200)</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent-emerald)' }}>{rateLimitStats.passed}</div>
                 </div>
-                <div style={{ background: 'rgba(245, 158, 11, 0.1)', padding: '10px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '0.72rem', color: '#fbbf24' }}>Throttled (429)</div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fbbf24' }}>{rateLimitStats.throttled429}</div>
+                <div style={{ background: 'var(--accent-amber-light)', padding: '10px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--accent-amber)' }}>Throttled (429)</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent-amber)' }}>{rateLimitStats.throttled429}</div>
                 </div>
               </div>
             </div>
@@ -262,9 +266,9 @@ export default function SystemDesignLab({
         <div className="card" style={{ gridColumn: '1 / -1' }}>
           <div className="card-header">
             <div>
-              <h3 style={{ fontSize: '1.125rem' }}>URL Shortener for Order Receipts & Reports</h3>
+              <h3 style={{ fontSize: '1.125rem' }}>URL shortener prototype</h3>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                System-design component for compact references to lengthy inventory audit endpoints
+                Generate an example compact reference. A redirect service is not connected.
               </p>
             </div>
             <span className="badge badge-cyan">Component #6</span>
@@ -274,7 +278,7 @@ export default function SystemDesignLab({
             <input
               type="text"
               className="form-input"
-              style={{ flex: 1, minWidth: '320px' }}
+              style={{ flex: 1, minWidth: 'min(100%, 320px)' }}
               value={longUrl}
               onChange={e => setLongUrl(e.target.value)}
               placeholder="Paste long order receipt or inventory report URL..."

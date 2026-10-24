@@ -87,20 +87,20 @@ export default function WarehouseInventory({
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
-          <h1 style={{ fontSize: '1.5rem', marginBottom: '4px' }}>Warehouse Management & Stock</h1>
+          <h1 style={{ fontSize: '1.875rem', marginBottom: '4px' }}>Warehouses & stock</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Multi-facility inventory tracking with Available vs. Reserved stock separation (FR3, FR4, FR5)
+            Track available and reserved stock across your warehouse network.
           </p>
         </div>
         <button id="btn-add-warehouse" className="btn btn-primary" onClick={() => setShowCreateModal(true)}>
-          <Plus size={16} /> Add Warehouse Facility
+          <Plus size={16} /> Add warehouse
         </button>
       </div>
 
       {/* Warehouse Selector Cards */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
         gap: '16px',
         marginBottom: '28px'
       }}>
@@ -111,14 +111,14 @@ export default function WarehouseInventory({
               key={wh.warehouseId}
               onClick={() => setSelectedWarehouseId(wh.warehouseId)}
               style={{
-                background: isSelected ? 'rgba(99, 102, 241, 0.12)' : 'var(--bg-card)',
+                background: isSelected ? 'var(--primary-light)' : 'var(--bg-card)',
                 border: `1px solid ${isSelected ? 'var(--primary)' : 'var(--border-subtle)'}`,
                 borderRadius: '12px',
                 padding: '18px',
                 cursor: 'pointer',
                 transition: 'all 150ms ease',
                 position: 'relative',
-                boxShadow: isSelected ? '0 0 16px rgba(99, 102, 241, 0.2)' : 'var(--shadow-sm)'
+                boxShadow: isSelected ? 'var(--shadow-md)' : 'var(--shadow-sm)'
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
@@ -207,7 +207,7 @@ export default function WarehouseInventory({
                         </div>
                       </td>
                       <td style={{ fontWeight: 700 }}>{stock.quantity}</td>
-                      <td style={{ color: '#fbbf24', fontWeight: 600 }}>{stock.reservedQuantity}</td>
+                      <td style={{ color: 'var(--accent-amber)', fontWeight: 600 }}>{stock.reservedQuantity}</td>
                       <td>
                         <span className={`badge ${available > 0 ? 'badge-emerald' : 'badge-rose'}`} style={{ fontSize: '0.8125rem' }}>
                           {available} units
@@ -241,16 +241,16 @@ export default function WarehouseInventory({
       {/* Add Warehouse Modal */}
       {showCreateModal && (
         <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <h2 style={{ fontSize: '1.25rem', marginBottom: '6px' }}>Register Warehouse Facility (FR5)</h2>
+          <div className="modal-content" role="dialog" aria-modal="true" aria-label="Add warehouse" onClick={e => e.stopPropagation()}>
+            <h2 style={{ fontSize: '1.25rem', marginBottom: '6px' }}>Register Warehouse Facility</h2>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
               Add a new storage hub or distribution center to the system.
             </p>
 
             <form onSubmit={handleCreateWarehouse}>
               <div className="form-group">
-                <label className="form-label">Warehouse Name *</label>
-                <input
+                <label className="form-label" htmlFor="warehouseinventory-field-1">Warehouse Name *</label>
+                <input id="warehouseinventory-field-1"
                   type="text"
                   className="form-input"
                   placeholder="e.g. Pacific Northwest Distribution Hub"
@@ -261,8 +261,8 @@ export default function WarehouseInventory({
               </div>
 
               <div className="form-group">
-                <label className="form-label">Location / City *</label>
-                <input
+                <label className="form-label" htmlFor="warehouseinventory-field-2">Location / City *</label>
+                <input id="warehouseinventory-field-2"
                   type="text"
                   className="form-input"
                   placeholder="e.g. Seattle, WA"
@@ -273,8 +273,8 @@ export default function WarehouseInventory({
               </div>
 
               <div className="form-group">
-                <label className="form-label">Operational Status *</label>
-                <select
+                <label className="form-label" htmlFor="warehouseinventory-field-3">Operational Status *</label>
+                <select id="warehouseinventory-field-3"
                   className="form-select"
                   value={whStatus}
                   onChange={e => setWhStatus(e.target.value)}

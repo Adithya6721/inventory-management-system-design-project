@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Zap, Clock, Package, ArrowRight, CornerDownLeft } from 'lucide-react';
+import { Search, Package, ArrowRight, CornerDownLeft } from 'lucide-react';
 import { globalProductTrie } from '../services/trie';
 import { api } from '../services/api';
 
 /**
- * Autocomplete Component — Member 4 System Design Component
+ * Autocomplete Component — System Design Component
  * Features:
  *  - High-performance In-Memory Trie lookup (< 2ms)
  *  - Hybrid fallback to debounced Server API queries
@@ -29,7 +29,7 @@ export default function AutocompleteSearch({ onSelectProduct, placeholder = "Sea
   // Global hotkey '/' to focus search bar
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === '/' && document.activeElement !== inputRef.current) {
+      if (e.key === '/' && !e.target.closest('input, textarea, select, [contenteditable="true"]')) {
         e.preventDefault();
         inputRef.current?.focus();
       }
@@ -50,6 +50,7 @@ export default function AutocompleteSearch({ onSelectProduct, placeholder = "Sea
   }, []);
 
   const handleInputChange = (e) => {
+    clearTimeout(debounceTimerRef.current);
     const value = e.target.value;
     setQuery(value);
     keystrokeCountRef.current++;
@@ -140,162 +141,36 @@ export default function AutocompleteSearch({ onSelectProduct, placeholder = "Sea
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: '520px' }}>
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-        <Search
-          size={18}
-          style={{
-            position: 'absolute',
-            left: '14px',
-            color: 'var(--text-secondary)',
-            pointerEvents: 'none'
-          }}
-        />
-        <input
-          id="autocomplete-search-input"
-          ref={inputRef}
-          type="text"
-          className="form-input"
-          value={query}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          onFocus={() => query.trim() && suggestions.length > 0 && setIsOpen(true)}
-          placeholder={placeholder}
-          style={{
-            paddingLeft: '40px',
-            paddingRight: latencyMs !== null ? '130px' : '36px',
-            background: 'var(--bg-input)',
-            borderRadius: varRadius(isOpen ? '10px 10px 0 0' : '10px'),
-            height: '42px',
-            boxShadow: isOpen ? '0 0 15px rgba(99, 102, 241, 0.25)' : 'none'
-          }}
-        />
-
-        {/* Live System Design Telemetry Badge */}
-        {latencyMs !== null && query.trim() && (
-          <div
-            style={{
-              position: 'absolute',
-              right: '10px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              fontSize: '0.7rem',
-              padding: '2px 8px',
-              borderRadius: '9999px',
-              background: searchSource === 'trie' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(99, 102, 241, 0.15)',
-              color: searchSource === 'trie' ? '#34d399' : '#a5b4fc',
-              border: `1px solid ${searchSource === 'trie' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(99, 102, 241, 0.3)'}`
-            }}
-            title={`Source: ${searchSource === 'trie' ? 'In-Memory Trie' : 'Spring Boot REST'}`}
-          >
-            {searchSource === 'trie' ? <Zap size={11} /> : <Clock size={11} />}
-            <span>{latencyMs}ms</span>
-            <span style={{ opacity: 0.7, textTransform: 'uppercase' }}>{searchSource}</span>
-          </div>
-        )}
+    <div className="autocomplete-root">
+      <div className="search-control">
+        <Search size={16} className="search-icon" />
+        <input id="autocomplete-search-input" ref={inputRef} type="text" className="form-input search-input"
+          role="combobox" aria-label="Search products" aria-expanded={isOpen && suggestions.length > 0}
+          aria-controls="autocomplete-dropdown" aria-autocomplete="list"
+          aria-activedescendant={isOpen && selectedIndex >= 0 ? `search-option-${selectedIndex}` : undefined}
+          value={query} onChange={handleInputChange} onKeyDown={handleKeyDown}
+          onFocus={() => query.trim() && suggestions.length > 0 && setIsOpen(true)} placeholder={placeholder}
+          style={{ borderRadius: varRadius('5px') }} />
+        {!query && <kbd className="search-shortcut">/</kbd>}
       </div>
-
-      {/* Autocomplete Dropdown List */}
       {isOpen && suggestions.length > 0 && (
-        <div
-          ref={dropdownRef}
-          id="autocomplete-dropdown"
-          style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            right: 0,
-            background: '#131b2e',
-            border: '1px solid var(--border-glass)',
-            borderTop: 'none',
-            borderRadius: '0 0 12px 12px',
-            boxShadow: '0 12px 28px rgba(0,0,0,0.7)',
-            zIndex: 100,
-            overflow: 'hidden'
-          }}
-        >
-          <div style={{ maxHeight: '340px', overflowY: 'auto' }}>
-            {suggestions.map((item, idx) => {
-              const isSelected = idx === selectedIndex;
-              return (
-                <div
-                  key={item.productId || item.sku}
-                  onClick={() => handleSelect(item)}
-                  onMouseEnter={() => setSelectedIndex(idx)}
-                  style={{
-                    padding: '10px 16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    cursor: 'pointer',
-                    background: isSelected ? 'rgba(99, 102, 241, 0.2)' : 'transparent',
-                    borderLeft: isSelected ? '3px solid var(--primary)' : '3px solid transparent',
-                    transition: 'background 100ms ease'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '6px',
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'var(--primary)'
-                      }}
-                    >
-                      <Package size={16} />
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '0.875rem', fontWeight: 600 }}>
-                        {highlightMatch(item.name, query)}
-                      </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'flex', gap: '8px' }}>
-                        <span>SKU: {highlightMatch(item.sku, query)}</span>
-                        <span>•</span>
-                        <span style={{ color: 'var(--accent-cyan)' }}>{item.category}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ fontSize: '0.875rem', fontWeight: 700, color: '#34d399' }}>
-                      ${Number(item.price || 0).toFixed(2)}
-                    </span>
-                    <ArrowRight size={14} style={{ color: 'var(--text-muted)' }} />
-                  </div>
-                </div>
-              );
-            })}
+        <div ref={dropdownRef} id="autocomplete-dropdown" className="search-dropdown" role="listbox" aria-label="Product suggestions">
+          <div className="search-dropdown-heading"><span>Products</span><span>{suggestions.length} results</span></div>
+          <div className="search-results">
+            {suggestions.map((item, idx) => <button type="button" key={item.productId || item.sku}
+              id={`search-option-${idx}`} className={`search-result${idx === selectedIndex ? ' selected' : ''}`}
+              role="option" aria-selected={idx === selectedIndex} onClick={() => handleSelect(item)}
+              onMouseEnter={() => setSelectedIndex(idx)}>
+              <span className="product-avatar"><Package size={16} /></span>
+              <span className="search-result-text"><strong>{highlightMatch(item.name, query)}</strong><small>{highlightMatch(item.sku, query)}{item.category ? ` · ${item.category}` : ''}</small></span>
+              <span className="search-price">${Number(item.price || 0).toFixed(2)}</span><ArrowRight size={14} />
+            </button>)}
           </div>
-
-          {/* Autocomplete Footer Bar with Metrics */}
-          <div
-            style={{
-              padding: '6px 14px',
-              background: 'rgba(0, 0, 0, 0.4)',
-              borderTop: '1px solid var(--border-subtle)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              fontSize: '0.72rem',
-              color: 'var(--text-muted)'
-            }}
-          >
-            <span>Navigate: <kbd>↑</kbd> <kbd>↓</kbd> Select: <kbd>↵</kbd></span>
-            <span>
-              Trie Nodes: <strong>{globalProductTrie.nodeCount}</strong> | Saved API Calls: <strong>{requestsSaved}</strong>
-            </span>
-          </div>
+          <div className="search-footer" title={`Source: ${searchSource}; lookup: ${latencyMs ?? '—'}ms; saved requests: ${requestsSaved}`}><span><kbd>↑</kbd><kbd>↓</kbd> to navigate</span><span><CornerDownLeft size={12} /> to select</span></div>
         </div>
       )}
     </div>
   );
 }
 
-function varRadius(val) {
-  return val;
-}
+function varRadius(value) { return value; }

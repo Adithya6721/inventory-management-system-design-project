@@ -1,6 +1,6 @@
 /**
  * In-Memory Trie Data Structure for Fast Product Search & Autocomplete
- * System Design Deliverable (Member 4)
+ * Search component
  * Provides sub-millisecond prefix search over SKUs, Product Names, and Categories.
  */
 
@@ -150,7 +150,7 @@ export class ProductTrie {
   }
 
   /**
-   * Metrics and statistics for Deliverable 4 Evaluation
+   * Metrics and statistics for search performance
    */
   getStats() {
     const avgLatency = this.lookupHistory.length > 0

@@ -1,7 +1,7 @@
 /**
  * REST API Client for Scalable Inventory Management System
- * Integrates with Member 1's backend services and handles
- * Member 3's Rate Limiter (429) & Atomic Conflict (409) responses.
+ * Integrates with backend services and handles
+ * Rate Limiter (429) & Atomic Conflict (409) responses.
  */
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
@@ -35,7 +35,7 @@ class ApiClient {
         headers
       });
 
-      // Special System Design Handling: 429 Too Many Requests (Member 3 Rate Limiter)
+      // Special System Design Handling: 429 Too Many Requests (Rate Limiter)
       if (response.status === 429) {
         const errorData = await response.json().catch(() => ({}));
         this.notifyRateLimit({
@@ -49,7 +49,7 @@ class ApiClient {
         throw err;
       }
 
-      // Special Handling: 409 Conflict (Member 1 Overselling Protection & Duplicate SKU)
+      // Special Handling: 409 Conflict (Overselling Protection & Duplicate SKU)
       if (response.status === 409) {
         const errorData = await response.json().catch(() => ({}));
         const err = new Error(errorData.message || 'Stock conflict or duplicate SKU detected (HTTP 409).');
@@ -78,7 +78,7 @@ class ApiClient {
     }
   }
 
-  // --- 1. Products (FR1, FR2) ---
+  // --- 1. Products ---
   getProducts(query = '', category = '', page = 0, size = 50) {
     const params = new URLSearchParams();
     if (query) params.append('query', query);
@@ -112,7 +112,7 @@ class ApiClient {
     });
   }
 
-  // --- 2. Warehouses (FR5) ---
+  // --- 2. Warehouses ---
   getWarehouses() {
     return this.request('/warehouses');
   }
@@ -128,7 +128,7 @@ class ApiClient {
     return this.request(`/warehouses/${warehouseId}/inventory`);
   }
 
-  // --- 3. Inventory & Auditing (FR3, FR4) ---
+  // --- 3. Inventory & Auditing ---
   getInventoryByProduct(productId) {
     return this.request(`/inventory/${productId}`);
   }
@@ -148,7 +148,7 @@ class ApiClient {
     return this.request(`/inventory/${productId}/movements`);
   }
 
-  // --- 4. Purchase Orders (FR6) ---
+  // --- 4. Purchase Orders ---
   createPurchaseOrder(po) {
     return this.request('/purchase-orders', {
       method: 'POST',
@@ -163,7 +163,7 @@ class ApiClient {
     });
   }
 
-  // --- 5. Sales Orders (FR7 - Concurrency & Atomic Reservation) ---
+  // --- 5. Sales Orders ---
   createSalesOrder(order) {
     return this.request('/sales-orders', {
       method: 'POST',
@@ -183,7 +183,7 @@ class ApiClient {
     });
   }
 
-  // --- 6. Stock Transfers (FR8) ---
+  // --- 6. Stock Transfers ---
   createTransfer(transfer) {
     return this.request('/transfers', {
       method: 'POST',
@@ -197,12 +197,12 @@ class ApiClient {
     });
   }
 
-  // --- 7. Low Stock Alerts (FR9) ---
+  // --- 7. Low Stock Alerts ---
   getLowStockAlerts() {
     return this.request('/alerts/low-stock');
   }
 
-  // --- 8. Supplier Import (FR10 / Member 5 Integration) ---
+  // --- 8. Supplier Import ---
   importSuppliers(payload) {
     return this.request('/suppliers/import', {
       method: 'POST',

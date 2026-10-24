@@ -17,15 +17,33 @@ import SystemDesignLab from './pages/SystemDesignLab';
 import { api } from './services/api';
 import { globalProductTrie } from './services/trie';
 
+function preference(key, fallback) {
+  try { return localStorage.getItem(key) || fallback; } catch { return fallback; }
+}
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [products, setProducts] = useState([]);
+  const [productCount, setProductCount] = useState(0);
   const [warehouses, setWarehouses] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [backendConnected, setBackendConnected] = useState(true);
   const [toasts, setToasts] = useState([]);
   const [inspectedProduct, setInspectedProduct] = useState(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => preference('aetherstock.sidebar', 'expanded') === 'collapsed');
+  const [theme, setTheme] = useState(() => preference('aetherstock.theme', 'light'));
+  const [createRequest, setCreateRequest] = useState(null);
+  const finishCreateRequest = useCallback(() => setCreateRequest(null), []);
+  const openCreate = tab => { setCreateRequest(tab); setActiveTab(tab); };
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem('aetherstock.theme', theme); } catch { /* Storage is optional. */ }
+  }, [theme]);
+  useEffect(() => {
+    try { localStorage.setItem('aetherstock.sidebar', sidebarCollapsed ? 'collapsed' : 'expanded'); } catch { /* Storage is optional. */ }
+  }, [sidebarCollapsed]);
 
   // Toast Helper
   const showToast = useCallback((toast) => {
@@ -40,13 +58,13 @@ export default function App() {
     setToasts(prev => prev.filter(t => t.id !== id));
   }, []);
 
-  // Listen for Member 3's HTTP 429 Rate Limit events
+  // Listen for HTTP 429 Rate Limit events
   useEffect(() => {
     const unsubscribe = api.onRateLimit((detail) => {
       showToast({
         type: 'ratelimit',
         title: 'HTTP 429 Rate Limit Exceeded',
-        message: detail.message || 'Token bucket exhausted. Member 3 traffic limiter activated.'
+        message: detail.message || 'Too many requests. Please wait before retrying.'
       });
     });
     return unsubscribe;
@@ -57,13 +75,14 @@ export default function App() {
     setLoading(true);
     try {
       const [prodRes, whRes, alertRes] = await Promise.all([
-        api.getProducts('', '', 0, 100).catch(() => ({ content: [] })),
-        api.getWarehouses().catch(() => []),
-        api.getLowStockAlerts().catch(() => [])
+        api.getProducts('', '', 0, 100),
+        api.getWarehouses(),
+        api.getLowStockAlerts()
       ]);
 
       const loadedProducts = prodRes.content || [];
       setProducts(loadedProducts);
+      setProductCount(prodRes.totalElements ?? loadedProducts.length);
       setWarehouses(whRes || []);
       setAlerts(alertRes || []);
       setBackendConnected(true);
@@ -100,12 +119,14 @@ export default function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className={`app-container${sidebarCollapsed ? ' sidebar-is-collapsed' : ''}`}>
       {/* Fixed Sidebar */}
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         lowStockCount={alerts.length}
+        collapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed(current => !current)}
       />
 
       {/* Main Layout Area */}
@@ -116,25 +137,34 @@ export default function App() {
           lowStockCount={alerts.length}
           backendConnected={backendConnected}
           onSelectProduct={(p) => setInspectedProduct(p)}
+          theme={theme}
+          onToggleTheme={() => setTheme(current => current === 'light' ? 'dark' : 'light')}
+          onRefresh={loadInitialData}
+          refreshing={loading}
         />
 
         {/* Dynamic Page Body */}
         <main className="page-body">
+          <div className="page-view" data-page={activeTab}>
           {activeTab === 'dashboard' && (
             <Dashboard
               products={products}
+              productCount={productCount}
               warehouses={warehouses}
               alerts={alerts}
               setActiveTab={setActiveTab}
-              onOpenCreateProduct={() => setActiveTab('products')}
-              onOpenCreatePO={() => setActiveTab('purchase')}
-              onOpenCreateSale={() => setActiveTab('sales')}
-              onOpenTransfer={() => setActiveTab('transfers')}
+              onOpenCreateProduct={() => openCreate('products')}
+              onOpenCreatePO={() => openCreate('purchase')}
+              onOpenCreateSale={() => openCreate('sales')}
+              onOpenTransfer={() => openCreate('transfers')}
+              onSelectProduct={setInspectedProduct}
             />
           )}
 
           {activeTab === 'products' && (
             <ProductCatalog
+              createRequested={createRequest === 'products'}
+              onCreateRequestHandled={finishCreateRequest}
               products={products}
               loading={loading}
               onRefresh={loadInitialData}
@@ -156,6 +186,8 @@ export default function App() {
 
           {activeTab === 'purchase' && (
             <PurchaseOrders
+              createRequested={createRequest === 'purchase'}
+              onCreateRequestHandled={finishCreateRequest}
               warehouses={warehouses}
               products={products}
               onShowToast={showToast}
@@ -165,6 +197,8 @@ export default function App() {
 
           {activeTab === 'sales' && (
             <SalesOrders
+              createRequested={createRequest === 'sales'}
+              onCreateRequestHandled={finishCreateRequest}
               warehouses={warehouses}
               products={products}
               onShowToast={showToast}
@@ -174,6 +208,8 @@ export default function App() {
 
           {activeTab === 'transfers' && (
             <StockTransfers
+              createRequested={createRequest === 'transfers'}
+              onCreateRequestHandled={finishCreateRequest}
               warehouses={warehouses}
               products={products}
               onShowToast={showToast}
@@ -201,12 +237,14 @@ export default function App() {
 
           {activeTab === 'system-design' && (
             <SystemDesignLab
+              onNavigate={setActiveTab}
               products={products}
               warehouses={warehouses}
               onShowToast={showToast}
               onRefreshAll={loadInitialData}
             />
           )}
+          </div>
         </main>
       </div>
 

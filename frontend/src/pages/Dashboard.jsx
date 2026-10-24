@@ -1,255 +1,60 @@
-import React from 'react';
-import {
-  Package,
-  Warehouse,
-  AlertTriangle,
-  Zap,
-  TrendingUp,
-  Cpu,
-  ArrowRight,
-  ShieldCheck,
-  Database,
-  Layers
-} from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowUpRight, ArrowRight, Plus, Package, Warehouse, CheckCircle2, ArrowDownToLine,
+  ShoppingCart, ArrowLeftRight, MapPin, Circle, ChevronRight } from 'lucide-react';
 
-export default function Dashboard({
-  products = [],
-  warehouses = [],
-  alerts = [],
-  setActiveTab,
-  onOpenCreateProduct,
-  onOpenCreatePO,
-  onOpenCreateSale,
-  onOpenTransfer
-}) {
-  const lowStockCount = alerts.length;
+export default function Dashboard({ products = [], productCount = products.length, warehouses = [], alerts = [],
+  setActiveTab, onOpenCreateProduct, onOpenCreatePO, onOpenCreateSale, onOpenTransfer, onSelectProduct }) {
   const activeWarehouses = warehouses.filter(w => w.status === 'ACTIVE').length;
-
+  const catalog = [...products].sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)).slice(0, 5);
+  const [date] = useState(() => new Intl.DateTimeFormat('en', { weekday: 'short', month: 'short', day: 'numeric' }).format(new Date()));
   return (
-    <div>
-      {/* Top Banner / Welcome */}
-      <div style={{
-        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.1))',
-        border: '1px solid var(--border-glass)',
-        borderRadius: '16px',
-        padding: '24px 28px',
-        marginBottom: '28px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '20px'
-      }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-            <span className="badge badge-indigo">System Design Laboratory</span>
-            <span className="badge badge-cyan">Topic 4: Scalable IMS</span>
-          </div>
-          <h1 style={{ fontSize: '1.75rem', marginBottom: '8px' }}>
-            Inventory Management Dashboard
-          </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', maxWidth: '640px' }}>
-            High-concurrency distributed inventory platform featuring atomic stock reservations, 
-            consistent shard routing, sub-millisecond Trie autocomplete, and live audit reconciliation.
-          </p>
-        </div>
-
-        {/* Quick Launch Buttons */}
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          <button className="btn btn-primary" onClick={onOpenCreateProduct}>
-            <Package size={16} /> Add Product
-          </button>
-          <button className="btn btn-secondary" onClick={onOpenCreatePO}>
-            Receive Stock
-          </button>
-          <button className="btn btn-secondary" onClick={onOpenCreateSale}>
-            Place Sale Order
-          </button>
+    <div className="overview">
+      <div className="page-heading">
+        <div><div className="eyebrow">WORKSPACE OVERVIEW <span> / </span> {date}</div><h1>Overview</h1><p>Monitor inventory, stock movements, and warehouse operations.</p></div>
+        <div className="page-actions">
+          <button className="btn btn-secondary" onClick={onOpenCreatePO}><ArrowDownToLine size={15} /> Receive stock</button>
+          <button className="btn btn-secondary" onClick={onOpenCreateSale}><ShoppingCart size={15} /> Create sales order</button>
+          <button className="btn btn-primary" onClick={onOpenCreateProduct}><Plus size={16} /> Add product</button>
         </div>
       </div>
-
-      {/* KPI Stats Grid */}
-      <div className="stats-grid">
-        <div className="stat-card" style={{ '--stat-accent': 'var(--primary)', cursor: 'pointer' }} onClick={() => setActiveTab('products')}>
-          <div className="stat-icon" style={{ '--stat-icon-bg': 'var(--primary-light)', '--stat-icon-color': 'var(--primary)' }}>
-            <Package size={24} />
-          </div>
-          <div>
-            <div className="stat-val">{products.length}</div>
-            <div className="stat-lbl">Registered Products</div>
-          </div>
-        </div>
-
-        <div className="stat-card" style={{ '--stat-accent': 'var(--accent-cyan)', cursor: 'pointer' }} onClick={() => setActiveTab('warehouses')}>
-          <div className="stat-icon" style={{ '--stat-icon-bg': 'var(--accent-cyan-light)', '--stat-icon-color': 'var(--accent-cyan)' }}>
-            <Warehouse size={24} />
-          </div>
-          <div>
-            <div className="stat-val">{warehouses.length}</div>
-            <div className="stat-lbl">Warehouses ({activeWarehouses} Active)</div>
-          </div>
-        </div>
-
-        <div className="stat-card" style={{ '--stat-accent': 'var(--accent-rose)', cursor: 'pointer' }} onClick={() => setActiveTab('alerts')}>
-          <div className="stat-icon" style={{ '--stat-icon-bg': 'var(--accent-rose-light)', '--stat-icon-color': 'var(--accent-rose)' }}>
-            <AlertTriangle size={24} />
-          </div>
-          <div>
-            <div className="stat-val" style={{ color: lowStockCount > 0 ? 'var(--accent-rose)' : 'inherit' }}>
-              {lowStockCount}
-            </div>
-            <div className="stat-lbl">Low Stock Alerts</div>
-          </div>
-        </div>
-
-        <div className="stat-card" style={{ '--stat-accent': 'var(--accent-emerald)', cursor: 'pointer' }} onClick={() => setActiveTab('autocomplete')}>
-          <div className="stat-icon" style={{ '--stat-icon-bg': 'var(--accent-emerald-light)', '--stat-icon-color': 'var(--accent-emerald)' }}>
-            <Zap size={24} />
-          </div>
-          <div>
-            <div className="stat-val">&lt; 2ms</div>
-            <div className="stat-lbl">Trie Search Latency</div>
-          </div>
+      <section className="overview-metrics" aria-label="Workspace summary">
+        <button className="metric" onClick={() => setActiveTab('products')}><span className="metric-label">Catalog products <ArrowUpRight size={15} /></span><strong>{productCount.toLocaleString()}</strong><span className="metric-note">Products registered in your catalog</span></button>
+        <button className="metric" onClick={() => setActiveTab('warehouses')}><span className="metric-label">Active warehouses <ArrowUpRight size={15} /></span><strong>{activeWarehouses.toLocaleString()}<small> / {warehouses.length}</small></strong><span className="metric-note">Facilities available for stock operations</span></button>
+        <button className={`metric${alerts.length ? ' has-attention' : ''}`} onClick={() => setActiveTab('alerts')}><span className="metric-label">Needs replenishment <ArrowUpRight size={15} /></span><strong>{alerts.length.toLocaleString()}</strong><span className="metric-note">Product and warehouse stock alerts</span></button>
+      </section>
+      <div className="overview-grid">
+        <section className="panel catalog-panel">
+          <div className="panel-heading"><div><h2>Product catalog</h2><p>A snapshot of the products you manage.</p></div><button className="text-button" onClick={() => setActiveTab('products')}>View catalog <ArrowRight size={14} /></button></div>
+          <div className="table-container overview-table"><table className="table"><thead><tr><th>Product</th><th>SKU</th><th>Reorder point</th><th>Status</th><th><span className="sr-only">Details</span></th></tr></thead>
+            <tbody>{catalog.map(product => <tr key={product.productId} onClick={() => onSelectProduct(product)} className="clickable-row">
+              <td><button className="product-cell" onClick={event => { event.stopPropagation(); onSelectProduct(product); }}><span className="product-avatar"><Package size={17} /></span><span><strong>{product.name}</strong><small>{product.category || 'Uncategorized'}</small></span></button></td>
+              <td><code>{product.sku}</code></td><td>{product.reorderLevel} units</td><td><span className={`status-label ${product.active ? 'is-success' : 'is-muted'}`}><i />{product.active ? 'Active' : 'Inactive'}</span></td><td><ChevronRight size={15} /></td>
+            </tr>)}</tbody></table></div>
+          {!catalog.length && <div className="catalog-empty"><div className="empty-symbol"><Package size={27} strokeWidth={1.4} /></div><h3>Your catalog starts here</h3><p>Add your first product to start tracking stock<br className="desktop-break" /> across your warehouses.</p><button className="btn btn-secondary" onClick={onOpenCreateProduct}><Plus size={15} /> Add your first product</button></div>}
+          <div className="panel-footer"><span>{catalog.length ? `Showing ${catalog.length} of ${productCount} products` : 'No products registered yet'}</span><span>Product details & stock availability</span></div>
+        </section>
+        <div className="overview-aside">
+          <section className="panel attention-panel"><div className="panel-heading"><h2>Needs attention</h2><span className="quiet-count">{alerts.length}</span></div>
+            {alerts.length ? <div className="attention-list">{alerts.slice(0, 3).map(alert => {
+              const product = products.find(p => p.productId === alert.productId);
+              const warehouse = warehouses.find(w => w.warehouseId === alert.warehouseId);
+              return <button key={alert.alertId || `${alert.productId}:${alert.warehouseId}`} className="attention-row" onClick={() => setActiveTab('alerts')}><span className="attention-indicator" /><span><strong>{product?.name || alert.productId}</strong><small>{warehouse?.name || 'Warehouse'} · {alert.availableQuantity} available</small></span><span className="status-label is-warning">Low stock</span></button>;
+            })}<button className="text-button" onClick={() => setActiveTab('alerts')}>Review stock alerts <ArrowRight size={14} /></button></div>
+              : <div className="attention-empty"><CheckCircle2 size={23} strokeWidth={1.5} /><div><h3>No active stock alerts</h3><p>Replenishment needs will appear here<br /> as you receive and move inventory.</p></div></div>}
+          </section>
+          <section className="panel warehouse-panel"><div className="panel-heading"><h2>Warehouse network</h2><button className="text-button" onClick={() => setActiveTab('warehouses')} aria-label="View warehouses"><ArrowUpRight size={16} /></button></div>
+            {warehouses.length ? <div className="warehouse-list">{warehouses.slice(0, 3).map(warehouse => <button key={warehouse.warehouseId} onClick={() => setActiveTab('warehouses')}><Warehouse size={18} /><span><strong>{warehouse.name}</strong><small><MapPin size={11} />{warehouse.location || 'No location set'}</small></span><Circle size={7} className={warehouse.status === 'ACTIVE' ? 'warehouse-active' : ''} /></button>)}</div>
+              : <div className="warehouse-empty"><Warehouse size={24} strokeWidth={1.4} /><h3>Connect your first warehouse</h3><p>Track inventory by facility and location.</p><button className="text-button" onClick={() => setActiveTab('warehouses')}>Add a warehouse <ArrowRight size={14} /></button></div>}
+          </section>
         </div>
       </div>
-
-      {/* Main Grid: Architecture & Team Responsibilities */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: '24px' }}>
-        {/* System Design Component Mapping Card */}
-        <div className="card">
-          <div className="card-header">
-            <div>
-              <h3 style={{ fontSize: '1.125rem' }}>System Design Component Mapping</h3>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                Blueprint architecture mapping 8 system-design components
-              </p>
-            </div>
-            <span className="badge badge-indigo">All 5 Members</span>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '12px',
-              background: 'rgba(255, 255, 255, 0.02)',
-              borderRadius: '8px',
-              border: '1px solid var(--border-subtle)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Zap size={18} style={{ color: 'var(--accent-cyan)' }} />
-                <div>
-                  <div style={{ fontSize: '0.875rem', fontWeight: 600 }}>Autocomplete Engine (Member 4)</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Prefix Trie, debouncing, & client telemetry</div>
-                </div>
-              </div>
-              <button className="btn btn-secondary" style={{ padding: '4px 10px', fontSize: '0.75rem' }} onClick={() => setActiveTab('autocomplete')}>
-                Inspect <ArrowRight size={12} />
-              </button>
-            </div>
-
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '12px',
-              background: 'rgba(255, 255, 255, 0.02)',
-              borderRadius: '8px',
-              border: '1px solid var(--border-subtle)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Database size={18} style={{ color: '#818cf8' }} />
-                <div>
-                  <div style={{ fontSize: '0.875rem', fontWeight: 600 }}>Core Inventory & Atomicity (Member 1)</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>MongoDB conditional updates & 0 overselling</div>
-                </div>
-              </div>
-              <span className="badge badge-emerald">Verified</span>
-            </div>
-
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '12px',
-              background: 'rgba(255, 255, 255, 0.02)',
-              borderRadius: '8px',
-              border: '1px solid var(--border-subtle)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Layers size={18} style={{ color: '#fbbf24' }} />
-                <div>
-                  <div style={{ fontSize: '0.875rem', fontWeight: 600 }}>Consistent Hashing & Sharding (Member 2)</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>InventoryPersistencePort router</div>
-                </div>
-              </div>
-              <span className="badge badge-amber">Interface Ready</span>
-            </div>
-
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '12px',
-              background: 'rgba(255, 255, 255, 0.02)',
-              borderRadius: '8px',
-              border: '1px solid var(--border-subtle)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <ShieldCheck size={18} style={{ color: '#fb7185' }} />
-                <div>
-                  <div style={{ fontSize: '0.875rem', fontWeight: 600 }}>Redis & Rate Limiting (Member 3)</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Token Bucket (429) & Cache-Aside</div>
-                </div>
-              </div>
-              <button className="btn btn-secondary" style={{ padding: '4px 10px', fontSize: '0.75rem' }} onClick={() => setActiveTab('system-design')}>
-                Test <ArrowRight size={12} />
-              </button>
-            </div>
-          </div>
+      <section className="operations-section"><div className="section-heading"><h2>Operations</h2><p>Create orders and move inventory.</p></div>
+        <div className="operation-links">
+          {[{ title: 'Receive inventory', description: 'Bring supplier stock into a warehouse.', icon: ArrowDownToLine, action: onOpenCreatePO },
+            { title: 'Create a sales order', description: 'Reserve available stock for fulfilment.', icon: ShoppingCart, action: onOpenCreateSale },
+            { title: 'Transfer stock', description: 'Move inventory between your facilities.', icon: ArrowLeftRight, action: onOpenTransfer }].map(({ title, description, icon: Icon, action }) => <button key={title} className="operation-link" onClick={action}><Icon size={20} strokeWidth={1.5} /><span><strong>{title}</strong><small>{description}</small></span><ArrowUpRight size={16} /></button>)}
         </div>
-
-        {/* Live Lab Demonstration Script Card */}
-        <div className="card">
-          <div className="card-header">
-            <div>
-              <h3 style={{ fontSize: '1.125rem' }}>10-Minute Final Demo Flow</h3>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                Guided evaluation steps as defined in Section 6.2 of the project design
-              </p>
-            </div>
-            <span className="badge badge-cyan">Demo Checklist</span>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.8125rem' }}>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700 }}>1</span>
-              <span><strong>Register Product & Warehouses:</strong> Create item with SKU and minimum 2 warehouses.</span>
-            </div>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700 }}>2</span>
-              <span><strong>Receive Purchase Order:</strong> Stock arrival into destination facility.</span>
-            </div>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700 }}>3</span>
-              <span><strong>Trie Autocomplete Search:</strong> Type prefix, observe sub-2ms lookup & match highlighting.</span>
-            </div>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700 }}>4</span>
-              <span><strong>Sales Order & Concurrency:</strong> Demonstrate atomic reservation & graceful 409 rejection on insufficient stock.</span>
-            </div>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700 }}>5</span>
-              <span><strong>Inter-Warehouse Stock Transfer:</strong> Track <code>INITIATED</code> → <code>IN_TRANSIT</code> → <code>COMPLETED</code>.</span>
-            </div>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <span style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700 }}>6</span>
-              <span><strong>Low-Stock Alert Trigger:</strong> Stock dropping below reorderLevel immediately alerts in navbar.</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
   );
 }

@@ -1,16 +1,37 @@
-# React + Vite
+# AetherStock frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A React and Vite inventory workspace for products, warehouse stock, purchase and
+sales orders, transfers, and replenishment alerts.
 
-Currently, two official plugins are available:
+## Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```powershell
+npm ci
+npm run dev
+```
 
-## React Compiler
+The frontend uses port 3000. Its default `/api` proxy targets localhost:8080.
+Set `VITE_API_BASE_URL` before starting Vite to use a different API, for example
+`http://127.0.0.1:8081/api` for the isolated walkthrough.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```powershell
+npm run build
+npm run lint
+node --test src/services/idempotency.test.mjs
+```
 
-## Expanding the Oxlint configuration
+## Interface
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- The Overview presents real catalog, warehouse and replenishment data, with
+  explicit empty states and shortcuts to the existing creation forms.
+- The sidebar groups Workspace, Operations and Developer destinations. Collapse
+  preference persists locally. Every destination remains available in compact mode.
+- Light mode is the default; the header theme control enables a neutral dark mode.
+- Global product search retains Trie suggestions, API fallback, arrow/Enter
+  selection and the `/` shortcut. Form fields do not lose focus to that shortcut.
+- Architecture contains component mappings, the inventory lifecycle and existing
+  interactive technical checks. Autocomplete contains the prefix-search tools.
+- Tokens and shared controls live in `src/index.css`, overview styling in
+  `src/App.css`, and search styling in `src/styles/search.css`.
+
+The backend API and consistency guarantees are unchanged by the visual redesign.

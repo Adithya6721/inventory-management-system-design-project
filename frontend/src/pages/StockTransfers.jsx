@@ -1,9 +1,12 @@
+import useCreateRequest from '../hooks/useCreateRequest';
 import React, { useState } from 'react';
 import { ArrowLeftRight, Plus, CheckCircle, Truck, AlertCircle } from 'lucide-react';
 import { api } from '../services/api';
 import { pendingCreate, completeCreate } from '../services/idempotency';
 
 export default function StockTransfers({
+  createRequested = false,
+  onCreateRequestHandled,
   warehouses = [],
   products = [],
   onShowToast,
@@ -11,6 +14,7 @@ export default function StockTransfers({
 }) {
   const [transfers, setTransfers] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  useCreateRequest(createRequested, onCreateRequestHandled, setShowCreateModal);
   const [submitting, setSubmitting] = useState(false);
 
   // Form state
@@ -92,9 +96,9 @@ export default function StockTransfers({
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
-          <h1 style={{ fontSize: '1.5rem', marginBottom: '4px' }}>Inter-Warehouse Stock Transfers</h1>
+          <h1 style={{ fontSize: '1.875rem', marginBottom: '4px' }}>Stock transfers</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Multi-stage movements with IN_TRANSIT state preventing duplicate allocation across nodes (FR8)
+            Multi-stage movements with IN_TRANSIT state preventing duplicate allocation across nodes
           </p>
         </div>
         <button id="btn-initiate-transfer" className="btn btn-primary" onClick={() => setShowCreateModal(true)}>
@@ -192,20 +196,20 @@ export default function StockTransfers({
       {/* Initiate Transfer Modal */}
       {showCreateModal && (
         <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <h2 style={{ fontSize: '1.25rem', marginBottom: '6px' }}>Initiate Stock Transfer (FR8)</h2>
+          <div className="modal-content" role="dialog" aria-modal="true" aria-label="Stock transfer" onClick={e => e.stopPropagation()}>
+            <h2 style={{ fontSize: '1.25rem', marginBottom: '6px' }}>Initiate Stock Transfer</h2>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
-              Transfers units out of origin into <code>IN_TRANSIT</code> state until delivery receipt.
+              Dispatch stock from one warehouse and confirm receipt at its destination.
             </p>
 
             {transferError && (
               <div style={{
-                background: 'rgba(244, 63, 94, 0.15)',
+                background: 'var(--accent-rose-light)',
                 border: '1px solid var(--accent-rose)',
                 borderRadius: '8px',
                 padding: '12px',
                 marginBottom: '16px',
-                color: '#fb7185',
+                color: 'var(--accent-rose)',
                 fontSize: '0.8125rem',
                 display: 'flex',
                 gap: '8px',
@@ -219,8 +223,8 @@ export default function StockTransfers({
             <form onSubmit={handleInitiateTransfer}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div className="form-group">
-                  <label className="form-label">Source Warehouse *</label>
-                  <select
+                  <label className="form-label" htmlFor="stocktransfers-field-1">Source Warehouse *</label>
+                  <select id="stocktransfers-field-1"
                     className="form-select"
                     value={sourceWarehouseId}
                     onChange={e => setSourceWarehouseId(e.target.value)}
@@ -236,8 +240,8 @@ export default function StockTransfers({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Destination Warehouse *</label>
-                  <select
+                  <label className="form-label" htmlFor="stocktransfers-field-2">Destination Warehouse *</label>
+                  <select id="stocktransfers-field-2"
                     className="form-select"
                     value={destWarehouseId}
                     onChange={e => setDestWarehouseId(e.target.value)}
@@ -255,8 +259,8 @@ export default function StockTransfers({
 
               <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '14px' }}>
                 <div className="form-group">
-                  <label className="form-label">Product to Move *</label>
-                  <select
+                  <label className="form-label" htmlFor="stocktransfers-field-3">Product to Move *</label>
+                  <select id="stocktransfers-field-3"
                     className="form-select"
                     value={selectedProductId}
                     onChange={e => setSelectedProductId(e.target.value)}
@@ -272,8 +276,8 @@ export default function StockTransfers({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Quantity *</label>
-                  <input
+                  <label className="form-label" htmlFor="stocktransfers-field-4">Quantity *</label>
+                  <input id="stocktransfers-field-4"
                     type="number"
                     min="1"
                     className="form-input"

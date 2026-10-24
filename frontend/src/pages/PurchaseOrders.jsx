@@ -1,28 +1,20 @@
+import useCreateRequest from '../hooks/useCreateRequest';
 import React, { useState } from 'react';
 import { ShoppingBag, Plus, CheckCircle, Package, ArrowDownLeft, Clock } from 'lucide-react';
 import { api } from '../services/api';
 import { pendingCreate, completeCreate } from '../services/idempotency';
 
 export default function PurchaseOrders({
+  createRequested = false,
+  onCreateRequestHandled,
   warehouses = [],
   products = [],
   onShowToast,
   onRefreshAll
 }) {
-  const [purchaseOrders, setPurchaseOrders] = useState([
-    // Seed sample state for immediate UI readiness if backend hasn't populated yet
-    {
-      orderId: 'po_demo_101',
-      supplierId: 'sup_apple_distributors',
-      destinationWarehouseId: warehouses[0]?.warehouseId || 'wh_central',
-      items: [
-        { productId: products[0]?.productId || 'prod_mac', quantity: 100, receivedQuantity: 100 }
-      ],
-      status: 'RECEIVED',
-      createdAt: new Date(Date.now() - 3600000).toISOString()
-    }
-  ]);
+  const [purchaseOrders, setPurchaseOrders] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  useCreateRequest(createRequested, onCreateRequestHandled, setShowCreateModal);
   const [submitting, setSubmitting] = useState(false);
 
   // Form state
@@ -110,9 +102,9 @@ export default function PurchaseOrders({
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
-          <h1 style={{ fontSize: '1.5rem', marginBottom: '4px' }}>Purchase Orders & Receipts</h1>
+          <h1 style={{ fontSize: '1.875rem', marginBottom: '4px' }}>Purchase orders</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Inbound stock accounting from suppliers into destination warehouses (FR6)
+            Manage supplier orders and receive inventory into your warehouses.
           </p>
         </div>
         <button id="btn-create-po" className="btn btn-primary" onClick={() => setShowCreateModal(true)}>
@@ -136,6 +128,7 @@ export default function PurchaseOrders({
               </tr>
             </thead>
             <tbody>
+              {purchaseOrders.length === 0 && <tr><td colSpan={7}><div className="purchase-empty"><ShoppingBag size={28} strokeWidth={1.4} /><h3>No purchase orders yet</h3><p>Create an order to receive supplier inventory into a warehouse.</p></div></td></tr>}
               {purchaseOrders.map(po => {
                 const wh = warehouses.find(w => w.warehouseId === po.destinationWarehouseId);
                 const isFullyReceived = po.status === 'RECEIVED';
@@ -196,16 +189,16 @@ export default function PurchaseOrders({
       {/* Create PO Modal */}
       {showCreateModal && (
         <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <h2 style={{ fontSize: '1.25rem', marginBottom: '6px' }}>Create Purchase Order (FR6)</h2>
+          <div className="modal-content" role="dialog" aria-modal="true" aria-label="Purchase order" onClick={e => e.stopPropagation()}>
+            <h2 style={{ fontSize: '1.25rem', marginBottom: '6px' }}>Create Purchase Order</h2>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
               Records incoming stock shipment from an external supplier.
             </p>
 
             <form onSubmit={handleCreatePO}>
               <div className="form-group">
-                <label className="form-label">Supplier Identifier *</label>
-                <input
+                <label className="form-label" htmlFor="purchaseorders-field-1">Supplier Identifier *</label>
+                <input id="purchaseorders-field-1"
                   type="text"
                   className="form-input"
                   value={supplierId}
@@ -216,8 +209,8 @@ export default function PurchaseOrders({
               </div>
 
               <div className="form-group">
-                <label className="form-label">Destination Warehouse *</label>
-                <select
+                <label className="form-label" htmlFor="purchaseorders-field-2">Destination Warehouse *</label>
+                <select id="purchaseorders-field-2"
                   className="form-select"
                   value={destWarehouseId}
                   onChange={e => setDestWarehouseId(e.target.value)}
@@ -234,8 +227,8 @@ export default function PurchaseOrders({
 
               <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '14px' }}>
                 <div className="form-group">
-                  <label className="form-label">Product to Order *</label>
-                  <select
+                  <label className="form-label" htmlFor="purchaseorders-field-3">Product to Order *</label>
+                  <select id="purchaseorders-field-3"
                     className="form-select"
                     value={selectedProductId}
                     onChange={e => setSelectedProductId(e.target.value)}
@@ -251,8 +244,8 @@ export default function PurchaseOrders({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Quantity *</label>
-                  <input
+                  <label className="form-label" htmlFor="purchaseorders-field-4">Quantity *</label>
+                  <input id="purchaseorders-field-4"
                     type="number"
                     min="1"
                     className="form-input"

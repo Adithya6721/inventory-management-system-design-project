@@ -1,9 +1,12 @@
+import useCreateRequest from '../hooks/useCreateRequest';
 import React, { useState } from 'react';
 import { ShoppingCart, Plus, Check, X, ShieldAlert, ArrowUpRight, AlertTriangle } from 'lucide-react';
 import { api } from '../services/api';
 import { pendingCreate, completeCreate } from '../services/idempotency';
 
 export default function SalesOrders({
+  createRequested = false,
+  onCreateRequestHandled,
   warehouses = [],
   products = [],
   onShowToast,
@@ -11,6 +14,7 @@ export default function SalesOrders({
 }) {
   const [salesOrders, setSalesOrders] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  useCreateRequest(createRequested, onCreateRequestHandled, setShowCreateModal);
   const [submitting, setSubmitting] = useState(false);
 
   // Form state
@@ -103,9 +107,9 @@ export default function SalesOrders({
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
-          <h1 style={{ fontSize: '1.5rem', marginBottom: '4px' }}>Sales Orders & Atomic Reservations</h1>
+          <h1 style={{ fontSize: '1.875rem', marginBottom: '4px' }}>Sales orders</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Two-phase order fulfillment lifecycle with atomic reservation preventing negative stock (FR7)
+            Reserve stock, fulfil orders, and manage cancellations.
           </p>
         </div>
         <button id="btn-place-sales-order" className="btn btn-primary" onClick={() => setShowCreateModal(true)}>
@@ -218,20 +222,20 @@ export default function SalesOrders({
       {/* Place Order Modal */}
       {showCreateModal && (
         <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <h2 style={{ fontSize: '1.25rem', marginBottom: '6px' }}>Place Sales Order (FR7)</h2>
+          <div className="modal-content" role="dialog" aria-modal="true" aria-label="Sales order" onClick={e => e.stopPropagation()}>
+            <h2 style={{ fontSize: '1.25rem', marginBottom: '6px' }}>Place Sales Order</h2>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
-              Executes conditional atomic reservation at the database layer.
+              Reserve available inventory now, then fulfil or cancel the order.
             </p>
 
             {conflictError && (
               <div style={{
-                background: 'rgba(244, 63, 94, 0.15)',
+                background: 'var(--accent-rose-light)',
                 border: '1px solid var(--accent-rose)',
                 borderRadius: '8px',
                 padding: '12px',
                 marginBottom: '16px',
-                color: '#fb7185',
+                color: 'var(--accent-rose)',
                 fontSize: '0.8125rem',
                 display: 'flex',
                 gap: '8px',
@@ -244,8 +248,8 @@ export default function SalesOrders({
 
             <form onSubmit={handlePlaceOrder}>
               <div className="form-group">
-                <label className="form-label">Fulfillment Warehouse *</label>
-                <select
+                <label className="form-label" htmlFor="salesorders-field-1">Fulfillment Warehouse *</label>
+                <select id="salesorders-field-1"
                   className="form-select"
                   value={selectedWarehouseId}
                   onChange={e => setSelectedWarehouseId(e.target.value)}
@@ -262,8 +266,8 @@ export default function SalesOrders({
 
               <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '14px' }}>
                 <div className="form-group">
-                  <label className="form-label">Product *</label>
-                  <select
+                  <label className="form-label" htmlFor="salesorders-field-2">Product *</label>
+                  <select id="salesorders-field-2"
                     className="form-select"
                     value={selectedProductId}
                     onChange={e => setSelectedProductId(e.target.value)}
@@ -279,8 +283,8 @@ export default function SalesOrders({
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Quantity to Buy *</label>
-                  <input
+                  <label className="form-label" htmlFor="salesorders-field-3">Quantity to Buy *</label>
+                  <input id="salesorders-field-3"
                     type="number"
                     min="1"
                     className="form-input"
@@ -292,8 +296,8 @@ export default function SalesOrders({
               </div>
 
               <div style={{
-                background: 'rgba(99, 102, 241, 0.08)',
-                border: '1px solid rgba(99, 102, 241, 0.2)',
+                background: 'var(--primary-light)',
+                border: '1px solid var(--primary-light)',
                 borderRadius: '8px',
                 padding: '12px',
                 fontSize: '0.8125rem',

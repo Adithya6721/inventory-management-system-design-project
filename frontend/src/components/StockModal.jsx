@@ -93,7 +93,7 @@ export default function StockModal({ product, onClose, onOpenSales, onOpenTransf
             <div style={{ display: 'flex', gap: '12px', fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
               <span>SKU: <code style={{ color: 'var(--accent-cyan)' }}>{product.sku}</code></span>
               <span>Category: <strong>{product.category}</strong></span>
-              <span>Price: <strong style={{ color: '#34d399' }}>${Number(product.price).toFixed(2)}</strong></span>
+              <span>Price: <strong style={{ color: 'var(--accent-emerald)' }}>${Number(product.price).toFixed(2)}</strong></span>
             </div>
           </div>
           <button onClick={onClose} className="btn-secondary" style={{ padding: '6px', borderRadius: '50%' }}>
@@ -106,7 +106,7 @@ export default function StockModal({ product, onClose, onOpenSales, onOpenTransf
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '12px',
-          background: 'rgba(255, 255, 255, 0.02)',
+          background: 'var(--bg-glass-subtle)',
           border: '1px solid var(--border-subtle)',
           borderRadius: '10px',
           padding: '14px',
@@ -114,15 +114,15 @@ export default function StockModal({ product, onClose, onOpenSales, onOpenTransf
         }}>
           <div>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Total Physical Stock</div>
-            <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#f3f4f6' }}>{totalPhysical}</div>
+            <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>{totalPhysical}</div>
           </div>
           <div>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Reserved for Orders</div>
-            <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fbbf24' }}>{totalReserved}</div>
+            <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent-amber)' }}>{totalReserved}</div>
           </div>
           <div>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Real Available Stock</div>
-            <div style={{ fontSize: '1.25rem', fontWeight: 700, color: totalAvailable > 0 ? '#34d399' : '#fb7185' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 700, color: totalAvailable > 0 ? 'var(--accent-emerald)' : 'var(--accent-rose)' }}>
               {totalAvailable}
             </div>
           </div>
@@ -137,7 +137,7 @@ export default function StockModal({ product, onClose, onOpenSales, onOpenTransf
               background: 'transparent',
               border: 'none',
               borderBottom: activeTab === 'distribution' ? '2px solid var(--primary)' : '2px solid transparent',
-              color: activeTab === 'distribution' ? '#fff' : 'var(--text-secondary)',
+              color: activeTab === 'distribution' ? 'var(--text-primary)' : 'var(--text-secondary)',
               fontWeight: 600,
               fontSize: '0.875rem',
               cursor: 'pointer'
@@ -152,7 +152,7 @@ export default function StockModal({ product, onClose, onOpenSales, onOpenTransf
               background: 'transparent',
               border: 'none',
               borderBottom: activeTab === 'history' ? '2px solid var(--primary)' : '2px solid transparent',
-              color: activeTab === 'history' ? '#fff' : 'var(--text-secondary)',
+              color: activeTab === 'history' ? 'var(--text-primary)' : 'var(--text-secondary)',
               fontWeight: 600,
               fontSize: '0.875rem',
               cursor: 'pointer'
@@ -167,7 +167,7 @@ export default function StockModal({ product, onClose, onOpenSales, onOpenTransf
               background: 'transparent',
               border: 'none',
               borderBottom: activeTab === 'adjust' ? '2px solid var(--primary)' : '2px solid transparent',
-              color: activeTab === 'adjust' ? '#fff' : 'var(--text-secondary)',
+              color: activeTab === 'adjust' ? 'var(--text-primary)' : 'var(--text-secondary)',
               fontWeight: 600,
               fontSize: '0.875rem',
               cursor: 'pointer'
@@ -213,7 +213,7 @@ export default function StockModal({ product, onClose, onOpenSales, onOpenTransf
                             </div>
                           </td>
                           <td style={{ fontWeight: 600 }}>{record.quantity}</td>
-                          <td style={{ color: '#fbbf24' }}>{record.reservedQuantity}</td>
+                          <td style={{ color: 'var(--accent-amber)' }}>{record.reservedQuantity}</td>
                           <td>
                             <span className={`badge ${avail > 0 ? 'badge-emerald' : 'badge-rose'}`}>
                               {avail} units
@@ -286,7 +286,7 @@ export default function StockModal({ product, onClose, onOpenSales, onOpenTransf
                             </span>
                           </td>
                           <td style={{ fontSize: '0.8125rem' }}>{m.warehouseId}</td>
-                          <td style={{ fontWeight: 700, color: isPositive ? '#34d399' : '#fb7185' }}>
+                          <td style={{ fontWeight: 700, color: isPositive ? 'var(--accent-emerald)' : 'var(--accent-rose)' }}>
                             {isPositive ? `+${m.quantityDelta}` : m.quantityDelta}
                           </td>
                           <td style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--text-muted)' }}>
