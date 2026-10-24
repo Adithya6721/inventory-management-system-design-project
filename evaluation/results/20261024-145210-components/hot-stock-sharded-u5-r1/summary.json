@@ -1,0 +1,85 @@
+{
+  "requests": 100,
+  "seconds": 0.656,
+  "mean_ms": 17.41,
+  "p95_ms": 31.249999999999872,
+  "max_ms": 93.0,
+  "attempted_rps": 152.4390243902439,
+  "accepted_rps": 15.24390243902439,
+  "unexpected_errors": 0,
+  "unexpected_error_pct": 0.0,
+  "status_counts": {
+    "409": 90,
+    "201": 10
+  },
+  "outcomes": {
+    "write_conflict": 40,
+    "reserved": 10,
+    "insufficient_stock": 50
+  },
+  "accepted_mean_ms": 28.4,
+  "accepted_p95_ms": 53.74999999999995,
+  "rejection_pct": 0.0,
+  "p95_scheduling_lag_ms": null,
+  "max_scheduling_lag_ms": null,
+  "experiment": "hot-stock",
+  "mode": "sharded",
+  "users": 5,
+  "repeat": 1,
+  "folder": "hot-stock-sharded-u5-r1",
+  "raw_requests": 100,
+  "raw_unexpected_errors": 0,
+  "offered_rps": null,
+  "window_start_ms": 1792833979926,
+  "window_end_ms": 1792833980582,
+  "by_request": {
+    "sales": {
+      "requests": 100,
+      "seconds": 0.656,
+      "mean_ms": 17.41,
+      "p95_ms": 31.249999999999872,
+      "max_ms": 93.0,
+      "attempted_rps": 152.4390243902439,
+      "accepted_rps": 15.24390243902439,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "409": 90,
+        "201": 10
+      },
+      "outcomes": {
+        "write_conflict": 40,
+        "reserved": 10,
+        "insufficient_stock": 50
+      },
+      "accepted_mean_ms": 28.4,
+      "accepted_p95_ms": 53.74999999999995,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": null,
+      "max_scheduling_lag_ms": null
+    }
+  },
+  "resources": {
+    "backend": {
+      "samples": 2,
+      "mean_cpu_host_pct": 12.904166666666667,
+      "peak_rss_mib": 403.40625
+    },
+    "jmeter": {
+      "samples": 2,
+      "mean_cpu_host_pct": 34.625,
+      "peak_rss_mib": 234.45703125
+    },
+    "mongodb": {
+      "samples": 2,
+      "mean_cpu_host_pct": 5.1625,
+      "peak_rss_mib": 132.10546875
+    }
+  },
+  "shard_operation_delta_including_ramp": {
+    "shard-1": 0,
+    "shard-2": 110,
+    "shard-3": 0,
+    "shard-4": 0
+  }
+}

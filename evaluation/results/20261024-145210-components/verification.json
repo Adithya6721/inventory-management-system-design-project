@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "http_runs": 25,
+  "stock_checks": 12,
+  "migration_records": 803,
+  "normal_ids": 1500000,
+  "normal_id_collisions": 0,
+  "autocomplete_checks_passed": true,
+  "benchmark_backend_stopped": true,
+  "existing_app_healthy": true
+}

@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "same_client_bucket": "limiter-limited-u100-r1",
+  "pause_seconds": 1
+}

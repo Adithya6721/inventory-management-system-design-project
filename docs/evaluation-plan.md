@@ -19,6 +19,16 @@ timestamped raw evidence. Stock availability still bypasses the cache. The
 historical gaps below regarding non-transactional stock and cached availability
 have been addressed on this branch; other scope limits remain.
 
+Update 2026-10-24 (quick component suite): limiter, single-store/logical-shard
+reads, distributed sales, hot-stock contention, live 3-to-4-to-3 membership,
+Snowflake/UUID, ring/modulo and Trie/linear baselines have been executed.
+See `../evaluation/QUICK-TESTS.md` and the measured tables/graphs in
+`../evaluation/results/20261024-145210-components/README.md`. The quick HTTP
+windows are ten seconds with one repetition, at 5/25/100 users. This establishes
+reproducible initial comparisons, not the longer repeated study proposed below.
+Expected 409/429 outcomes are reported explicitly. Physical scale-out and
+transaction-data partitioning remain outside these measurements.
+
 ## Current position
 
 The repository is a working single-backend inventory prototype with logical

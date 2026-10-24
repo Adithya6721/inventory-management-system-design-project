@@ -1,0 +1,95 @@
+{
+  "requests": 3300,
+  "seconds": 10.0,
+  "mean_ms": 14.074242424242424,
+  "p95_ms": 23.0,
+  "max_ms": 64.0,
+  "attempted_rps": 330.0,
+  "accepted_rps": 330.0,
+  "unexpected_errors": 0,
+  "unexpected_error_pct": 0.0,
+  "status_counts": {
+    "200": 3300
+  },
+  "outcomes": {
+    "accepted": 3300
+  },
+  "accepted_mean_ms": 14.074242424242424,
+  "accepted_p95_ms": 23.0,
+  "rejection_pct": 0.0,
+  "p95_scheduling_lag_ms": null,
+  "max_scheduling_lag_ms": null,
+  "experiment": "inventory-reads",
+  "mode": "single",
+  "users": 5,
+  "repeat": 1,
+  "folder": "inventory-reads-single-u5-r1",
+  "raw_requests": 5412,
+  "raw_unexpected_errors": 0,
+  "offered_rps": null,
+  "window_start_ms": 1792833779795,
+  "window_end_ms": 1792833789795,
+  "by_request": {
+    "point": {
+      "requests": 1650,
+      "seconds": 10.0,
+      "mean_ms": 14.934545454545454,
+      "p95_ms": 24.0,
+      "max_ms": 64.0,
+      "attempted_rps": 165.0,
+      "accepted_rps": 165.0,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "200": 1650
+      },
+      "outcomes": {
+        "accepted": 1650
+      },
+      "accepted_mean_ms": 14.934545454545454,
+      "accepted_p95_ms": 24.0,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": null,
+      "max_scheduling_lag_ms": null
+    },
+    "scatter": {
+      "requests": 1650,
+      "seconds": 10.0,
+      "mean_ms": 13.213939393939395,
+      "p95_ms": 21.0,
+      "max_ms": 46.0,
+      "attempted_rps": 165.0,
+      "accepted_rps": 165.0,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "200": 1650
+      },
+      "outcomes": {
+        "accepted": 1650
+      },
+      "accepted_mean_ms": 13.213939393939395,
+      "accepted_p95_ms": 21.0,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": null,
+      "max_scheduling_lag_ms": null
+    }
+  },
+  "resources": {
+    "backend": {
+      "samples": 40,
+      "mean_cpu_host_pct": 20.144166666666667,
+      "peak_rss_mib": 434.79296875
+    },
+    "jmeter": {
+      "samples": 40,
+      "mean_cpu_host_pct": 9.559583333333334,
+      "peak_rss_mib": 272.0
+    },
+    "mongodb": {
+      "samples": 40,
+      "mean_cpu_host_pct": 10.505208333333334,
+      "peak_rss_mib": 127.95703125
+    }
+  }
+}

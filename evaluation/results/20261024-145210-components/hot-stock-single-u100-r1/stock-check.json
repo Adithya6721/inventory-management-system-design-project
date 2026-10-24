@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "initial_quantity_per_record": 10,
+  "attempts": 100,
+  "reserved_orders": 4,
+  "persisted_reserved_units": 4,
+  "reservation_audits": 4,
+  "oversold_units": 0,
+  "order_ids": [
+    "so_372314630078488576",
+    "so_372314630212706304",
+    "so_372314630120431616",
+    "so_372314630166568960"
+  ],
+  "note": "409 insufficient stock and retryable write conflicts are counted separately; no automatic request retries"
+}

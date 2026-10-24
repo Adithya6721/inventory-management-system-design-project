@@ -1,0 +1,103 @@
+{
+  "peak_process_rss_mib": 95.1484375,
+  "mean_cpu_host_pct": 19.15451388888889,
+  "scope": "Whole helper process including startup and validation",
+  "samples": [
+    {
+      "cpu_host_pct": 0.0,
+      "rss_mib": 2.03515625
+    },
+    {
+      "cpu_host_pct": 5.183333333333334,
+      "rss_mib": 7.47265625
+    },
+    {
+      "cpu_host_pct": 7.7,
+      "rss_mib": 30.96484375
+    },
+    {
+      "cpu_host_pct": 12.908333333333333,
+      "rss_mib": 34.37890625
+    },
+    {
+      "cpu_host_pct": 18.0,
+      "rss_mib": 37.5625
+    },
+    {
+      "cpu_host_pct": 18.066666666666666,
+      "rss_mib": 44.06640625
+    },
+    {
+      "cpu_host_pct": 12.875,
+      "rss_mib": 49.05859375
+    },
+    {
+      "cpu_host_pct": 25.775000000000002,
+      "rss_mib": 53.93359375
+    },
+    {
+      "cpu_host_pct": 25.75,
+      "rss_mib": 56.92578125
+    },
+    {
+      "cpu_host_pct": 12.891666666666666,
+      "rss_mib": 59.71875
+    },
+    {
+      "cpu_host_pct": 23.191666666666666,
+      "rss_mib": 61.80078125
+    },
+    {
+      "cpu_host_pct": 22.55,
+      "rss_mib": 64.7734375
+    },
+    {
+      "cpu_host_pct": 5.1499999999999995,
+      "rss_mib": 66.1328125
+    },
+    {
+      "cpu_host_pct": 17.516666666666666,
+      "rss_mib": 68.4921875
+    },
+    {
+      "cpu_host_pct": 25.625,
+      "rss_mib": 72.59765625
+    },
+    {
+      "cpu_host_pct": 25.775000000000002,
+      "rss_mib": 72.5625
+    },
+    {
+      "cpu_host_pct": 23.150000000000002,
+      "rss_mib": 76.04296875
+    },
+    {
+      "cpu_host_pct": 20.666666666666668,
+      "rss_mib": 86.44140625
+    },
+    {
+      "cpu_host_pct": 10.299999999999999,
+      "rss_mib": 88.28515625
+    },
+    {
+      "cpu_host_pct": 15.416666666666666,
+      "rss_mib": 89.7109375
+    },
+    {
+      "cpu_host_pct": 28.191666666666666,
+      "rss_mib": 90.046875
+    },
+    {
+      "cpu_host_pct": 30.941666666666666,
+      "rss_mib": 91.14453125
+    },
+    {
+      "cpu_host_pct": 38.63333333333333,
+      "rss_mib": 92.5546875
+    },
+    {
+      "cpu_host_pct": 33.449999999999996,
+      "rss_mib": 95.1484375
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "started_utc": "2026-10-24T09:22:10.886903+00:00",
+  "revision": "04f92539a4a5e6dc95bc76e243713cee1f887afd",
+  "settings": {
+    "only": "all",
+    "seconds": 10,
+    "repeats": 1,
+    "users": [
+      5,
+      25,
+      100
+    ],
+    "products": 100,
+    "port": 8082,
+    "mongo_port": 27019,
+    "jmeter_home": null
+  },
+  "logical_cpus": 12,
+  "ram_gib": 15.648929595947266,
+  "os": "Windows-11-10.0.26300-SP0",
+  "java": "C:\\Program Files\\Microsoft\\jdk-17.0.17.10-hotspot\\bin\\java.EXE",
+  "jmeter_jar": "C:\\Program Files\\apache-jmeter-5.6.3\\bin\\ApacheJMeter.jar",
+  "jar_sha256": "5966e8c53263aac96f2c359f1e7c36860f4fcda18b1fde08c3d0267d3f37e9ea",
+  "runner_sha256": "8bec326cb438cd7ef13ccd49ab52f91524b2f0ed56624b2255b6889d1ecdeb85",
+  "algorithm_source_sha256": {
+    "evaluation/benchmarks/ComponentBenchmarks.java": "5302232a421c17be57809c6baf7272c98685015ebc938f9fc5139f5130904a41",
+    "evaluation/benchmarks/autocomplete.mjs": "7c62bc9c5b93f2b4a97d423ef747f30ffad0805982f9548e55c113a8586359e3",
+    "frontend/src/services/trie.js": "7b97e893aa0f4bad81a103d46b9599e71a5081c4c0cab2da4424e74e2faa9244"
+  },
+  "jmx_sha256": "d662ea5c44daca874e16251d001a05ef9b56aa7d2b03a6f69a77a3d0418b5a1a",
+  "scope": "Quick comparative runs, not production capacity or physical database scale-out",
+  "backend_cache_enabled": false,
+  "stock_transactions_enabled": true,
+  "topology": "one benchmark backend at a time; existing shared one-member MongoDB replica set; background apps remain running",
+  "deployments": {
+    "single": {
+      "pid": 26828,
+      "database": "inventory_quick_20261024_145210_single",
+      "sharding": false,
+      "limiter": false,
+      "cache": false,
+      "port": 8082
+    },
+    "sharded": {
+      "pid": 30964,
+      "database": "inventory_quick_20261024_145210_sharded",
+      "sharding": true,
+      "limiter": false,
+      "cache": false,
+      "port": 8082
+    },
+    "limited": {
+      "pid": 3284,
+      "database": "inventory_quick_20261024_145210_single",
+      "sharding": false,
+      "limiter": true,
+      "cache": false,
+      "port": 8082
+    }
+  },
+  "finished_utc": "2026-10-24T09:29:36.263536+00:00",
+  "source_hash_scope": "HTTP/Java harness at recorded revision; autocomplete records its executed source hash independently; report formatting was completed after measurement."
+}

@@ -1,0 +1,73 @@
+{
+  "requests": 500,
+  "seconds": 10.0,
+  "mean_ms": 9.342,
+  "p95_ms": 18.0,
+  "max_ms": 28.0,
+  "attempted_rps": 50.0,
+  "accepted_rps": 50.0,
+  "unexpected_errors": 0,
+  "unexpected_error_pct": 0.0,
+  "status_counts": {
+    "200": 500
+  },
+  "outcomes": {
+    "accepted": 500
+  },
+  "accepted_mean_ms": 9.342,
+  "accepted_p95_ms": 18.0,
+  "rejection_pct": 0.0,
+  "p95_scheduling_lag_ms": 16.0,
+  "max_scheduling_lag_ms": 21.0,
+  "experiment": "limiter",
+  "mode": "single",
+  "users": 25,
+  "repeat": 1,
+  "folder": "limiter-single-u25-r1",
+  "raw_requests": 975,
+  "raw_unexpected_errors": 0,
+  "offered_rps": 50,
+  "window_start_ms": 1792833817396,
+  "window_end_ms": 1792833827396,
+  "by_request": {
+    "product": {
+      "requests": 500,
+      "seconds": 10.0,
+      "mean_ms": 9.342,
+      "p95_ms": 18.0,
+      "max_ms": 28.0,
+      "attempted_rps": 50.0,
+      "accepted_rps": 50.0,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "200": 500
+      },
+      "outcomes": {
+        "accepted": 500
+      },
+      "accepted_mean_ms": 9.342,
+      "accepted_p95_ms": 18.0,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": 16.0,
+      "max_scheduling_lag_ms": 21.0
+    }
+  },
+  "resources": {
+    "backend": {
+      "samples": 40,
+      "mean_cpu_host_pct": 0.9202083333333333,
+      "peak_rss_mib": 410.65234375
+    },
+    "jmeter": {
+      "samples": 40,
+      "mean_cpu_host_pct": 2.178125,
+      "peak_rss_mib": 247.234375
+    },
+    "mongodb": {
+      "samples": 40,
+      "mean_cpu_host_pct": 0.5577083333333334,
+      "peak_rss_mib": 130.94921875
+    }
+  }
+}

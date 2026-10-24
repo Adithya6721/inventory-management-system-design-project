@@ -86,15 +86,16 @@ assertions for inspection. For measured CLI traffic use the same arguments with
 `-n -l results.jtl -e -o html-report`; use a fresh output directory per run.
 To reopen raw evidence, decompress `raw.jtl.gz` first (do not edit the source).
 
-## Remaining component comparisons
+## Other component comparisons
 
-The cache runner is deliberately one experiment. Follow `docs/evaluation-plan.md`
-for the remaining separate comparisons: limiter off/on with 429 counted as an
-expected rejection, single-store versus logical-shard stock workloads, shard
-addition/removal with persisted stock checks, Snowflake versus UUID generation,
-and Trie versus linear lookup on the same product dataset. Keep transactional
-stock protection enabled throughout. A logical shard on the same MongoDB process
-does not demonstrate the capacity gain or failure isolation of a physical shard.
+The other comparisons now have a one-command quick runner:
+`powershell -ExecutionPolicy Bypass -File scripts/test-components.ps1`.
+See [the short instructions](../QUICK-TESTS.md) for individual experiments,
+expected results and longer measurements. It covers limiter off/on, single-store
+versus logical-shard workloads, stock contention, shard addition/removal,
+Snowflake/UUID generation, consistent-hash/modulo placement, and Trie/linear
+lookup. Transactions stay enabled. The initial quick results are in
+`evaluation/results/20261024-145210-components/README.md`.
 
 References: [CLI guidance](https://jmeter.apache.org/usermanual/best-practices.html),
 [component reference](https://jmeter.apache.org/usermanual/component_reference.html),

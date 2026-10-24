@@ -1,0 +1,79 @@
+{
+  "requests": 100,
+  "seconds": 0.508,
+  "mean_ms": 416.26,
+  "p95_ms": 500.1,
+  "max_ms": 508.0,
+  "attempted_rps": 196.8503937007874,
+  "accepted_rps": 196.8503937007874,
+  "unexpected_errors": 0,
+  "unexpected_error_pct": 0.0,
+  "status_counts": {
+    "201": 100
+  },
+  "outcomes": {
+    "reserved": 100
+  },
+  "accepted_mean_ms": 416.26,
+  "accepted_p95_ms": 500.1,
+  "rejection_pct": 0.0,
+  "p95_scheduling_lag_ms": null,
+  "max_scheduling_lag_ms": null,
+  "experiment": "distributed-sales",
+  "mode": "sharded",
+  "users": 100,
+  "repeat": 1,
+  "folder": "distributed-sales-sharded-u100-r1",
+  "raw_requests": 100,
+  "raw_unexpected_errors": 0,
+  "offered_rps": null,
+  "window_start_ms": 1792834042095,
+  "window_end_ms": 1792834042603,
+  "by_request": {
+    "sales": {
+      "requests": 100,
+      "seconds": 0.508,
+      "mean_ms": 416.26,
+      "p95_ms": 500.1,
+      "max_ms": 508.0,
+      "attempted_rps": 196.8503937007874,
+      "accepted_rps": 196.8503937007874,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "201": 100
+      },
+      "outcomes": {
+        "reserved": 100
+      },
+      "accepted_mean_ms": 416.26,
+      "accepted_p95_ms": 500.1,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": null,
+      "max_scheduling_lag_ms": null
+    }
+  },
+  "resources": {
+    "backend": {
+      "samples": 2,
+      "mean_cpu_host_pct": 10.033333333333333,
+      "peak_rss_mib": 454.84765625
+    },
+    "jmeter": {
+      "samples": 2,
+      "mean_cpu_host_pct": 29.954166666666666,
+      "peak_rss_mib": 256.64453125
+    },
+    "mongodb": {
+      "samples": 2,
+      "mean_cpu_host_pct": 11.533333333333335,
+      "peak_rss_mib": 175.7109375
+    }
+  },
+  "shard_operation_delta_including_ramp": {
+    "shard-1": 70,
+    "shard-2": 44,
+    "shard-3": 86,
+    "shard-4": 0
+  }
+}

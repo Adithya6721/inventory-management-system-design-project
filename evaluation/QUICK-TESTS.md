@@ -15,7 +15,7 @@ experiments; stock transactions and stock guards stay on. No expiry changes.
 If the test MongoDB is not running, start it once with
 `powershell -ExecutionPolicy Bypass -File scripts/start-consistency-mongo.ps1`.
 Do not start another copy if 27019 is already in use. Java 17/JDK, Maven, Node,
-Python with `requests` and `psutil`, and JMeter 5.6.3 are required. The local
+Python with `requests`, `psutil` and `matplotlib`, and JMeter 5.6.3 are required. The local
 JMeter installation is detected automatically; elsewhere set `JMETER_HOME`.
 No JMeter plugins are needed. No Redis service is required for these cache-off
 tests. The existing replica set is reused; only fresh run-specific databases

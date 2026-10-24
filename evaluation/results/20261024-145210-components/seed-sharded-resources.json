@@ -1,0 +1,75 @@
+{
+  "peak_process_rss_mib": 92.97265625,
+  "mean_cpu_host_pct": 16.91519607843137,
+  "scope": "Whole helper process including startup and validation",
+  "samples": [
+    {
+      "cpu_host_pct": 0.0,
+      "rss_mib": 2.0234375
+    },
+    {
+      "cpu_host_pct": 5.141666666666667,
+      "rss_mib": 25.80078125
+    },
+    {
+      "cpu_host_pct": 15.466666666666667,
+      "rss_mib": 34.44921875
+    },
+    {
+      "cpu_host_pct": 12.908333333333333,
+      "rss_mib": 37.203125
+    },
+    {
+      "cpu_host_pct": 14.933333333333332,
+      "rss_mib": 41.953125
+    },
+    {
+      "cpu_host_pct": 20.533333333333335,
+      "rss_mib": 48.27734375
+    },
+    {
+      "cpu_host_pct": 23.083333333333332,
+      "rss_mib": 54.36328125
+    },
+    {
+      "cpu_host_pct": 17.908333333333335,
+      "rss_mib": 57.9765625
+    },
+    {
+      "cpu_host_pct": 18.066666666666666,
+      "rss_mib": 61.24609375
+    },
+    {
+      "cpu_host_pct": 23.175,
+      "rss_mib": 65.9921875
+    },
+    {
+      "cpu_host_pct": 18.0,
+      "rss_mib": 69.140625
+    },
+    {
+      "cpu_host_pct": 18.125,
+      "rss_mib": 73.34375
+    },
+    {
+      "cpu_host_pct": 15.533333333333333,
+      "rss_mib": 79.21484375
+    },
+    {
+      "cpu_host_pct": 22.95,
+      "rss_mib": 89.12109375
+    },
+    {
+      "cpu_host_pct": 15.424999999999999,
+      "rss_mib": 90.05859375
+    },
+    {
+      "cpu_host_pct": 30.891666666666666,
+      "rss_mib": 92.00390625
+    },
+    {
+      "cpu_host_pct": 15.416666666666666,
+      "rss_mib": 92.97265625
+    }
+  ]
+}

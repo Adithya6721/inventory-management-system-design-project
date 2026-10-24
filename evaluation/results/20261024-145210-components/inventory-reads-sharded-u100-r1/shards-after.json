@@ -1,0 +1,41 @@
+{
+  "state": "READY",
+  "virtualNodesPerShard": 32,
+  "ringPositions": 96,
+  "activeShards": [
+    "shard-1",
+    "shard-2",
+    "shard-3"
+  ],
+  "pendingShards": null,
+  "shards": [
+    {
+      "shardId": "shard-1",
+      "database": "inventory_quick_20261024_145210_sharded_shard_1",
+      "active": true,
+      "records": 239,
+      "requests": 18166
+    },
+    {
+      "shardId": "shard-2",
+      "database": "inventory_quick_20261024_145210_sharded_shard_2",
+      "active": true,
+      "records": 182,
+      "requests": 17336
+    },
+    {
+      "shardId": "shard-3",
+      "database": "inventory_quick_20261024_145210_sharded_shard_3",
+      "active": true,
+      "records": 281,
+      "requests": 19588
+    },
+    {
+      "shardId": "shard-4",
+      "database": "inventory_quick_20261024_145210_sharded_shard_4",
+      "active": false,
+      "records": 0,
+      "requests": 0
+    }
+  ]
+}

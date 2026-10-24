@@ -1,0 +1,79 @@
+{
+  "requests": 100,
+  "seconds": 1.248,
+  "mean_ms": 38.49,
+  "p95_ms": 61.34999999999913,
+  "max_ms": 354.0,
+  "attempted_rps": 80.12820512820512,
+  "accepted_rps": 80.12820512820512,
+  "unexpected_errors": 0,
+  "unexpected_error_pct": 0.0,
+  "status_counts": {
+    "201": 100
+  },
+  "outcomes": {
+    "reserved": 100
+  },
+  "accepted_mean_ms": 38.49,
+  "accepted_p95_ms": 61.34999999999913,
+  "rejection_pct": 0.0,
+  "p95_scheduling_lag_ms": null,
+  "max_scheduling_lag_ms": null,
+  "experiment": "distributed-sales",
+  "mode": "sharded",
+  "users": 5,
+  "repeat": 1,
+  "folder": "distributed-sales-sharded-u5-r1",
+  "raw_requests": 100,
+  "raw_unexpected_errors": 0,
+  "offered_rps": null,
+  "window_start_ms": 1792833970528,
+  "window_end_ms": 1792833971776,
+  "by_request": {
+    "sales": {
+      "requests": 100,
+      "seconds": 1.248,
+      "mean_ms": 38.49,
+      "p95_ms": 61.34999999999913,
+      "max_ms": 354.0,
+      "attempted_rps": 80.12820512820512,
+      "accepted_rps": 80.12820512820512,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "201": 100
+      },
+      "outcomes": {
+        "reserved": 100
+      },
+      "accepted_mean_ms": 38.49,
+      "accepted_p95_ms": 61.34999999999913,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": null,
+      "max_scheduling_lag_ms": null
+    }
+  },
+  "resources": {
+    "backend": {
+      "samples": 5,
+      "mean_cpu_host_pct": 21.448333333333334,
+      "peak_rss_mib": 444.77734375
+    },
+    "jmeter": {
+      "samples": 5,
+      "mean_cpu_host_pct": 24.165000000000003,
+      "peak_rss_mib": 241.203125
+    },
+    "mongodb": {
+      "samples": 5,
+      "mean_cpu_host_pct": 4.5633333333333335,
+      "peak_rss_mib": 178.69140625
+    }
+  },
+  "shard_operation_delta_including_ramp": {
+    "shard-1": 76,
+    "shard-2": 46,
+    "shard-3": 78,
+    "shard-4": 0
+  }
+}

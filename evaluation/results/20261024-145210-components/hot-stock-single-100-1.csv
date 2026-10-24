@@ -1,0 +1,2 @@
+kind,path,productId,warehouseId,sku,body
+sales,/api/sales-orders,prod_372314617675931648,wh_372314617625600000,,"{""items"": [{""productId"": ""prod_372314617675931648"", ""warehouseId"": ""wh_372314617625600000"", ""quantity"": 1}], ""idempotencyKey"": ""RUN_KEY""}"

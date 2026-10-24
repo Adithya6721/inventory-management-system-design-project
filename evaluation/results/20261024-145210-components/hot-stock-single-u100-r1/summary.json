@@ -1,0 +1,77 @@
+{
+  "requests": 100,
+  "seconds": 0.199,
+  "mean_ms": 154.33,
+  "p95_ms": 193.05,
+  "max_ms": 198.0,
+  "attempted_rps": 502.51256281407035,
+  "accepted_rps": 20.100502512562812,
+  "unexpected_errors": 0,
+  "unexpected_error_pct": 0.0,
+  "status_counts": {
+    "409": 96,
+    "201": 4
+  },
+  "outcomes": {
+    "write_conflict": 96,
+    "reserved": 4
+  },
+  "accepted_mean_ms": 143.25,
+  "accepted_p95_ms": 176.79999999999998,
+  "rejection_pct": 0.0,
+  "p95_scheduling_lag_ms": null,
+  "max_scheduling_lag_ms": null,
+  "experiment": "hot-stock",
+  "mode": "single",
+  "users": 100,
+  "repeat": 1,
+  "folder": "hot-stock-single-u100-r1",
+  "raw_requests": 100,
+  "raw_unexpected_errors": 0,
+  "offered_rps": null,
+  "window_start_ms": 1792833925013,
+  "window_end_ms": 1792833925212,
+  "by_request": {
+    "sales": {
+      "requests": 100,
+      "seconds": 0.199,
+      "mean_ms": 154.33,
+      "p95_ms": 193.05,
+      "max_ms": 198.0,
+      "attempted_rps": 502.51256281407035,
+      "accepted_rps": 20.100502512562812,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "409": 96,
+        "201": 4
+      },
+      "outcomes": {
+        "write_conflict": 96,
+        "reserved": 4
+      },
+      "accepted_mean_ms": 143.25,
+      "accepted_p95_ms": 176.79999999999998,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": null,
+      "max_scheduling_lag_ms": null
+    }
+  },
+  "resources": {
+    "backend": {
+      "samples": 0,
+      "mean_cpu_host_pct": null,
+      "peak_rss_mib": null
+    },
+    "jmeter": {
+      "samples": 0,
+      "mean_cpu_host_pct": null,
+      "peak_rss_mib": null
+    },
+    "mongodb": {
+      "samples": 0,
+      "mean_cpu_host_pct": null,
+      "peak_rss_mib": null
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "requests": 2000,
+  "seconds": 10.0,
+  "mean_ms": 28.928,
+  "p95_ms": 65.14999999999986,
+  "max_ms": 128.0,
+  "attempted_rps": 200.0,
+  "accepted_rps": 5.0,
+  "unexpected_errors": 0,
+  "unexpected_error_pct": 0.0,
+  "status_counts": {
+    "429": 1950,
+    "200": 50
+  },
+  "outcomes": {
+    "rate_limited": 1950,
+    "accepted": 50
+  },
+  "accepted_mean_ms": 53.26,
+  "accepted_p95_ms": 115.44999999999995,
+  "rejection_pct": 97.5,
+  "p95_scheduling_lag_ms": 50.049999999999955,
+  "max_scheduling_lag_ms": 107.0,
+  "experiment": "limiter",
+  "mode": "limited",
+  "users": 100,
+  "repeat": 1,
+  "folder": "limiter-limited-u100-r1",
+  "raw_requests": 3900,
+  "raw_unexpected_errors": 0,
+  "offered_rps": 200,
+  "window_start_ms": 1792834153322,
+  "window_end_ms": 1792834163322,
+  "by_request": {
+    "product": {
+      "requests": 2000,
+      "seconds": 10.0,
+      "mean_ms": 28.928,
+      "p95_ms": 65.14999999999986,
+      "max_ms": 128.0,
+      "attempted_rps": 200.0,
+      "accepted_rps": 5.0,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "429": 1950,
+        "200": 50
+      },
+      "outcomes": {
+        "rate_limited": 1950,
+        "accepted": 50
+      },
+      "accepted_mean_ms": 53.26,
+      "accepted_p95_ms": 115.44999999999995,
+      "rejection_pct": 97.5,
+      "p95_scheduling_lag_ms": 50.049999999999955,
+      "max_scheduling_lag_ms": 107.0
+    }
+  },
+  "resources": {
+    "backend": {
+      "samples": 39,
+      "mean_cpu_host_pct": 3.972863247863248,
+      "peak_rss_mib": 394.0
+    },
+    "jmeter": {
+      "samples": 39,
+      "mean_cpu_host_pct": 5.422863247863248,
+      "peak_rss_mib": 298.43359375
+    },
+    "mongodb": {
+      "samples": 39,
+      "mean_cpu_host_pct": 0.5711538461538461,
+      "peak_rss_mib": 177.14453125
+    }
+  }
+}

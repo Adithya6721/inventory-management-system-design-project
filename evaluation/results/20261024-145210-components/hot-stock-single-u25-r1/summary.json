@@ -1,0 +1,77 @@
+{
+  "requests": 100,
+  "seconds": 0.537,
+  "mean_ms": 61.48,
+  "p95_ms": 99.05,
+  "max_ms": 105.0,
+  "attempted_rps": 186.21973929236498,
+  "accepted_rps": 9.310986964618248,
+  "unexpected_errors": 0,
+  "unexpected_error_pct": 0.0,
+  "status_counts": {
+    "409": 95,
+    "201": 5
+  },
+  "outcomes": {
+    "write_conflict": 95,
+    "reserved": 5
+  },
+  "accepted_mean_ms": 70.0,
+  "accepted_p95_ms": 94.4,
+  "rejection_pct": 0.0,
+  "p95_scheduling_lag_ms": null,
+  "max_scheduling_lag_ms": null,
+  "experiment": "hot-stock",
+  "mode": "single",
+  "users": 25,
+  "repeat": 1,
+  "folder": "hot-stock-single-u25-r1",
+  "raw_requests": 100,
+  "raw_unexpected_errors": 0,
+  "offered_rps": null,
+  "window_start_ms": 1792833864866,
+  "window_end_ms": 1792833865403,
+  "by_request": {
+    "sales": {
+      "requests": 100,
+      "seconds": 0.537,
+      "mean_ms": 61.48,
+      "p95_ms": 99.05,
+      "max_ms": 105.0,
+      "attempted_rps": 186.21973929236498,
+      "accepted_rps": 9.310986964618248,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "409": 95,
+        "201": 5
+      },
+      "outcomes": {
+        "write_conflict": 95,
+        "reserved": 5
+      },
+      "accepted_mean_ms": 70.0,
+      "accepted_p95_ms": 94.4,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": null,
+      "max_scheduling_lag_ms": null
+    }
+  },
+  "resources": {
+    "backend": {
+      "samples": 2,
+      "mean_cpu_host_pct": 11.225000000000001,
+      "peak_rss_mib": 444.0234375
+    },
+    "jmeter": {
+      "samples": 2,
+      "mean_cpu_host_pct": 37.85,
+      "peak_rss_mib": 245.65234375
+    },
+    "mongodb": {
+      "samples": 2,
+      "mean_cpu_host_pct": 4.041666666666667,
+      "peak_rss_mib": 138.69921875
+    }
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "requests": 7212,
+  "seconds": 20.0,
+  "mean_ms": 68.47628951747089,
+  "p95_ms": 70.0,
+  "max_ms": 3026.0,
+  "attempted_rps": 360.6,
+  "accepted_rps": 358.1,
+  "unexpected_errors": 0,
+  "unexpected_error_pct": 0.0,
+  "status_counts": {
+    "200": 7162,
+    "409": 50
+  },
+  "outcomes": {
+    "accepted": 7162,
+    "migration_conflict": 50
+  },
+  "accepted_mean_ms": 48.65456576375314,
+  "accepted_p95_ms": 69.0,
+  "rejection_pct": 0.0,
+  "p95_scheduling_lag_ms": null,
+  "max_scheduling_lag_ms": null,
+  "experiment": "shard-changes",
+  "mode": "sharded",
+  "users": 25,
+  "repeat": 1,
+  "folder": "shard-changes-sharded-u25-r1",
+  "raw_requests": 9564,
+  "raw_unexpected_errors": 0,
+  "offered_rps": null,
+  "window_start_ms": 1792834060293,
+  "window_end_ms": 1792834080293,
+  "by_request": {
+    "point": {
+      "requests": 3607,
+      "seconds": 20.0,
+      "mean_ms": 66.66232326032714,
+      "p95_ms": 63.0,
+      "max_ms": 3026.0,
+      "attempted_rps": 180.35,
+      "accepted_rps": 178.95,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "200": 3579,
+        "409": 28
+      },
+      "outcomes": {
+        "accepted": 3579,
+        "migration_conflict": 28
+      },
+      "accepted_mean_ms": 44.41044984632579,
+      "accepted_p95_ms": 62.0,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": null,
+      "max_scheduling_lag_ms": null
+    },
+    "scatter": {
+      "requests": 3605,
+      "seconds": 20.0,
+      "mean_ms": 70.29126213592232,
+      "p95_ms": 74.0,
+      "max_ms": 3015.0,
+      "attempted_rps": 180.25,
+      "accepted_rps": 179.15,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "200": 3583,
+        "409": 22
+      },
+      "outcomes": {
+        "accepted": 3583,
+        "migration_conflict": 22
+      },
+      "accepted_mean_ms": 52.893943622662576,
+      "accepted_p95_ms": 74.0,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": null,
+      "max_scheduling_lag_ms": null
+    }
+  },
+  "resources": {
+    "backend": {
+      "samples": 75,
+      "mean_cpu_host_pct": 10.674444444444445,
+      "peak_rss_mib": 464.6015625
+    },
+    "jmeter": {
+      "samples": 75,
+      "mean_cpu_host_pct": 7.463111111111111,
+      "peak_rss_mib": 271.328125
+    },
+    "mongodb": {
+      "samples": 75,
+      "mean_cpu_host_pct": 16.794888888888888,
+      "peak_rss_mib": 180.65625
+    }
+  },
+  "shard_operation_delta_including_ramp": {
+    "shard-1": 6257,
+    "shard-2": 6021,
+    "shard-3": 6694,
+    "shard-4": 306
+  }
+}

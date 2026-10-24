@@ -1,0 +1,140 @@
+{
+  "passed": true,
+  "records_preserved": 803,
+  "duplicates": 0,
+  "events": [
+    {
+      "action": "add",
+      "start_ms": 1792834061367,
+      "end_ms": 1792834064390,
+      "result": {
+        "previousShards": [
+          "shard-1",
+          "shard-2",
+          "shard-3"
+        ],
+        "activeShards": [
+          "shard-1",
+          "shard-2",
+          "shard-3",
+          "shard-4"
+        ],
+        "recordsScanned": 803,
+        "recordsMoved": 213,
+        "remappedPercent": 26.525529265255294,
+        "durationMs": 2934
+      },
+      "status": {
+        "state": "READY",
+        "virtualNodesPerShard": 32,
+        "ringPositions": 128,
+        "activeShards": [
+          "shard-1",
+          "shard-2",
+          "shard-3",
+          "shard-4"
+        ],
+        "pendingShards": null,
+        "shards": [
+          {
+            "shardId": "shard-1",
+            "database": "inventory_quick_20261024_145210_sharded_shard_1",
+            "active": true,
+            "records": 181,
+            "requests": 19372
+          },
+          {
+            "shardId": "shard-2",
+            "database": "inventory_quick_20261024_145210_sharded_shard_2",
+            "active": true,
+            "records": 156,
+            "requests": 18323
+          },
+          {
+            "shardId": "shard-3",
+            "database": "inventory_quick_20261024_145210_sharded_shard_3",
+            "active": true,
+            "records": 253,
+            "requests": 20795
+          },
+          {
+            "shardId": "shard-4",
+            "database": "inventory_quick_20261024_145210_sharded_shard_4",
+            "active": true,
+            "records": 213,
+            "requests": 6
+          }
+        ]
+      }
+    },
+    {
+      "action": "remove",
+      "start_ms": 1792834065400,
+      "end_ms": 1792834068227,
+      "result": {
+        "previousShards": [
+          "shard-1",
+          "shard-2",
+          "shard-3",
+          "shard-4"
+        ],
+        "activeShards": [
+          "shard-1",
+          "shard-2",
+          "shard-3"
+        ],
+        "recordsScanned": 803,
+        "recordsMoved": 213,
+        "remappedPercent": 26.525529265255294,
+        "durationMs": 2774
+      },
+      "status": {
+        "state": "READY",
+        "virtualNodesPerShard": 32,
+        "ringPositions": 96,
+        "activeShards": [
+          "shard-1",
+          "shard-2",
+          "shard-3"
+        ],
+        "pendingShards": null,
+        "shards": [
+          {
+            "shardId": "shard-1",
+            "database": "inventory_quick_20261024_145210_sharded_shard_1",
+            "active": true,
+            "records": 275,
+            "requests": 19667
+          },
+          {
+            "shardId": "shard-2",
+            "database": "inventory_quick_20261024_145210_sharded_shard_2",
+            "active": true,
+            "records": 204,
+            "requests": 18613
+          },
+          {
+            "shardId": "shard-3",
+            "database": "inventory_quick_20261024_145210_sharded_shard_3",
+            "active": true,
+            "records": 324,
+            "requests": 21113
+          },
+          {
+            "shardId": "shard-4",
+            "database": "inventory_quick_20261024_145210_sharded_shard_4",
+            "active": false,
+            "records": 0,
+            "requests": 306
+          }
+        ]
+      }
+    }
+  ],
+  "requests_overlapping_changes": {
+    "add": 65,
+    "remove": 46
+  },
+  "max_http_ms": 3026.0,
+  "note": "Graceful logical membership change with source data reachable; not physical shard failure or database failover"
+}

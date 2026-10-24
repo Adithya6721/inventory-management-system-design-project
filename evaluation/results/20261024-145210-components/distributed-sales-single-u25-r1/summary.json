@@ -1,0 +1,73 @@
+{
+  "requests": 100,
+  "seconds": 0.545,
+  "mean_ms": 76.85,
+  "p95_ms": 107.0,
+  "max_ms": 110.0,
+  "attempted_rps": 183.48623853211006,
+  "accepted_rps": 183.48623853211006,
+  "unexpected_errors": 0,
+  "unexpected_error_pct": 0.0,
+  "status_counts": {
+    "201": 100
+  },
+  "outcomes": {
+    "reserved": 100
+  },
+  "accepted_mean_ms": 76.85,
+  "accepted_p95_ms": 107.0,
+  "rejection_pct": 0.0,
+  "p95_scheduling_lag_ms": null,
+  "max_scheduling_lag_ms": null,
+  "experiment": "distributed-sales",
+  "mode": "single",
+  "users": 25,
+  "repeat": 1,
+  "folder": "distributed-sales-single-u25-r1",
+  "raw_requests": 100,
+  "raw_unexpected_errors": 0,
+  "offered_rps": null,
+  "window_start_ms": 1792833857139,
+  "window_end_ms": 1792833857684,
+  "by_request": {
+    "sales": {
+      "requests": 100,
+      "seconds": 0.545,
+      "mean_ms": 76.85,
+      "p95_ms": 107.0,
+      "max_ms": 110.0,
+      "attempted_rps": 183.48623853211006,
+      "accepted_rps": 183.48623853211006,
+      "unexpected_errors": 0,
+      "unexpected_error_pct": 0.0,
+      "status_counts": {
+        "201": 100
+      },
+      "outcomes": {
+        "reserved": 100
+      },
+      "accepted_mean_ms": 76.85,
+      "accepted_p95_ms": 107.0,
+      "rejection_pct": 0.0,
+      "p95_scheduling_lag_ms": null,
+      "max_scheduling_lag_ms": null
+    }
+  },
+  "resources": {
+    "backend": {
+      "samples": 2,
+      "mean_cpu_host_pct": 6.199999999999999,
+      "peak_rss_mib": 442.8671875
+    },
+    "jmeter": {
+      "samples": 2,
+      "mean_cpu_host_pct": 37.175,
+      "peak_rss_mib": 243.6796875
+    },
+    "mongodb": {
+      "samples": 2,
+      "mean_cpu_host_pct": 5.925,
+      "peak_rss_mib": 137.18359375
+    }
+  }
+}

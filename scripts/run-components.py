@@ -258,6 +258,8 @@ class Suite:
         if point['raw_unexpected_errors']: raise RuntimeError('Unexpected HTTP/assertion errors in ' + str(folder))
         if paced and not .9 <= point['attempted_rps'] / (users * 2) <= 1.1:
             raise RuntimeError('Load generator missed its fixed offered rate; inspect scheduling lag')
+        if paced and point['p95_scheduling_lag_ms'] > 250:
+            raise RuntimeError('Load generator scheduling lag exceeds half the request interval')
         with (folder / 'raw.jtl').open('rb') as source, gzip.open(folder / 'raw.jtl.gz', 'wb') as destination:
             shutil.copyfileobj(source, destination)
         (folder / 'raw.jtl').unlink()
@@ -406,6 +408,8 @@ class Suite:
             self.progress('Actual frontend Trie versus linear prefix scan')
             subprocess.run([shutil.which('node'), '--expose-gc', str(ROOT / 'evaluation/benchmarks/autocomplete.mjs'),
                             str(self.output), str(self.args.repeats)], check=True, creationflags=common.HIDDEN, timeout=120)
+            measured = json.loads((self.output / 'autocomplete.json').read_text())
+            self.manifest['algorithm_source_sha256']['evaluation/benchmarks/autocomplete.mjs'] = measured['source_sha256']
         self.report()
         self.manifest['finished_utc'] = dt.datetime.now(dt.timezone.utc).isoformat()
         write_json(self.output / 'manifest.json', self.manifest)
@@ -416,21 +420,11 @@ class Suite:
         if rows:
             with (self.output / 'http-summary.csv').open('w', newline='') as stream:
                 writer = csv.DictWriter(stream, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
-        lines = ['# Quick component evaluation', '', 'One command: `powershell -ExecutionPolicy Bypass -File scripts/test-components.ps1`.', '',
-                 f'Quick settings: {self.args.seconds} measured seconds, {self.args.repeats} repeat(s), users {self.args.users}. Reads exclude a 2-second ramp; paced limiter measurements exclude 5 warm-up seconds. Extra tail samples are excluded. Stock bursts contain 100 attempts. Limiter tests use fixed offered rates of 2 requests/second/user, one shared client bucket.', '',
-                 '## HTTP results', '', '| Experiment | Configuration | Users | Requests | Mean ms | p95 ms | Accepted/s | Expected outcomes | Unexpected errors |',
-                 '| --- | --- | ---: | ---: | ---: | ---: | ---: | --- | ---: |']
-        for p in self.points:
-            lines.append(f"| {p['experiment']} | {p['mode']} | {p['users']} | {p['requests']} | {p['mean_ms']:.2f} | {p['p95_ms']:.2f} | {p['accepted_rps']:.1f} | {json.dumps(p['outcomes'])} | {p['unexpected_errors']} |")
-        lines += ['', 'Accepted/s counts only valid 200 reads or 201 orders; expected 409 and 429 are reported separately. See `http-results.json` for admitted latency, request types, rejection rate, pacing lag, per-shard operation deltas and CPU/RSS. Raw JTL samples are compressed locally; each run also saves its exact command, dataset and summary.', '',
-                  '## Checks and scope', '',
-                  'Each stock-check.json reconciles committed stock, returned order IDs and reservation audits. Global snapshots independently check stock invariants, physical copies, orders and audits directly in MongoDB. migration-check.json verifies full document preservation and traffic overlap during 3 → 4 → 3 logical shard changes.', '',
-                  'The same host and MongoDB process serve all logical shards. This demonstrates partitioning and migration costs, not additional physical capacity or shard failover. These short runs are reproducible smoke/performance comparisons, with fresh load-generator JVMs and limited warm-up; use -Seconds 60 -Repeats 3 for stronger final measurements. Cache/transactions are held fixed (cache off, transactions on). Reservation expiry is deferred.', '',
-                  '## Algorithm baselines', '']
-        for filename, title in [('ids.json','ID generation'),('hashing.json','Hash distribution/remapping'),('autocomplete.json','Autocomplete')]:
-            path = self.output / filename
-            if path.exists(): lines.append(f'- [{title}]({filename}) — actual application implementations; direct algorithm timings, not HTTP latency.')
-        (self.output / 'README.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+        report_spec = importlib.util.spec_from_file_location('component_report', Path(__file__).with_name('render-component-results.py'))
+        report = importlib.util.module_from_spec(report_spec)
+        report_spec.loader.exec_module(report)
+        report.render(self.output)
+
 
 
 def main():
