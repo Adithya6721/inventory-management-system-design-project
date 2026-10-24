@@ -1,6 +1,6 @@
 import React from 'react';
 import { LayoutDashboard, Package, Warehouse, ShoppingBag, ShoppingCart, ArrowLeftRight,
-  Bell, Search, Network, PanelLeftClose, PanelLeftOpen, Boxes, ChevronDown } from 'lucide-react';
+  Bell, Search, Network, Globe, PanelLeftClose, PanelLeftOpen, Boxes, ChevronDown } from 'lucide-react';
 
 const groups = [
   { label: 'Workspace', items: [
@@ -13,6 +13,7 @@ const groups = [
     { id: 'sales', label: 'Sales orders', icon: ShoppingCart },
     { id: 'transfers', label: 'Stock transfers', icon: ArrowLeftRight },
     { id: 'alerts', label: 'Low-stock alerts', icon: Bell },
+    { id: 'supplier-crawler', label: 'Supplier Crawler', icon: Globe },
   ] },
   { label: 'Developer', items: [
     { id: 'system-design', label: 'Architecture', icon: Network },
@@ -37,6 +38,7 @@ export default function Sidebar({ activeTab, setActiveTab, lowStockCount = 0, co
               onClick={() => setActiveTab(id)}>
               <Icon size={17} strokeWidth={1.65} /><span className="nav-label">{label}</span>
               {id === 'alerts' && lowStockCount > 0 && <span className="nav-count">{lowStockCount}</span>}
+              {id === 'supplier-crawler' && <span className="badge badge-emerald" style={{ fontSize: '0.65rem' }}>M5</span>}
             </button>
           ))}
         </div>)}

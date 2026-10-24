@@ -67,7 +67,7 @@ Member 1 serves as the foundational backbone for the entire system design projec
 | **Member 2** | Sharding & Consistent Hashing | Member 1 provides `InventoryPersistencePort`. Member 2 plugs in shard routing without touching core service logic. |
 | **Member 3** | Redis, Rate Limiting & Unique IDs | Member 1 provides `InventoryCachePort` and `IdGeneratorPort`. |
 | **Member 4** | React Frontend & Autocomplete | **Implemented (`frontend/`):** React dashboard, In-memory Trie autocomplete (<2ms), stock distribution, concurrency simulator, and evaluation reports (`docs/member-4-frontend-and-autocomplete.md`). |
-| **Member 5** | Supplier Crawler & Integration | Member 1 provides `POST /api/suppliers/import` via `SupplierImportPort`, preventing artificial warehouse stock inflation. |
+| **Member 5** | Supplier Crawler & Integration | **Implemented (`crawler/`, `frontend/src/pages/SupplierCrawler.jsx`):** Multi-strategy supplier crawler (Apex Grid, Global Table, Nordic JSON-LD), price arbitrage engine, zero-overselling draft PO ingestion (`POST /api/suppliers/import`), and evaluation reports (`docs/member-5-supplier-crawler-and-integration.md`). |
 
 
 ---
@@ -418,7 +418,25 @@ npm run dev
 ```
 The dashboard will start on `http://localhost:3000` with hot-reload and backend proxying.
 
-### 4. Run Full Stack via Docker Compose
+### 4. Run Simulated Suppliers & Web Crawler (Member 5)
+Start the simulated wholesale supplier web portals on port `8085`:
+```powershell
+node crawler/supplier_server.js
+# Or via Python standard library:
+# python crawler/supplier_server.py
+```
+Execute the supplier web crawler CLI:
+```powershell
+node crawler/crawler_engine.js --suppliers apex,global,nordic
+# Or run with automated test verification:
+# node crawler/test_crawler.js
+```
+Run the comprehensive 5-module End-to-End integration evaluation demo:
+```powershell
+node scripts/e2e_integration_demo.js
+```
+
+### 5. Run Full Stack via Docker Compose
 ```powershell
 docker compose up -d --build
 ```
@@ -427,6 +445,7 @@ Spins up:
 - `inventory-redis`: Redis 7.2 on `6379`
 - `inventory-backend`: Spring Boot REST API on `8080`
 - `inventory-frontend`: Production Nginx React SPA on `3000`
+- `inventory-supplier-simulator`: Simulated Wholesale Supplier Portals on `8085`
 
 
 ---
