@@ -23,7 +23,7 @@ public class LowStockService {
         this.idGeneratorPort = idGeneratorPort;
     }
 
-    public synchronized void evaluateStock(String productId, String warehouseId, long availableQuantity, int reorderLevel) {
+    public void evaluateStock(String productId, String warehouseId, long availableQuantity, int reorderLevel) {
         Optional<LowStockAlert> activeAlertOpt =
                 lowStockAlertRepository.findByProductIdAndWarehouseIdAndStatus(productId, warehouseId, AlertStatus.ACTIVE);
 

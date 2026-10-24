@@ -1,6 +1,7 @@
 package com.example.inventory.inventory;
 
 import com.example.inventory.integration.InventoryPersistencePort;
+import com.example.inventory.common.RequestFingerprint;
 import org.bson.Document;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -151,13 +152,14 @@ public class MongoInventoryPersistenceAdapter implements InventoryPersistencePor
         }
 
         Query query = new Query(Criteria.where("productId").is(productId)
-                .and("warehouseId").is(warehouseId));
+                .and("warehouseId").is(warehouseId)
+                .and("quantity").lte(Long.MAX_VALUE - quantity));
 
         Update update = new Update()
                 .inc("quantity", quantity)
                 .inc("version", 1L)
                 .set("updatedAt", Instant.now())
-                .setOnInsert("id", productId + "_" + warehouseId)
+                .setOnInsert("id", RequestFingerprint.of(productId, warehouseId))
                 .setOnInsert("productId", productId)
                 .setOnInsert("warehouseId", warehouseId)
                 .setOnInsert("reservedQuantity", 0L);
@@ -174,13 +176,20 @@ public class MongoInventoryPersistenceAdapter implements InventoryPersistencePor
                 return false;
             }
             InventoryRecord rec = new InventoryRecord(productId, warehouseId, physicalDelta, reservedDelta);
-            save(rec);
+            // Insert, never replace: a racing creator must not overwrite its stock.
+            inventoryRepository.insert(rec);
             return true;
         }
 
         InventoryRecord current = opt.get();
-        long newQuantity = current.getQuantity() + physicalDelta;
-        long newReserved = current.getReservedQuantity() + reservedDelta;
+        long newQuantity;
+        long newReserved;
+        try {
+            newQuantity = Math.addExact(current.getQuantity(), physicalDelta);
+            newReserved = Math.addExact(current.getReservedQuantity(), reservedDelta);
+        } catch (ArithmeticException ex) {
+            return false;
+        }
 
         if (newQuantity < 0 || newReserved < 0 || newQuantity < newReserved) {
             return false;

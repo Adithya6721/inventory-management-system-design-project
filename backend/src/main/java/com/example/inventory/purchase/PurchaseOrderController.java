@@ -28,7 +28,7 @@ public class PurchaseOrderController {
     @PostMapping("/{orderId}/receive")
     public ResponseEntity<PurchaseOrderResponse> receiveStock(
             @PathVariable String orderId,
-            @RequestBody(required = false) PurchaseReceiptRequest request) {
+            @Valid @RequestBody(required = false) PurchaseReceiptRequest request) {
         return ResponseEntity.ok(purchaseOrderService.receiveStock(orderId, request));
     }
 }

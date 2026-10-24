@@ -18,8 +18,12 @@ buildNumber.properties
 .project
 .settings/
 *.log
+!evaluation/results/**/console.log
 .DS_Store
 Thumbs.db
 
 # Local verification database and logs
 .verification/
+__pycache__/
+frontend/node_modules/
+frontend/dist/

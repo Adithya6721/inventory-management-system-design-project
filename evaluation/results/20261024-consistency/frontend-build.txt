@@ -1,0 +1,11 @@
+Command: npm.cmd run build (frontend/)
+Result: exit code 0
+
+vite v8.3.4 building client environment for production...
+1938 modules transformed.
+dist/index.html                   0.47 kB | gzip: 0.30 kB
+dist/assets/index-D-joBdQf.css    8.44 kB | gzip: 2.50 kB
+dist/assets/index-BhfpPUKX.js   333.14 kB | gzip: 92.72 kB
+built in 1.66s
+
+This records a successful production bundle build, not browser end-to-end testing.

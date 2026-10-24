@@ -3,12 +3,29 @@ version: '3.8'
 services:
   mongodb:
     image: mongo:7.0
+    command: ["mongod", "--replSet", "inventory-rs", "--bind_ip_all"]
     container_name: inventory-mongodb
     restart: unless-stopped
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    networks:
+      - inventory-net
+
+  mongodb-init:
+    image: mongo:7.0
+    command: ["mongosh", "--host", "mongodb:27017", "--quiet", "--file", "/init-replica.js"]
+    volumes:
+      - ./scripts/init-replica.js:/init-replica.js:ro
+    depends_on:
+      mongodb:
+        condition: service_healthy
     networks:
       - inventory-net
 
@@ -34,12 +51,15 @@ services:
       - MONGO_HOST=mongodb
       - MONGO_PORT=27017
       - MONGO_DB=inventory_db
+      - MONGO_URI=mongodb://mongodb:27017/inventory_db?replicaSet=inventory-rs
       - SHARDING_ENABLED=true
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     depends_on:
-      - mongodb
-      - redis
+      mongodb-init:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
     networks:
       - inventory-net
 

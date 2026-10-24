@@ -10,6 +10,8 @@ import com.example.inventory.warehouse.WarehouseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.example.inventory.common.RequestFingerprint;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class SalesOrderService {
 
     private static final Logger log = LoggerFactory.getLogger(SalesOrderService.class);
@@ -44,6 +47,11 @@ public class SalesOrderService {
         if (request.getIdempotencyKey() != null && !request.getIdempotencyKey().isBlank()) {
             Optional<SalesOrder> existing = salesOrderRepository.findByIdempotencyKey(request.getIdempotencyKey().trim());
             if (existing.isPresent()) {
+                RequestFingerprint.requireSame(
+                        RequestFingerprint.of(RequestFingerprint.lines(existing.get().getItems(),
+                                SalesOrderItem::getProductId, SalesOrderItem::getWarehouseId, SalesOrderItem::getQuantity)),
+                        RequestFingerprint.of(RequestFingerprint.lines(request.getItems(),
+                                SalesOrderItemRequest::getProductId, SalesOrderItemRequest::getWarehouseId, SalesOrderItemRequest::getQuantity)));
                 log.info("Returning existing sales order for idempotencyKey: {}", request.getIdempotencyKey());
                 return SalesOrderResponse.fromDomain(existing.get());
             }
@@ -99,7 +107,7 @@ public class SalesOrderService {
                 orderId,
                 reservedItems,
                 SalesOrderStatus.RESERVED,
-                request.getIdempotencyKey() != null ? request.getIdempotencyKey().trim() : null
+                RequestFingerprint.key(request.getIdempotencyKey())
         );
 
         SalesOrder saved = salesOrderRepository.save(order);
@@ -115,7 +123,7 @@ public class SalesOrderService {
                 .orElseThrow(() -> new NotFoundException("Sales order not found with ID: " + orderId));
     }
 
-    public synchronized SalesOrderResponse cancelOrder(String orderId) {
+    public SalesOrderResponse cancelOrder(String orderId) {
         SalesOrder order = getOrderEntity(orderId);
 
         if (order.getStatus() == SalesOrderStatus.CANCELLED) {
@@ -128,12 +136,13 @@ public class SalesOrderService {
 
         if (order.getStatus() == SalesOrderStatus.RESERVED) {
             for (SalesOrderItem item : order.getItems()) {
-                inventoryService.releaseReservedStock(
+                boolean released = inventoryService.releaseReservedStock(
                         item.getProductId(),
                         item.getWarehouseId(),
                         item.getQuantity(),
                         orderId
                 );
+                if (!released) throw new ConflictException("Reservation release failed; order was not cancelled.");
             }
         }
 
@@ -144,7 +153,7 @@ public class SalesOrderService {
         return SalesOrderResponse.fromDomain(saved);
     }
 
-    public synchronized SalesOrderResponse completeOrder(String orderId) {
+    public SalesOrderResponse completeOrder(String orderId) {
         SalesOrder order = getOrderEntity(orderId);
 
         if (order.getStatus() == SalesOrderStatus.COMPLETED) {
@@ -156,12 +165,13 @@ public class SalesOrderService {
         }
 
         for (SalesOrderItem item : order.getItems()) {
-            inventoryService.deductReservedStock(
+            boolean deducted = inventoryService.deductReservedStock(
                     item.getProductId(),
                     item.getWarehouseId(),
                     item.getQuantity(),
                     orderId
             );
+            if (!deducted) throw new ConflictException("Reserved stock deduction failed; order was not completed.");
         }
 
         order.setStatus(SalesOrderStatus.COMPLETED);

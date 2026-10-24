@@ -10,6 +10,9 @@ import com.example.inventory.product.Product;
 import com.example.inventory.product.ProductService;
 import com.example.inventory.warehouse.WarehouseService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,21 +45,17 @@ public class InventoryService {
         this.idGeneratorPort = idGeneratorPort;
     }
 
+    @Transactional(readOnly = true)
     public InventoryResponse getInventory(String productId, String warehouseId) {
-        return inventoryCachePort.getCachedInventory(productId, warehouseId)
-                .orElseGet(() -> {
-                    // Ensure product & warehouse exist
-                    productService.getProductEntity(productId);
-                    warehouseService.getWarehouseEntity(warehouseId);
-
-                    InventoryResponse response = persistencePort.findByProductIdAndWarehouseId(productId, warehouseId)
-                            .map(InventoryResponse::fromDomain)
-                            .orElseGet(() -> new InventoryResponse(productId, warehouseId, 0, 0, 0, null));
-                    inventoryCachePort.cacheInventory(productId, warehouseId, response);
-                    return response;
-                });
+        // Availability is authoritative. Product metadata may still use Redis caching.
+        productService.getProductEntity(productId);
+        warehouseService.getWarehouseEntity(warehouseId);
+        return persistencePort.findByProductIdAndWarehouseId(productId, warehouseId)
+                .map(InventoryResponse::fromDomain)
+                .orElseGet(() -> new InventoryResponse(productId, warehouseId, 0, 0, 0, null));
     }
 
+    @Transactional(readOnly = true)
     public List<InventoryResponse> getInventoryByProduct(String productId) {
         productService.getProductEntity(productId);
         return persistencePort.findByProductId(productId).stream()
@@ -64,6 +63,7 @@ public class InventoryService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<InventoryResponse> getInventoryByWarehouse(String warehouseId) {
         warehouseService.getWarehouseEntity(warehouseId);
         return persistencePort.findByWarehouseId(warehouseId).stream()
@@ -71,6 +71,7 @@ public class InventoryService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public boolean reserveStock(String productId, String warehouseId, long quantity, String referenceId) {
         boolean success = persistencePort.reserveStock(productId, warehouseId, quantity);
         if (success) {
@@ -80,6 +81,7 @@ public class InventoryService {
         return success;
     }
 
+    @Transactional
     public boolean releaseReservedStock(String productId, String warehouseId, long quantity, String referenceId) {
         boolean success = persistencePort.releaseReservedStock(productId, warehouseId, quantity);
         if (success) {
@@ -89,6 +91,7 @@ public class InventoryService {
         return success;
     }
 
+    @Transactional
     public boolean deductReservedStock(String productId, String warehouseId, long quantity, String referenceId) {
         boolean success = persistencePort.deductReservedStock(productId, warehouseId, quantity);
         if (success) {
@@ -98,6 +101,7 @@ public class InventoryService {
         return success;
     }
 
+    @Transactional
     public boolean deductAvailableStockDirect(String productId, String warehouseId, long quantity,
                                              MovementType movementType, String referenceId) {
         boolean success = persistencePort.deductAvailableStockDirect(productId, warehouseId, quantity);
@@ -108,6 +112,7 @@ public class InventoryService {
         return success;
     }
 
+    @Transactional
     public InventoryRecord creditStock(String productId, String warehouseId, long quantity,
                                       MovementType movementType, String referenceId) {
         productService.getProductEntity(productId);
@@ -119,6 +124,7 @@ public class InventoryService {
         return updated;
     }
 
+    @Transactional
     public InventoryResponse adjustStock(StockAdjustmentRequest request) {
         Product product = productService.getProductEntity(request.getProductId());
         warehouseService.validateWarehouseActive(request.getWarehouseId());
@@ -168,8 +174,17 @@ public class InventoryService {
     }
 
     private void onStockMutated(String productId, String warehouseId) {
-        inventoryCachePort.evictInventory(productId, warehouseId);
-        inventoryCachePort.evictAllProductInventory(productId);
+        Runnable evict = () -> {
+            inventoryCachePort.evictInventory(productId, warehouseId);
+            inventoryCachePort.evictAllProductInventory(productId);
+        };
+        if (TransactionSynchronizationManager.isSynchronizationActive()) {
+            TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+                @Override public void afterCommit() { evict.run(); }
+            });
+        } else {
+            evict.run();
+        }
 
         // Low stock evaluation
         Optional<InventoryRecord> recordOpt = persistencePort.findByProductIdAndWarehouseId(productId, warehouseId);

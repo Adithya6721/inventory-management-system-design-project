@@ -33,7 +33,7 @@ public class InventoryRecord {
     }
 
     public InventoryRecord(String productId, String warehouseId, long quantity, long reservedQuantity) {
-        this.id = productId + "_" + warehouseId;
+        this.id = com.example.inventory.common.RequestFingerprint.of(productId, warehouseId);
         this.productId = productId;
         this.warehouseId = warehouseId;
         this.quantity = quantity;

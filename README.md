@@ -2,6 +2,14 @@
 
 This repository houses the core inventory and database backend for the System Design Laboratory project (**Topic 4: Scalable Inventory Management System**).
 
+**Consistency branch update:** MongoDB must run as a replica set (or through
+mongos); standalone mode is rejected. Stock, order state, receipts, audit records
+and alerts now use transactions across the logical shard databases. Stock reads
+bypass Redis; product metadata caching remains. See [consistency design and test
+matrix](docs/consistency.md) and [recorded correctness results](evaluation/results/20261024-consistency/README.md).
+Compose initializes a one-member replica set. For isolated local checks, run
+`scripts/start-consistency-mongo.ps1`, followed by `scripts/test-consistency.ps1`.
+
 Developed by **Member 1: Core Inventory & Database**.
 
 **Member 2 is now implemented:** inventory persistence uses three logical MongoDB

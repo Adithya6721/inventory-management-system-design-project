@@ -122,11 +122,42 @@ class SalesOrderServiceTest {
                 SalesOrderStatus.RESERVED, null
         );
         when(salesOrderRepository.findByOrderId("so_101")).thenReturn(Optional.of(order));
+        when(inventoryService.releaseReservedStock("prod_1", "wh_1", 2, "so_101")).thenReturn(true);
         when(salesOrderRepository.save(any(SalesOrder.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SalesOrderResponse response = salesOrderService.cancelOrder("so_101");
 
         assertEquals(SalesOrderStatus.CANCELLED, response.getStatus());
         verify(inventoryService).releaseReservedStock("prod_1", "wh_1", 2, "so_101");
+    }
+
+    @Test
+    void failedDeductionMustNotCompleteOrder() {
+        SalesOrder order = new SalesOrder("so_failed", List.of(new SalesOrderItem("p", "w", 2)),
+                SalesOrderStatus.RESERVED, null);
+        when(salesOrderRepository.findByOrderId("so_failed")).thenReturn(Optional.of(order));
+        assertThrows(ConflictException.class, () -> salesOrderService.completeOrder("so_failed"));
+        assertEquals(SalesOrderStatus.RESERVED, order.getStatus());
+        verify(salesOrderRepository, never()).save(any());
+    }
+
+    @Test
+    void failedReleaseMustNotCancelOrder() {
+        SalesOrder order = new SalesOrder("so_failed", List.of(new SalesOrderItem("p", "w", 2)),
+                SalesOrderStatus.RESERVED, null);
+        when(salesOrderRepository.findByOrderId("so_failed")).thenReturn(Optional.of(order));
+        assertThrows(ConflictException.class, () -> salesOrderService.cancelOrder("so_failed"));
+        assertEquals(SalesOrderStatus.RESERVED, order.getStatus());
+        verify(salesOrderRepository, never()).save(any());
+    }
+
+    @Test
+    void sameIdempotencyKeyCannotDescribeDifferentOrder() {
+        SalesOrder prior = new SalesOrder("so_existing", List.of(new SalesOrderItem("p", "w", 2)),
+                SalesOrderStatus.RESERVED, "same-key");
+        when(salesOrderRepository.findByIdempotencyKey("same-key")).thenReturn(Optional.of(prior));
+        assertThrows(ConflictException.class, () -> salesOrderService.placeOrder(new SalesOrderRequest(
+                List.of(new SalesOrderItemRequest("p", "w", 3)), "same-key")));
+        verifyNoInteractions(inventoryService);
     }
 }

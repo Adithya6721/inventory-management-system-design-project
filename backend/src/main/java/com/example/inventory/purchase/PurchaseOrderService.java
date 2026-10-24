@@ -9,6 +9,10 @@ import com.example.inventory.inventory.MovementType;
 import com.example.inventory.product.ProductService;
 import com.example.inventory.warehouse.WarehouseService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.example.inventory.common.RequestFingerprint;
+import java.util.TreeMap;
+import java.util.HashSet;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -18,6 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class PurchaseOrderService {
 
     private final PurchaseOrderRepository purchaseOrderRepository;
@@ -43,6 +48,14 @@ public class PurchaseOrderService {
         if (request.getIdempotencyKey() != null && !request.getIdempotencyKey().isBlank()) {
             Optional<PurchaseOrder> existing = purchaseOrderRepository.findByIdempotencyKey(request.getIdempotencyKey().trim());
             if (existing.isPresent()) {
+                PurchaseOrder prior = existing.get();
+                RequestFingerprint.requireSame(
+                        RequestFingerprint.of(prior.getSupplierId(), prior.getDestinationWarehouseId(),
+                                RequestFingerprint.lines(prior.getItems(), PurchaseOrderItem::getProductId,
+                                        i -> "", PurchaseOrderItem::getQuantity)),
+                        RequestFingerprint.of(request.getSupplierId(), request.getDestinationWarehouseId(),
+                                RequestFingerprint.lines(request.getItems(), PurchaseOrderItemRequest::getProductId,
+                                        i -> "", PurchaseOrderItemRequest::getQuantity)));
                 return PurchaseOrderResponse.fromDomain(existing.get());
             }
         }
@@ -52,7 +65,11 @@ public class PurchaseOrderService {
 
         // Validate products
         List<PurchaseOrderItem> items = new ArrayList<>();
+        var seenProducts = new HashSet<String>();
         for (PurchaseOrderItemRequest itemReq : request.getItems()) {
+            if (!seenProducts.add(itemReq.getProductId())) {
+                throw new BadRequestException("Purchase order must contain one line per product.");
+            }
             productService.getProductEntity(itemReq.getProductId());
             if (itemReq.getQuantity() <= 0) {
                 throw new BadRequestException("Quantity for product " + itemReq.getProductId() + " must be > 0");
@@ -67,7 +84,7 @@ public class PurchaseOrderService {
                 request.getDestinationWarehouseId(),
                 items,
                 PurchaseOrderStatus.CREATED,
-                request.getIdempotencyKey() != null ? request.getIdempotencyKey().trim() : null
+                RequestFingerprint.key(request.getIdempotencyKey())
         );
 
         PurchaseOrder saved = purchaseOrderRepository.save(order);
@@ -83,8 +100,35 @@ public class PurchaseOrderService {
                 .orElseThrow(() -> new NotFoundException("Purchase order not found with ID: " + orderId));
     }
 
-    public synchronized PurchaseOrderResponse receiveStock(String orderId, PurchaseReceiptRequest request) {
+    public PurchaseOrderResponse receiveStock(String orderId, PurchaseReceiptRequest request) {
         PurchaseOrder order = getPurchaseOrderEntity(orderId);
+
+        String receiptKey = RequestFingerprint.key(request == null ? null : request.getIdempotencyKey());
+        Map<String, Long> received = new TreeMap<>();
+        if (request != null && request.getItems() != null) {
+            for (PurchaseReceiptItemRequest item : request.getItems()) {
+                if (item == null || item.getProductId() == null || item.getProductId().isBlank()
+                        || item.getQuantityReceived() <= 0) {
+                    throw new BadRequestException("Receipt items require a product and a positive quantity.");
+                }
+                try {
+                    received.merge(item.getProductId(), item.getQuantityReceived(), Math::addExact);
+                } catch (ArithmeticException ex) {
+                    throw new BadRequestException("Receipt quantity exceeds supported range.");
+                }
+            }
+        }
+        // A partial receipt needs a stable identity to distinguish retries from a new delivery.
+        if (!received.isEmpty() && receiptKey == null) {
+            throw new BadRequestException("Partial/itemised receipts require an idempotencyKey.");
+        }
+        String fingerprint = RequestFingerprint.of(received.isEmpty() ? "ALL_REMAINING" : received);
+        String keyHash = RequestFingerprint.hash(receiptKey == null ? "implicit-all-remaining" : "explicit:" + receiptKey);
+        String priorReceipt = order.getReceiptFingerprints().get(keyHash);
+        if (priorReceipt != null) {
+            RequestFingerprint.requireSame(priorReceipt, fingerprint);
+            return PurchaseOrderResponse.fromDomain(order);
+        }
 
         if (order.getStatus() == PurchaseOrderStatus.CANCELLED) {
             throw new ConflictException("Cannot receive stock for CANCELLED purchase order: " + orderId);
@@ -99,31 +143,30 @@ public class PurchaseOrderService {
         Map<String, PurchaseOrderItem> itemMap = order.getItems().stream()
                 .collect(Collectors.toMap(PurchaseOrderItem::getProductId, i -> i));
 
-        if (request != null && request.getItems() != null && !request.getItems().isEmpty()) {
+        if (!received.isEmpty()) {
             // Validate first so no partial mutations happen if validation fails
-            for (PurchaseReceiptItemRequest itemReq : request.getItems()) {
-                PurchaseOrderItem orderItem = itemMap.get(itemReq.getProductId());
+            for (var entry : received.entrySet()) {
+                PurchaseOrderItem orderItem = itemMap.get(entry.getKey());
                 if (orderItem == null) {
-                    throw new BadRequestException("Product " + itemReq.getProductId() + " is not in purchase order " + orderId);
+                    throw new BadRequestException("Product " + entry.getKey() + " is not in purchase order " + orderId);
                 }
                 long remaining = orderItem.getQuantity() - orderItem.getReceivedQuantity();
-                if (itemReq.getQuantityReceived() > remaining) {
-                    throw new ConflictException("Received quantity " + itemReq.getQuantityReceived() +
-                            " exceeds remaining ordered quantity " + remaining + " for product " + itemReq.getProductId());
+                if (entry.getValue() > remaining) {
+                    throw new ConflictException("Received quantity exceeds remaining ordered quantity for " + entry.getKey());
                 }
             }
 
             // Apply stock credits and update order items
-            for (PurchaseReceiptItemRequest itemReq : request.getItems()) {
+            for (var entry : received.entrySet()) {
                 inventoryService.creditStock(
-                        itemReq.getProductId(),
+                        entry.getKey(),
                         destinationWarehouseId,
-                        itemReq.getQuantityReceived(),
+                        entry.getValue(),
                         MovementType.PURCHASE_RECEIPT,
                         orderId
                 );
-                PurchaseOrderItem orderItem = itemMap.get(itemReq.getProductId());
-                orderItem.setReceivedQuantity(orderItem.getReceivedQuantity() + itemReq.getQuantityReceived());
+                PurchaseOrderItem orderItem = itemMap.get(entry.getKey());
+                orderItem.setReceivedQuantity(orderItem.getReceivedQuantity() + entry.getValue());
             }
         } else {
             // Receive all remaining items
@@ -145,6 +188,7 @@ public class PurchaseOrderService {
         boolean allComplete = order.getItems().stream().allMatch(i -> i.getReceivedQuantity() >= i.getQuantity());
         order.setStatus(allComplete ? PurchaseOrderStatus.RECEIVED : PurchaseOrderStatus.PARTIALLY_RECEIVED);
         order.setUpdatedAt(Instant.now());
+        order.getReceiptFingerprints().put(keyHash, fingerprint);
 
         PurchaseOrder updated = purchaseOrderRepository.save(order);
         return PurchaseOrderResponse.fromDomain(updated);

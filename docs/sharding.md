@@ -1,5 +1,11 @@
 # Member 2 Sharding and Consistent Hashing
 
+Consistency branch: the MongoDB deployment must support transactions (replica set
+or mongos). Logical shard templates now share the core transaction session, and
+migration waits for whole business transactions. A pre-migration database snapshot
+cannot be combined with post-migration routing; affected requests return a retryable
+conflict. See [the current design and test runner](consistency.md).
+
 Member 2 is implemented in `backend/src/main/java/com/example/inventory/sharding`.
 It routes the existing inventory APIs to three logical MongoDB database shards,
 with a fourth configured as a standby for the scaling demonstration.

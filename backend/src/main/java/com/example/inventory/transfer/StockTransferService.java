@@ -11,6 +11,8 @@ import com.example.inventory.warehouse.WarehouseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.example.inventory.common.RequestFingerprint;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class StockTransferService {
 
     private static final Logger log = LoggerFactory.getLogger(StockTransferService.class);
@@ -45,6 +48,14 @@ public class StockTransferService {
         if (request.getIdempotencyKey() != null && !request.getIdempotencyKey().isBlank()) {
             Optional<StockTransfer> existing = stockTransferRepository.findByIdempotencyKey(request.getIdempotencyKey().trim());
             if (existing.isPresent()) {
+                StockTransfer prior = existing.get();
+                RequestFingerprint.requireSame(
+                        RequestFingerprint.of(prior.getSourceWarehouseId(), prior.getDestinationWarehouseId(),
+                                RequestFingerprint.lines(prior.getItems(), TransferItem::getProductId,
+                                        i -> "", TransferItem::getQuantity)),
+                        RequestFingerprint.of(request.getSourceWarehouseId(), request.getDestinationWarehouseId(),
+                                RequestFingerprint.lines(request.getItems(), TransferItemRequest::getProductId,
+                                        i -> "", TransferItemRequest::getQuantity)));
                 log.info("Returning existing transfer for idempotencyKey: {}", request.getIdempotencyKey());
                 return StockTransferResponse.fromDomain(existing.get());
             }
@@ -110,7 +121,7 @@ public class StockTransferService {
                 request.getDestinationWarehouseId(),
                 deductedItems,
                 TransferStatus.IN_TRANSIT,
-                request.getIdempotencyKey() != null ? request.getIdempotencyKey().trim() : null
+                RequestFingerprint.key(request.getIdempotencyKey())
         );
 
         StockTransfer saved = stockTransferRepository.save(transfer);
@@ -126,7 +137,7 @@ public class StockTransferService {
                 .orElseThrow(() -> new NotFoundException("Stock transfer not found with ID: " + transferId));
     }
 
-    public synchronized StockTransferResponse completeTransfer(String transferId) {
+    public StockTransferResponse completeTransfer(String transferId) {
         StockTransfer transfer = getTransferEntity(transferId);
 
         if (transfer.getStatus() == TransferStatus.COMPLETED) {
@@ -134,7 +145,7 @@ public class StockTransferService {
             return StockTransferResponse.fromDomain(transfer);
         }
 
-        if (transfer.getStatus() != TransferStatus.IN_TRANSIT && transfer.getStatus() != TransferStatus.INITIATED) {
+        if (transfer.getStatus() != TransferStatus.IN_TRANSIT) {
             throw new ConflictException("Cannot complete stock transfer from status: " + transfer.getStatus());
         }
 
@@ -156,7 +167,7 @@ public class StockTransferService {
         return StockTransferResponse.fromDomain(saved);
     }
 
-    public synchronized StockTransferResponse cancelTransfer(String transferId) {
+    public StockTransferResponse cancelTransfer(String transferId) {
         StockTransfer transfer = getTransferEntity(transferId);
 
         if (transfer.getStatus() == TransferStatus.CANCELLED) {
@@ -165,6 +176,10 @@ public class StockTransferService {
 
         if (transfer.getStatus() == TransferStatus.COMPLETED) {
             throw new ConflictException("Cannot cancel an already COMPLETED transfer: " + transferId);
+        }
+
+        if (transfer.getStatus() != TransferStatus.IN_TRANSIT) {
+            throw new ConflictException("Cannot restore stock for a transfer that is not IN_TRANSIT.");
         }
 
         // Restore stock to source warehouse

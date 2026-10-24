@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeftRight, Plus, CheckCircle, Truck, AlertCircle } from 'lucide-react';
 import { api } from '../services/api';
+import { pendingCreate, completeCreate } from '../services/idempotency';
 
 export default function StockTransfers({
   warehouses = [],
@@ -45,7 +46,9 @@ export default function StockTransfers({
         ]
       };
 
-      const res = await api.createTransfer(payload);
+      const intent = pendingCreate('transfer', payload);
+      const res = await api.createTransfer(intent);
+      completeCreate('transfer', intent.idempotencyKey);
       setTransfers(prev => [res, ...prev]);
 
       onShowToast({

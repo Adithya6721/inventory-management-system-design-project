@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 @Document(collection = "purchase_orders")
 public class PurchaseOrder {
@@ -31,6 +33,13 @@ public class PurchaseOrder {
 
     @Indexed(unique = true, sparse = true)
     private String idempotencyKey;
+
+    // Hashed receipt key -> canonical request fingerprint, committed with the stock credit.
+    private Map<String, String> receiptFingerprints = new LinkedHashMap<>();
+
+    public Map<String, String> getReceiptFingerprints() {
+        return receiptFingerprints;
+    }
 
     @CreatedDate
     private Instant createdAt;

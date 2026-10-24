@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Plus, CheckCircle, Package, ArrowDownLeft, Clock } from 'lucide-react';
 import { api } from '../services/api';
+import { pendingCreate, completeCreate } from '../services/idempotency';
 
 export default function PurchaseOrders({
   warehouses = [],
@@ -50,7 +51,9 @@ export default function PurchaseOrders({
         ]
       };
 
-      const res = await api.createPurchaseOrder(payload);
+      const intent = pendingCreate('purchase', payload);
+      const res = await api.createPurchaseOrder(intent);
+      completeCreate('purchase', intent.idempotencyKey);
       setPurchaseOrders(prev => [res, ...prev]);
 
       onShowToast({
@@ -79,12 +82,9 @@ export default function PurchaseOrders({
     }
 
     try {
-      const receivePayload = {
-        items: po.items.map(item => ({
-          productId: item.productId,
-          quantityReceived: item.quantity - (item.receivedQuantity || 0)
-        }))
-      };
+      // Receive all remaining units. The server records a stable receipt identity,
+      // so retrying after a lost response cannot credit stock twice.
+      const receivePayload = {};
 
       const updated = await api.receivePurchaseOrder(po.orderId, receivePayload);
       setPurchaseOrders(prev => prev.map(p => p.orderId === po.orderId ? updated : p));

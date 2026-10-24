@@ -11,6 +11,8 @@ import java.time.Instant;
 
 @Document(collection = "low_stock_alerts")
 @CompoundIndex(name = "prod_wh_status_idx", def = "{'productId': 1, 'warehouseId': 1, 'status': 1}")
+@CompoundIndex(name = "one_active_alert_per_stock", def = "{'productId': 1, 'warehouseId': 1}",
+        unique = true, partialFilter = "{'status': 'ACTIVE'}")
 public class LowStockAlert {
 
     @Id

@@ -17,6 +17,8 @@ import java.util.TreeSet;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Function;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /** Single-process routing coordinator. Membership changes exclude all inventory operations. */
 public class ShardedInventoryPersistenceRouter implements InventoryPersistencePort {
@@ -29,6 +31,30 @@ public class ShardedInventoryPersistenceRouter implements InventoryPersistencePo
     private ShardTopology topology;
     private ConsistentHashRing ring;
     private boolean ready;
+    private final ThreadLocal<Boolean> transactionReadLock = new ThreadLocal<>();
+
+    /** Keep membership fixed until the WHOLE business transaction commits/aborts. */
+    private boolean acquireInventoryLock() {
+        if (Boolean.TRUE.equals(transactionReadLock.get())) return false;
+        lock.readLock().lock();
+        if (!TransactionSynchronizationManager.isActualTransactionActive()) return true;
+        transactionReadLock.set(true);
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCompletion(int status) {
+                transactionReadLock.remove();
+                lock.readLock().unlock();
+            }
+        });
+        requireReady();
+        // The transaction may have read master data before taking this lock.
+        // Never combine a pre-migration snapshot with post-migration routing.
+        ShardTopology visible = metadata.findById(ShardTopology.ID, ShardTopology.class);
+        if (visible == null || !new TreeSet<>(visible.activeShards()).equals(new TreeSet<>(ring.servers()))) {
+            throw new ConflictException("Shard membership changed after this transaction began; retry the request.");
+        }
+        return false;
+    }
 
     ShardedInventoryPersistenceRouter(Map<String, MongoShard> shards, MongoTemplate metadata,
                                       ShardingProperties properties) {
@@ -109,19 +135,19 @@ public class ShardedInventoryPersistenceRouter implements InventoryPersistencePo
 
     private <T> T routed(String productId, String warehouseId, Function<InventoryPersistencePort, T> operation) {
         String key = inventoryKey(productId, warehouseId);
-        lock.readLock().lock();
+        boolean release = acquireInventoryLock();
         try {
             requireReady();
             String owner = ring.route(key);
             requests.get(owner).increment();
             return operation.apply(shards.get(owner).persistence());
         } finally {
-            lock.readLock().unlock();
+            if (release) lock.readLock().unlock();
         }
     }
 
     private List<InventoryRecord> scatter(Function<InventoryPersistencePort, List<InventoryRecord>> operation) {
-        lock.readLock().lock();
+        boolean release = acquireInventoryLock();
         try {
             requireReady();
             List<InventoryRecord> result = new ArrayList<>();
@@ -131,7 +157,7 @@ public class ShardedInventoryPersistenceRouter implements InventoryPersistencePo
             }
             return result;
         } finally {
-            lock.readLock().unlock();
+            if (release) lock.readLock().unlock();
         }
     }
 

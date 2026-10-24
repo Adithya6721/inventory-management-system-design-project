@@ -109,4 +109,29 @@ class PurchaseOrderServiceTest {
         assertThrows(ConflictException.class, () -> purchaseOrderService.receiveStock("po_500", receipt));
         verify(inventoryService, never()).creditStock(any(), any(), anyLong(), any(), any());
     }
+
+    @Test
+    void repeatedPartialReceiptKeyMustNotCreditTwice() {
+        PurchaseOrder order = new PurchaseOrder("po_repeat", "s", "w",
+                List.of(new PurchaseOrderItem("p", 10, 0)), PurchaseOrderStatus.CREATED, null);
+        when(purchaseOrderRepository.findByOrderId("po_repeat")).thenReturn(Optional.of(order));
+        when(purchaseOrderRepository.save(any())).thenAnswer(call -> call.getArgument(0));
+        PurchaseReceiptRequest receipt = new PurchaseReceiptRequest(
+                List.of(new PurchaseReceiptItemRequest("p", 3)), "receipt-key");
+        purchaseOrderService.receiveStock("po_repeat", receipt);
+        purchaseOrderService.receiveStock("po_repeat", receipt);
+        assertEquals(3, order.getItems().get(0).getReceivedQuantity());
+        verify(inventoryService, times(1)).creditStock("p", "w", 3, MovementType.PURCHASE_RECEIPT, "po_repeat");
+    }
+
+    @Test
+    void duplicateReceiptLinesMustNotBypassRemainingQuantityCheck() {
+        PurchaseOrder order = new PurchaseOrder("po_duplicate", "s", "w",
+                List.of(new PurchaseOrderItem("p", 10, 0)), PurchaseOrderStatus.CREATED, null);
+        when(purchaseOrderRepository.findByOrderId("po_duplicate")).thenReturn(Optional.of(order));
+        PurchaseReceiptRequest receipt = new PurchaseReceiptRequest(List.of(
+                new PurchaseReceiptItemRequest("p", 6), new PurchaseReceiptItemRequest("p", 6)), "receipt-key");
+        assertThrows(ConflictException.class, () -> purchaseOrderService.receiveStock("po_duplicate", receipt));
+        verifyNoInteractions(inventoryService);
+    }
 }

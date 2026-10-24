@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Plus, Check, X, ShieldAlert, ArrowUpRight, AlertTriangle } from 'lucide-react';
 import { api } from '../services/api';
+import { pendingCreate, completeCreate } from '../services/idempotency';
 
 export default function SalesOrders({
   warehouses = [],
@@ -38,7 +39,9 @@ export default function SalesOrders({
         ]
       };
 
-      const res = await api.createSalesOrder(payload);
+      const intent = pendingCreate('sales', payload);
+      const res = await api.createSalesOrder(intent);
+      completeCreate('sales', intent.idempotencyKey);
       setSalesOrders(prev => [res, ...prev]);
 
       onShowToast({
@@ -51,13 +54,11 @@ export default function SalesOrders({
       if (onRefreshAll) onRefreshAll();
     } catch (err) {
       if (err.isConflict || err.status === 409) {
-        setConflictError(
-          `Atomic Overselling Protection: Insufficient available stock in warehouse '${selectedWarehouseId}'. The MongoDB findAndModify matched 0 records and safely rejected the order without modifying inventory balances.`
-        );
+        setConflictError(err.message || 'Order conflicts with the current inventory state.');
         onShowToast({
           type: 'warning',
-          title: 'Stock Conflict (HTTP 409)',
-          message: 'Order rejected: requested quantity exceeds real-time available stock.'
+          title: 'Order Conflict (HTTP 409)',
+          message: err.message || 'Retry the unchanged order after refreshing inventory.'
         });
       } else {
         setConflictError(err.message || 'Order failed');

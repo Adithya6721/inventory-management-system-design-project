@@ -158,7 +158,9 @@ class ShardingMongoIntegrationTest {
         assertEquals(1, across.getBody().length);
         var byWarehouse = http.getForEntity("/api/warehouses/" + w + "/inventory", InventoryResponse[].class);
         assertEquals(1, byWarehouse.getBody().length);
-        assertEquals(HttpStatus.CONFLICT, http.postForEntity("/api/shards/shard-4", null, Map.class).getStatusCode());
+        // The random product's owner removed above may be shard-4 itself.
+        String activeShard = router.status().activeShards().get(0);
+        assertEquals(HttpStatus.CONFLICT, http.postForEntity("/api/shards/" + activeShard, null, Map.class).getStatusCode());
         assertEquals(HttpStatus.BAD_REQUEST, http.postForEntity("/api/shards/unknown", null, Map.class).getStatusCode());
     }
 

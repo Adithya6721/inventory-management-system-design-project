@@ -82,6 +82,25 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
+    @ExceptionHandler(org.springframework.dao.TransientDataAccessException.class)
+    public ResponseEntity<ApiError> handleConcurrentWrite(Exception ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiError(409, "Conflict",
+                "Concurrent inventory update; retry using the same idempotency key.", request.getRequestURI()));
+    }
+
+    @ExceptionHandler(org.springframework.dao.DataAccessException.class)
+    public ResponseEntity<ApiError> handleDataAccess(org.springframework.dao.DataAccessException ex, HttpServletRequest request) {
+        return TransactionErrors.isTransient(ex) ? handleConcurrentWrite(ex, request) : handleGeneric(ex, request);
+    }
+
+    @ExceptionHandler(org.springframework.transaction.TransactionSystemException.class)
+    public ResponseEntity<ApiError> handleUncertainCommit(Exception ex, HttpServletRequest request) {
+        log.error("Transaction outcome requires reconciliation at {}", request.getRequestURI(), ex);
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new ApiError(503, "Service Unavailable",
+                "Transaction outcome could not be confirmed. Reconcile or retry with the same idempotency key.",
+                request.getRequestURI()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request) {
         List<String> details = new ArrayList<>();

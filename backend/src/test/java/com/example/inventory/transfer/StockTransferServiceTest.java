@@ -118,4 +118,14 @@ class StockTransferServiceTest {
         assertEquals(TransferStatus.COMPLETED, response.getStatus());
         verify(inventoryService, never()).creditStock(any(), any(), anyLong(), any(), any());
     }
+
+    @Test
+    void mustNotDeliverTransferThatHasNotBeenDispatched() {
+        StockTransfer transfer = new StockTransfer("trn_not_sent", "source", "dest",
+                List.of(new TransferItem("p", 3)), TransferStatus.INITIATED, null);
+        when(stockTransferRepository.findByTransferId("trn_not_sent")).thenReturn(Optional.of(transfer));
+        assertThrows(com.example.inventory.common.ConflictException.class,
+                () -> stockTransferService.completeTransfer("trn_not_sent"));
+        verifyNoInteractions(inventoryService);
+    }
 }

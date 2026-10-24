@@ -25,7 +25,7 @@ public class ShardingConfiguration {
                         throw new IllegalArgumentException("Shard databases must differ from the core database");
                     }
                     shards.put(entry.getKey(), new MongoShard(entry.getValue(),
-                            new MongoTemplate(client, entry.getValue())));
+                            new TransactionalShardTemplate(mongoTemplate, entry.getValue())));
                 });
         var router = new ShardedInventoryPersistenceRouter(shards, mongoTemplate, properties);
         router.initialize();
