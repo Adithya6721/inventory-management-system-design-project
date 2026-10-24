@@ -210,6 +210,34 @@ class ApiClient {
     });
   }
 
+  // --- 9. URL Shortener (Component #6) ---
+  /**
+   * Shorten a long URL via the real backend.
+   * POST /api/shorten → { code, shortUrl, longUrl, clickCount, createdAt, expiresAt }
+   */
+  shortenUrl(longUrl, ttlDays) {
+    return this.request('/shorten', {
+      method: 'POST',
+      body: JSON.stringify({ longUrl, ttlDays: ttlDays || null })
+    });
+  }
+
+  /**
+   * Resolve a short code to its long URL metadata (does NOT increment click count).
+   * GET /api/shorten/{code}/info
+   */
+  getShortUrlInfo(code) {
+    return this.request(`/shorten/${code}/info`);
+  }
+
+  /**
+   * Get URL shortener component evaluation metrics.
+   * GET /api/shorten/metrics → { shortenRequests, redirectRequests, codeCollisions }
+   */
+  getShortUrlMetrics() {
+    return this.request('/shorten/metrics');
+  }
+
   // --- Health Check ---
   async checkHealth() {
     try {

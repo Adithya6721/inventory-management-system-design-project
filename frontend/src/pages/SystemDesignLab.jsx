@@ -20,7 +20,10 @@ export default function SystemDesignLab({
 
   // URL Shortener State
   const [longUrl, setLongUrl] = useState('http://localhost:8080/api/inventory/prod_a1b2c3d4e5f6/movements?page=0&size=50&format=json');
-  const [shortUrl, setShortUrl] = useState('');
+  const [shortenResult, setShortenResult] = useState(null);
+  const [shortenerMetrics, setShortenerMetrics] = useState(null);
+  const [shortenerLoading, setShortenerLoading] = useState(false);
+  const [shortenerError, setShortenerError] = useState(null);
 
   // 1. Concurrency Benchmark Runner (100 Competing Orders for 10 Units)
   const runConcurrencyTest = async () => {
@@ -125,16 +128,32 @@ export default function SystemDesignLab({
     setRateLimitRunning(false);
   };
 
-  // 3. URL Shortener Utility (System Design Component)
-  const handleGenerateShortUrl = (e) => {
+  // 3. URL Shortener — calls the real Spring Boot backend
+  const handleGenerateShortUrl = async (e) => {
     e.preventDefault();
-    const hash = Math.random().toString(36).substring(2, 8);
-    setShortUrl(`https://inv.link/r/${hash}`);
-    onShowToast({
-      type: 'success',
-      title: 'Short Link Generated',
-      message: `Compact URL created for report sharing: inv.link/r/${hash}`
-    });
+    setShortenerLoading(true);
+    setShortenerError(null);
+    setShortenResult(null);
+    try {
+      const result = await api.shortenUrl(longUrl);
+      setShortenResult(result);
+      // Fetch updated component metrics right after
+      try { setShortenerMetrics(await api.getShortUrlMetrics()); } catch (_) {}
+      onShowToast({
+        type: 'success',
+        title: 'Short URL Created',
+        message: `Code: ${result.code}  →  ${result.shortUrl}`
+      });
+    } catch (err) {
+      setShortenerError(err.message || 'Failed to shorten URL.');
+      onShowToast({ type: 'error', title: 'Shorten Failed', message: err.message });
+    } finally {
+      setShortenerLoading(false);
+    }
+  };
+
+  const handleLoadShortenerMetrics = async () => {
+    try { setShortenerMetrics(await api.getShortUrlMetrics()); } catch (_) {}
   };
 
   return (
@@ -262,58 +281,111 @@ export default function SystemDesignLab({
           )}
         </div>
 
-        {/* Module 3: URL Shortener Component */}
+        {/* Module 3: URL Shortener Component — backed by Spring Boot API */}
         <div className="card" style={{ gridColumn: '1 / -1' }}>
           <div className="card-header">
             <div>
-              <h3 style={{ fontSize: '1.125rem' }}>URL shortener prototype</h3>
+              <h3 style={{ fontSize: '1.125rem' }}>URL Shortener for Order Receipts &amp; Reports</h3>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                Generate an example compact reference. A redirect service is not connected.
+                Base62 short codes stored in MongoDB · atomic click counter via <code>findAndModify</code>
+                · <code>X-Redirect-Latency-Ms</code> header on every redirect
               </p>
             </div>
             <span className="badge badge-cyan">Component #6</span>
           </div>
 
-          <form onSubmit={handleGenerateShortUrl} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <form onSubmit={handleGenerateShortUrl} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '16px' }}>
             <input
               type="text"
               className="form-input"
               style={{ flex: 1, minWidth: 'min(100%, 320px)' }}
               value={longUrl}
               onChange={e => setLongUrl(e.target.value)}
-              placeholder="Paste long order receipt or inventory report URL..."
+              placeholder="Paste any http/https URL to shorten..."
               required
             />
-            <button type="submit" className="btn btn-primary">
-              <Link size={16} /> Shorten URL
+            <button type="submit" className="btn btn-primary" disabled={shortenerLoading}>
+              <Link size={16} />
+              {shortenerLoading ? 'Shortening...' : 'Shorten URL'}
+            </button>
+            <button type="button" className="btn btn-secondary" onClick={handleLoadShortenerMetrics}>
+              <RefreshCw size={14} /> Metrics
             </button>
           </form>
 
-          {shortUrl && (
+          {shortenerError && (
+            <div style={{ marginBottom: '12px', padding: '10px 14px', background: 'rgba(244,63,94,0.1)', border: '1px solid rgba(244,63,94,0.3)', borderRadius: '8px', fontSize: '0.875rem', color: '#fb7185' }}>
+              {shortenerError}
+            </div>
+          )}
+
+          {shortenResult && (
             <div style={{
-              marginTop: '16px',
-              padding: '12px 16px',
-              background: 'rgba(6, 182, 212, 0.08)',
+              padding: '16px',
+              background: 'rgba(6, 182, 212, 0.07)',
               border: '1px solid rgba(6, 182, 212, 0.25)',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between'
+              borderRadius: '10px',
+              marginBottom: '16px'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Short Link:</span>
-                <code style={{ color: 'var(--accent-cyan)', fontWeight: 700, fontSize: '0.9375rem' }}>{shortUrl}</code>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Short URL:</span>
+                  <code style={{ color: 'var(--accent-cyan)', fontWeight: 700, fontSize: '1rem' }}>{shortenResult.shortUrl}</code>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <a
+                    href={shortenResult.shortUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-secondary"
+                    style={{ padding: '4px 10px', fontSize: '0.75rem', textDecoration: 'none' }}
+                  >
+                    Open ↗
+                  </a>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    style={{ padding: '4px 10px', fontSize: '0.75rem' }}
+                    onClick={() => {
+                      navigator.clipboard.writeText(shortenResult.shortUrl);
+                      onShowToast({ type: 'success', title: 'Copied!', message: 'Short URL copied to clipboard.' });
+                    }}
+                  >
+                    Copy
+                  </button>
+                </div>
               </div>
-              <button
-                className="btn btn-secondary"
-                style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-                onClick={() => {
-                  navigator.clipboard.writeText(shortUrl);
-                  alert('Short URL copied to clipboard!');
-                }}
-              >
-                Copy Link
-              </button>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
+                {[
+                  { label: 'Code', value: shortenResult.code },
+                  { label: 'Clicks', value: shortenResult.clickCount },
+                  { label: 'Created', value: new Date(shortenResult.createdAt).toLocaleTimeString() },
+                  { label: 'Expires', value: new Date(shortenResult.expiresAt).toLocaleDateString() },
+                ].map(({ label, value }) => (
+                  <div key={label} style={{ background: 'rgba(255,255,255,0.03)', padding: '8px 12px', borderRadius: '8px' }}>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '2px' }}>{label}</div>
+                    <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{value}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: '10px', fontSize: '0.75rem', color: 'var(--text-muted)', wordBreak: 'break-all' }}>
+                → <span style={{ color: 'var(--text-secondary)' }}>{shortenResult.longUrl}</span>
+              </div>
+            </div>
+          )}
+
+          {shortenerMetrics && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+              {[
+                { label: 'Shorten Requests', value: shortenerMetrics.shortenRequests, color: 'rgba(99,102,241,0.12)' },
+                { label: 'Redirect Requests', value: shortenerMetrics.redirectRequests, color: 'rgba(16,185,129,0.12)' },
+                { label: 'Code Collisions', value: shortenerMetrics.codeCollisions, color: 'rgba(245,158,11,0.12)' },
+              ].map(({ label, value, color }) => (
+                <div key={label} style={{ background: color, padding: '10px', borderRadius: '8px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '4px' }}>{label}</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{value}</div>
+                </div>
+              ))}
             </div>
           )}
         </div>
