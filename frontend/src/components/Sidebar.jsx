@@ -1,6 +1,6 @@
 import React from 'react';
 import { LayoutDashboard, Package, Warehouse, ShoppingBag, ShoppingCart, ArrowLeftRight,
-  Bell, Search, Network, PanelLeftClose, PanelLeftOpen, Boxes, ChevronDown } from 'lucide-react';
+  Bell, Search, Network, Globe, PanelLeftClose, PanelLeftOpen, Boxes, ChevronDown } from 'lucide-react';
 
 const groups = [
   { label: 'Workspace', items: [
@@ -9,6 +9,7 @@ const groups = [
     { id: 'warehouses', label: 'Warehouses & stock', icon: Warehouse },
   ] },
   { label: 'Operations', items: [
+    { id: 'supplier-crawler', label: 'Suppliers', icon: Globe },
     { id: 'purchase', label: 'Purchase orders', icon: ShoppingBag },
     { id: 'sales', label: 'Sales orders', icon: ShoppingCart },
     { id: 'transfers', label: 'Stock transfers', icon: ArrowLeftRight },

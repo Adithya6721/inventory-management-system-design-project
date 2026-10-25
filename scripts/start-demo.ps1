@@ -1,4 +1,4 @@
-param([ValidateSet('services','backend','frontend')][string]$Part = 'backend')
+param([ValidateSet('services','backend','frontend','suppliers')][string]$Part = 'backend')
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
 
@@ -11,11 +11,18 @@ function Test-DemoPort([int]$Port) {
 
 Push-Location $projectRoot
 try {
+    if ($Part -eq 'suppliers') {
+        if (Test-DemoPort 8085) { throw 'Port 8085 is occupied; reuse the existing supplier service or stop it first.' }
+        & node crawler/supplier_server.js
+        return
+    }
     if ($Part -eq 'services') {
-        $redisService = Get-Service Memurai -ErrorAction Stop
-        if ($redisService.Status -ne 'Running') {
-            try { Start-Service Memurai -ErrorAction Stop }
-            catch { throw 'Start Memurai from an Administrator PowerShell: Start-Service Memurai' }
+        if (-not (Test-DemoPort 6379)) {
+            $redisService = Get-Service Memurai -ErrorAction Stop
+            if ($redisService.Status -ne 'Running') {
+                try { Start-Service Memurai -ErrorAction Stop }
+                catch { throw 'Start Memurai from an Administrator PowerShell: Start-Service Memurai' }
+            }
         }
         if (-not (Test-DemoPort 27019)) {
             & powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-consistency-mongo.ps1

@@ -1,0 +1,26 @@
+========================================================
+ Running Member 5: Supplier Crawler Automated Test Suite
+========================================================
+
+1. Apex Tech Parser Tests:
+  [PASS] Should extract products from HTML card DOM
+
+2. Global Wholesale Logistics Parser Tests:
+  [PASS] Should extract tabular items and parse prices and stock numbers
+
+3. Nordic Supply Semantic JSON-LD Parser Tests:
+  [PASS] Should extract Schema.org JSON-LD structured data
+
+4. Data Normalization & Validation Tests:
+  [PASS] Should sanitize SKUs to uppercase and trim spaces
+  [PASS] Should reject invalid or malformed items
+  [PASS] Should enforce non-negative prices and stock levels
+
+5. Integration Crawl against Simulated Supplier Server:
+  [PASS] Should successfully crawl all 3 live supplier targets
+  [PASS] Retries reads but never automatically replays an import POST
+  [PASS] Browser crawl endpoint returns actual HTML results and rejects unknown suppliers
+
+========================================================
+ Test Results: 9 Passed, 0 Failed
+========================================================

@@ -34,7 +34,19 @@ Run PowerShell from the repository root. Existing demo data is retained in
    Open **http://localhost:3000**. The script points frontend requests at 8081,
    avoiding the Vite configuration's default proxy to 8080.
 
-Stop the frontend and backend using Ctrl+C in their respective terminals. These
+4. Supplier portals and crawler, in another terminal kept open:
+
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File scripts/start-demo.ps1 -Part suppliers
+   ```
+
+   Open **Suppliers** in the sidebar, select portals, and click **Run crawl**.
+   The service on 8085 fetches and parses actual HTML from the three simulated
+   supplier websites. Select products and a warehouse to import the catalog and
+   create purchase orders. Receive those orders from **Purchase orders** when
+   goods arrive; importing supplier availability does not add warehouse stock.
+
+Stop the frontend, backend and supplier service using Ctrl+C in their respective terminals. These
 commands do not reset or reseed data. If seeding a fresh instance is needed:
 
 ```powershell

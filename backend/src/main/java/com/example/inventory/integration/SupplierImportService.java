@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -61,9 +60,11 @@ public class SupplierImportService implements SupplierImportPort {
                 Product product = existingOpt.get();
                 resolvedProductId = product.getProductId();
                 if (item.category() != null && !item.category().isBlank()) {
-                    product.setCategory(item.category().trim());
-                    product.setUpdatedAt(Instant.now());
-                    productRepository.save(product);
+                    // Use the normal update path so cached product details are evicted.
+                    productService.updateProduct(resolvedProductId, new ProductRequest(
+                            product.getSku(), product.getName(), product.getDescription(),
+                            item.category().trim(), product.getPrice(), product.getReorderLevel(),
+                            product.isActive()));
                     catalogUpdated++;
                 }
             } else {
