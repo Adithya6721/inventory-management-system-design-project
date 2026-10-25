@@ -6,145 +6,145 @@
       "productId": "prod_372728103857954816",
       "sku": "DEMO-MOUSE-001",
       "name": "Wireless Mouse",
-      "description": "Presentation demo catalogue",
+      "description": "Compact wireless optical mouse for everyday workstation use, with a USB receiver, scroll wheel and ambidextrous grip.",
       "category": "Peripherals",
       "price": 24.99,
       "reorderLevel": 15,
       "active": true,
       "createdAt": "2026-10-25T12:48:24.918Z",
-      "updatedAt": "2026-10-25T12:48:24.918Z"
+      "updatedAt": "2026-10-25T13:05:04.504Z"
     },
     {
       "productId": "prod_372728109037920256",
       "sku": "DEMO-KEYBOARD-001",
       "name": "Mechanical Keyboard",
-      "description": "Presentation demo catalogue",
+      "description": "Full-size mechanical keyboard with a number pad and tactile keys for typing, data entry and shared office workstations.",
       "category": "Peripherals",
       "price": 59.99,
       "reorderLevel": 10,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.148Z",
-      "updatedAt": "2026-10-25T12:48:26.148Z"
+      "updatedAt": "2026-10-25T13:05:04.464Z"
     },
     {
       "productId": "prod_372728109188915200",
       "sku": "DEMO-HUB-001",
       "name": "USB-C Hub",
-      "description": "Presentation demo catalogue",
+      "description": "USB-C expansion hub for connecting accessories, an external display and removable storage to a laptop through a single port.",
       "category": "Electronics",
       "price": 39.99,
       "reorderLevel": 12,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.185Z",
-      "updatedAt": "2026-10-25T12:48:26.185Z"
+      "updatedAt": "2026-10-25T13:05:04.427Z"
     },
     {
       "productId": "prod_372728109344104448",
       "sku": "DEMO-MONITOR-001",
       "name": "24-inch Monitor",
-      "description": "Presentation demo catalogue",
+      "description": "24-inch desktop monitor for office applications, inventory dashboards and warehouse workstation displays. Supplied as one monitor.",
       "category": "Electronics",
       "price": 179.99,
       "reorderLevel": 8,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.221Z",
-      "updatedAt": "2026-10-25T12:48:26.221Z"
+      "updatedAt": "2026-10-25T13:05:04.389Z"
     },
     {
       "productId": "prod_372728109520265216",
       "sku": "DEMO-STAND-001",
       "name": "Adjustable Laptop Stand",
-      "description": "Presentation demo catalogue",
+      "description": "Adjustable desktop stand that raises a laptop screen and provides space beneath the device for cables and desk accessories.",
       "category": "Peripherals",
       "price": 29.99,
       "reorderLevel": 10,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.263Z",
-      "updatedAt": "2026-10-25T12:48:26.263Z"
+      "updatedAt": "2026-10-25T13:05:04.353Z"
     },
     {
       "productId": "prod_372728109667065856",
       "sku": "DEMO-CABLE-001",
       "name": "Ethernet Cable 2m",
-      "description": "Presentation demo catalogue",
+      "description": "Two-metre Ethernet cable for connecting computers, barcode stations and network devices to a wired local network.",
       "category": "Electronics",
       "price": 8.99,
       "reorderLevel": 20,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.299Z",
-      "updatedAt": "2026-10-25T12:48:26.299Z"
+      "updatedAt": "2026-10-25T13:05:04.308Z"
     },
     {
       "productId": "prod_372728109801283584",
       "sku": "DEMO-SCANNER-001",
       "name": "Barcode Scanner",
-      "description": "Presentation demo catalogue",
+      "description": "Handheld barcode scanner for recording product labels during goods receipt, stock counts, order picking and dispatch.",
       "category": "Electronics",
       "price": 89.99,
       "reorderLevel": 5,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.330Z",
-      "updatedAt": "2026-10-25T12:48:26.330Z"
+      "updatedAt": "2026-10-25T13:05:04.268Z"
     },
     {
       "productId": "prod_372728109927112704",
       "sku": "DEMO-LABELS-001",
       "name": "Shipping Labels 100-pack",
-      "description": "Presentation demo catalogue",
+      "description": "Pack of 100 adhesive shipping labels for identifying parcels, printing delivery details and tracking warehouse dispatches.",
       "category": "Packaging",
       "price": 9.99,
       "reorderLevel": 25,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.361Z",
-      "updatedAt": "2026-10-25T12:48:26.361Z"
+      "updatedAt": "2026-10-25T13:05:04.235Z"
     },
     {
       "productId": "prod_372728110069719040",
       "sku": "DEMO-TAPE-001",
       "name": "Packing Tape Roll",
-      "description": "Presentation demo catalogue",
+      "description": "Roll of packing tape for sealing cartons and securing parcels before storage or dispatch. Stock is tracked per roll.",
       "category": "Packaging",
       "price": 4.99,
       "reorderLevel": 30,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.395Z",
-      "updatedAt": "2026-10-25T12:48:26.395Z"
+      "updatedAt": "2026-10-25T13:05:04.210Z"
     },
     {
       "productId": "prod_372728110216519680",
       "sku": "DEMO-BUBBLE-001",
       "name": "Bubble Wrap Roll",
-      "description": "Presentation demo catalogue",
+      "description": "Roll of protective bubble wrap for cushioning electronics and other fragile items during packing, storage and transport.",
       "category": "Packaging",
       "price": 12.99,
       "reorderLevel": 15,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.430Z",
-      "updatedAt": "2026-10-25T12:48:26.430Z"
+      "updatedAt": "2026-10-25T13:05:04.171Z"
     },
     {
       "productId": "prod_372728110350737408",
       "sku": "DEMO-SSD-001",
       "name": "Portable SSD 1TB",
-      "description": "Presentation demo catalogue",
+      "description": "Portable 1 TB solid-state drive for transferring business files and backing up workstation data. Stock is tracked per drive.",
       "category": "Electronics",
       "price": 119.99,
       "reorderLevel": 8,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.461Z",
-      "updatedAt": "2026-10-25T12:48:26.461Z"
+      "updatedAt": "2026-10-25T13:05:04.128Z"
     },
     {
       "productId": "prod_372728110463983616",
       "sku": "DEMO-GLOVES-001",
       "name": "Safety Gloves Pair",
-      "description": "Presentation demo catalogue",
+      "description": "Pair of reusable work gloves for general warehouse handling, including picking, packing and moving cartons.",
       "category": "Safety",
       "price": 6.49,
       "reorderLevel": 20,
       "active": true,
       "createdAt": "2026-10-25T12:48:26.488Z",
-      "updatedAt": "2026-10-25T12:48:26.488Z"
+      "updatedAt": "2026-10-25T13:05:02.713Z"
     }
   ],
   "warehouses": [

@@ -20,6 +20,20 @@ PRODUCTS = [
     ('ssd','Portable SSD 1TB','Electronics',119.99,8,(35,14,5)),
     ('gloves','Safety Gloves Pair','Safety',6.49,20,(100,45,15)),
 ]
+DESCRIPTIONS = {
+    'mouse': 'Compact wireless optical mouse for everyday workstation use, with a USB receiver, scroll wheel and ambidextrous grip.',
+    'keyboard': 'Full-size mechanical keyboard with a number pad and tactile keys for typing, data entry and shared office workstations.',
+    'hub': 'USB-C expansion hub for connecting accessories, an external display and removable storage to a laptop through a single port.',
+    'monitor': '24-inch desktop monitor for office applications, inventory dashboards and warehouse workstation displays. Supplied as one monitor.',
+    'stand': 'Adjustable desktop stand that raises a laptop screen and provides space beneath the device for cables and desk accessories.',
+    'cable': 'Two-metre Ethernet cable for connecting computers, barcode stations and network devices to a wired local network.',
+    'scanner': 'Handheld barcode scanner for recording product labels during goods receipt, stock counts, order picking and dispatch.',
+    'labels': 'Pack of 100 adhesive shipping labels for identifying parcels, printing delivery details and tracking warehouse dispatches.',
+    'tape': 'Roll of packing tape for sealing cartons and securing parcels before storage or dispatch. Stock is tracked per roll.',
+    'bubble': 'Roll of protective bubble wrap for cushioning electronics and other fragile items during packing, storage and transport.',
+    'ssd': 'Portable 1 TB solid-state drive for transferring business files and backing up workstation data. Stock is tracked per drive.',
+    'gloves': 'Pair of reusable work gloves for general warehouse handling, including picking, packing and moving cartons.',
+}
 WAREHOUSES = [('bengaluru','Bengaluru Central','Bengaluru, Karnataka'),
               ('mumbai','Mumbai Distribution','Mumbai, Maharashtra'),
               ('delhi','Delhi Fulfilment','New Delhi, Delhi')]
@@ -49,7 +63,12 @@ def main():
         product=next((p for p in matches if p['sku']==sku),None)
         if not product:
             product=api('POST','/products',{'sku':sku,'name':name,'category':category,'price':price,
-                        'description':'Presentation demo catalogue','reorderLevel':threshold,'active':True})
+                        'description':DESCRIPTIONS[code],'reorderLevel':threshold,'active':True})
+        elif (product.get('description') or '').strip().lower() in ['', 'presentation demo catalogue']:
+            # Upgrade old placeholders while preserving descriptions edited by users.
+            payload={k:product[k] for k in ['sku','name','category','price','reorderLevel','active']}
+            payload['description']=DESCRIPTIONS[code]
+            product=api('PUT','/products/'+product['productId'],payload)
         products[code]=product
     def purchase(label,warehouse,lines,receive=None):
         payload={'supplierId':'demo-supplier-tech' if warehouse!='mumbai' else 'demo-supplier-distribution',

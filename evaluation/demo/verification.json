@@ -7,5 +7,7 @@
   "in_transit_units": 15,
   "reserved_units": 67,
   "movements": 54,
-  "orders_visible_after_navigation_and_reload": true
+  "orders_visible_after_navigation_and_reload": true,
+  "product_descriptions_updated": 12,
+  "inventory_unchanged_by_description_update": true
 }
