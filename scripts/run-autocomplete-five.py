@@ -221,7 +221,7 @@ class Experiment:
             'Initial catalogue download and Trie construction are recorded separately in each point. Browser-only means no API search per query; the initial index still needs catalogue data.',
             'Cold starts with a new browser index and a unique empty Redis query namespace. Warm repeats the same queries in the same client. Positive API results are added to the Trie, so repeated positive fallbacks can become local hits. Negative results remain empty locally; Redis can cache those empty lists.',
             'Correct query means every returned product is a valid token-prefix match and the number returned equals min(8, full-catalogue matches). Fill compares valid returned counts with that expected top-eight count. No ranking/order equivalence is claimed. Empty Trie results for unloaded matching products count as incomplete, not successful fast answers.',
-            'Query classes: 8 initially indexed SKU prefixes, 8 deeper-catalogue SKU prefixes, 8 absent prefixes, 2 broad prefixes, and one partial-local prefix with one indexed match and ten outside the original 100. Zero-hit fallback does not fetch more when a local match already exists; its incomplete result is measured rather than hidden. See queries.csv for each class and phase. Expected sets are computed outside timed search work.',
+            'Query classes: 8 initially indexed SKU prefixes, 8 deeper-catalogue SKU prefixes, 8 absent prefixes, 2 broad prefixes, and one partial-local prefix. Relative to the default 100-product index, that prefix has one indexed match and ten outside; a full index contains all eleven. Zero-hit fallback does not fetch more when a local match already exists; its incomplete result is measured rather than hidden. See queries.csv for each class and phase. Expected sets are computed outside timed search work.',
             'The server has a warm-up before measured requests; cold refers to data caches, not cold process/OS/disk. Mode order rotates across repetitions. One actual Chrome tab sends sequential completed-query events. This is not a JMeter concurrency test, a keystroke cancellation test, or the React component itself.',
             'The catalogue is immutable during measurement. Snapshot revision and run tokens isolate Redis keys; all keys expire after five minutes. This does not implement normal product-edit search-cache invalidation.',
             'resources.csv samples backend, MongoDB, Redis, driver and Chrome. Chrome RSS sums its process tree and can count shared pages repeatedly; browser heap includes the oracle and harness. Source hashes and settings are in manifest.json; browser version is saved separately.','',
@@ -231,6 +231,8 @@ class Experiment:
         write_json(self.output/'verification.json',{'passed':True,'browser_points':len(points),'query_observations':len(all_rows),
             'cache_failures':0,'browser_server_counter_agreement':True,'api_only_results_complete':True,
             'zero_hit_fallback_complete':True,'partial_local_and_browser_only_incomplete_results_reported':True})
+        report_spec=importlib.util.spec_from_file_location('autocomplete_report',Path(__file__).with_name('render-autocomplete-five.py'))
+        report=importlib.util.module_from_spec(report_spec); report_spec.loader.exec_module(report); report.render(self.output)
 
     def close(self):
         for name,process in reversed(list(self.owned.items())):

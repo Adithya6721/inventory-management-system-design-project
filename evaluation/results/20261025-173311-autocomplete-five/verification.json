@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "browser_points": 15,
+  "query_observations": 1620,
+  "cache_failures": 0,
+  "browser_server_counter_agreement": true,
+  "api_only_results_complete": true,
+  "zero_hit_fallback_complete": true,
+  "partial_local_and_browser_only_incomplete_results_reported": true
+}

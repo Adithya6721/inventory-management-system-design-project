@@ -1,0 +1,44 @@
+{
+  "started_utc": "2026-10-25T12:14:46.499933+00:00",
+  "revision": "83a263e3a916506bf563658bc8fe1e1354468a94",
+  "branch": "experiment/autocomplete-five-modes",
+  "working_tree_dirty": true,
+  "settings": {
+    "products": 1000,
+    "initial": 1000,
+    "repeats": 1,
+    "warm_loops": 3,
+    "debounce": 250,
+    "port": 8082,
+    "redis_port": 6381,
+    "mongo_port": 27019,
+    "web_port": 9003,
+    "debug_port": 9225,
+    "chrome": null,
+    "redis_exe": null
+  },
+  "database": "inventory_autocomplete_20261025_174446",
+  "jar_sha256": "aeed5907fe93af21bd51e331d1bfdbd19af49e258a04c9eb184164e84f3472e8",
+  "source_sha256": {
+    "evaluation/autocomplete-five/browser.js": "5ab98654ed462329c8341b9394b4d8c43158d392f24af987b310db2e2e82f58a",
+    "evaluation/autocomplete-five/drive-browser.mjs": "a9ce9ea2fd2a27a3cba0b7964edfde33cfecff6773cd8f63dbfa86dafd16d668",
+    "frontend/src/services/trie.js": "7b97e893aa0f4bad81a103d46b9599e71a5081c4c0cab2da4424e74e2faa9244",
+    "scripts/run-autocomplete-five.py": "06cb1adf17f5ae8ab1c99b726b63b83b75b7a80f5deef61d97e0e290f8db75be",
+    "backend/src/main/java/com/example/inventory/evaluation/AutocompleteExperimentService.java": "5c613701fd0308ff2e50e54a86215a74b6e6c5e44fd77068651fac0b68009dba"
+  },
+  "logical_cpus": 12,
+  "ram_gib": 15.648929595947266,
+  "scope": "One real Chrome tab, sequential completed-query events; no simulated network latency. Browser HTTP cache disabled for requests. Cache means Redis search-result cache, not legacy product-detail caching.",
+  "endpoint": "http://127.0.0.1:8082/internal/evaluation/autocomplete",
+  "search_semantics": "ASCII token-prefix over SKU/name/category plus contiguous SKU; top 8 valid matches, no ranking/order equivalence claimed",
+  "backend_product_cache": false,
+  "limiter": false,
+  "limitations": [
+    "Same host for Chrome, API, Redis and MongoDB; limited warm-up.",
+    "Dedicated opt-in token projection/search endpoint, not the normal substring-search API.",
+    "A separate DOM harness uses the actual ProductTrie and mirrors the existing zero-hit fallback policy; this does not time the React component.",
+    "Workload oracle is held by the harness; browser heap/RSS includes test and browser overhead.",
+    "Catalogue snapshot is immutable during measurement; no production search-cache invalidation policy is claimed."
+  ],
+  "finished_utc": "2026-10-25T12:15:31.784389+00:00"
+}

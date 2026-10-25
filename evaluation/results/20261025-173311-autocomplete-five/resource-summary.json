@@ -1,0 +1,22 @@
+{
+  "backend": {
+    "mean_cpu_host_pct": 1.4434948633765068,
+    "peak_rss_mib": 424.09765625
+  },
+  "driver": {
+    "mean_cpu_host_pct": 0.05156248879580579,
+    "peak_rss_mib": 49.9296875
+  },
+  "chrome": {
+    "mean_cpu_host_pct": 2.979828896298478,
+    "peak_rss_mib": 805.4765625
+  },
+  "redis": {
+    "mean_cpu_host_pct": 0.022158270532377664,
+    "peak_rss_mib": 38.453125
+  },
+  "mongodb": {
+    "mean_cpu_host_pct": 0.5494148156255901,
+    "peak_rss_mib": 147.98828125
+  }
+}

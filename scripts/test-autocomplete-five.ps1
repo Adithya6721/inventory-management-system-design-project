@@ -1,7 +1,7 @@
 param(
     [ValidateRange(1,5)][int]$Repeats = 3,
     [ValidateRange(200,10000)][int]$Products = 1000,
-    [ValidateRange(1,10000)][int]$Initial = 100,
+    [ValidateRange(8,10000)][int]$Initial = 100,
     [ValidateRange(0,1000)][int]$Debounce = 250
 )
 $ErrorActionPreference = 'Stop'
