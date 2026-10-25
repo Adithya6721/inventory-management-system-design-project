@@ -15,6 +15,13 @@ public class StockTransferController {
         this.stockTransferService = stockTransferService;
     }
 
+    @GetMapping
+    public ResponseEntity<org.springframework.data.domain.Page<StockTransferResponse>> list(
+            @org.springframework.data.web.PageableDefault(size = 100, sort = "createdAt", direction = org.springframework.data.domain.Sort.Direction.DESC)
+            org.springframework.data.domain.Pageable pageable) {
+        return ResponseEntity.ok(stockTransferService.list(pageable));
+    }
+
     @PostMapping
     public ResponseEntity<StockTransferResponse> initiateTransfer(@Valid @RequestBody StockTransferRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(stockTransferService.initiateTransfer(request));

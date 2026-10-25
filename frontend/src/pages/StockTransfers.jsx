@@ -1,4 +1,5 @@
 import useCreateRequest from '../hooks/useCreateRequest';
+import useStoredOrders from '../hooks/useStoredOrders';
 import React, { useState } from 'react';
 import { ArrowLeftRight, Plus, CheckCircle, Truck, AlertCircle } from 'lucide-react';
 import { api } from '../services/api';
@@ -12,7 +13,7 @@ export default function StockTransfers({
   onShowToast,
   onRefreshAll
 }) {
-  const [transfers, setTransfers] = useState([]);
+  const [transfers, setTransfers] = useStoredOrders('transfer', onShowToast);
   const [showCreateModal, setShowCreateModal] = useState(false);
   useCreateRequest(createRequested, onCreateRequestHandled, setShowCreateModal);
   const [submitting, setSubmitting] = useState(false);

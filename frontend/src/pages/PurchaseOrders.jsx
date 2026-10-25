@@ -1,4 +1,5 @@
 import useCreateRequest from '../hooks/useCreateRequest';
+import useStoredOrders from '../hooks/useStoredOrders';
 import React, { useState } from 'react';
 import { ShoppingBag, Plus, CheckCircle, Package, ArrowDownLeft, Clock } from 'lucide-react';
 import { api } from '../services/api';
@@ -12,7 +13,7 @@ export default function PurchaseOrders({
   onShowToast,
   onRefreshAll
 }) {
-  const [purchaseOrders, setPurchaseOrders] = useState([]);
+  const [purchaseOrders, setPurchaseOrders] = useStoredOrders('purchase', onShowToast);
   const [showCreateModal, setShowCreateModal] = useState(false);
   useCreateRequest(createRequested, onCreateRequestHandled, setShowCreateModal);
   const [submitting, setSubmitting] = useState(false);

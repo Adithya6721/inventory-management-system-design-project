@@ -15,6 +15,13 @@ public class SalesOrderController {
         this.salesOrderService = salesOrderService;
     }
 
+    @GetMapping
+    public ResponseEntity<org.springframework.data.domain.Page<SalesOrderResponse>> list(
+            @org.springframework.data.web.PageableDefault(size = 100, sort = "createdAt", direction = org.springframework.data.domain.Sort.Direction.DESC)
+            org.springframework.data.domain.Pageable pageable) {
+        return ResponseEntity.ok(salesOrderService.list(pageable));
+    }
+
     @PostMapping
     public ResponseEntity<SalesOrderResponse> placeOrder(@Valid @RequestBody SalesOrderRequest request) {
         SalesOrderResponse response = salesOrderService.placeOrder(request);

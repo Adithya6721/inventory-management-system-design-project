@@ -128,6 +128,11 @@ public class StockTransferService {
         return StockTransferResponse.fromDomain(saved);
     }
 
+    @Transactional(readOnly = true)
+    public org.springframework.data.domain.Page<StockTransferResponse> list(org.springframework.data.domain.Pageable pageable) {
+        return stockTransferRepository.findAll(pageable).map(StockTransferResponse::fromDomain);
+    }
+
     public StockTransferResponse getTransfer(String transferId) {
         return StockTransferResponse.fromDomain(getTransferEntity(transferId));
     }

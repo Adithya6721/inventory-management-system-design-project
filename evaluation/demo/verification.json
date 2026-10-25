@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "seed_rerun_business_data_unchanged": true,
+  "received_units": 2138,
+  "physical_units": 2113,
+  "sold_units": 10,
+  "in_transit_units": 15,
+  "reserved_units": 67,
+  "movements": 54,
+  "orders_visible_after_navigation_and_reload": true
+}

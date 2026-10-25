@@ -1,0 +1,968 @@
+{
+  "baseUrl": "http://127.0.0.1:8081",
+  "seedVersion": "demo-v1",
+  "products": [
+    {
+      "productId": "prod_372728103857954816",
+      "sku": "DEMO-MOUSE-001",
+      "name": "Wireless Mouse",
+      "description": "Presentation demo catalogue",
+      "category": "Peripherals",
+      "price": 24.99,
+      "reorderLevel": 15,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:24.918Z",
+      "updatedAt": "2026-10-25T12:48:24.918Z"
+    },
+    {
+      "productId": "prod_372728109037920256",
+      "sku": "DEMO-KEYBOARD-001",
+      "name": "Mechanical Keyboard",
+      "description": "Presentation demo catalogue",
+      "category": "Peripherals",
+      "price": 59.99,
+      "reorderLevel": 10,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.148Z",
+      "updatedAt": "2026-10-25T12:48:26.148Z"
+    },
+    {
+      "productId": "prod_372728109188915200",
+      "sku": "DEMO-HUB-001",
+      "name": "USB-C Hub",
+      "description": "Presentation demo catalogue",
+      "category": "Electronics",
+      "price": 39.99,
+      "reorderLevel": 12,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.185Z",
+      "updatedAt": "2026-10-25T12:48:26.185Z"
+    },
+    {
+      "productId": "prod_372728109344104448",
+      "sku": "DEMO-MONITOR-001",
+      "name": "24-inch Monitor",
+      "description": "Presentation demo catalogue",
+      "category": "Electronics",
+      "price": 179.99,
+      "reorderLevel": 8,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.221Z",
+      "updatedAt": "2026-10-25T12:48:26.221Z"
+    },
+    {
+      "productId": "prod_372728109520265216",
+      "sku": "DEMO-STAND-001",
+      "name": "Adjustable Laptop Stand",
+      "description": "Presentation demo catalogue",
+      "category": "Peripherals",
+      "price": 29.99,
+      "reorderLevel": 10,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.263Z",
+      "updatedAt": "2026-10-25T12:48:26.263Z"
+    },
+    {
+      "productId": "prod_372728109667065856",
+      "sku": "DEMO-CABLE-001",
+      "name": "Ethernet Cable 2m",
+      "description": "Presentation demo catalogue",
+      "category": "Electronics",
+      "price": 8.99,
+      "reorderLevel": 20,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.299Z",
+      "updatedAt": "2026-10-25T12:48:26.299Z"
+    },
+    {
+      "productId": "prod_372728109801283584",
+      "sku": "DEMO-SCANNER-001",
+      "name": "Barcode Scanner",
+      "description": "Presentation demo catalogue",
+      "category": "Electronics",
+      "price": 89.99,
+      "reorderLevel": 5,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.330Z",
+      "updatedAt": "2026-10-25T12:48:26.330Z"
+    },
+    {
+      "productId": "prod_372728109927112704",
+      "sku": "DEMO-LABELS-001",
+      "name": "Shipping Labels 100-pack",
+      "description": "Presentation demo catalogue",
+      "category": "Packaging",
+      "price": 9.99,
+      "reorderLevel": 25,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.361Z",
+      "updatedAt": "2026-10-25T12:48:26.361Z"
+    },
+    {
+      "productId": "prod_372728110069719040",
+      "sku": "DEMO-TAPE-001",
+      "name": "Packing Tape Roll",
+      "description": "Presentation demo catalogue",
+      "category": "Packaging",
+      "price": 4.99,
+      "reorderLevel": 30,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.395Z",
+      "updatedAt": "2026-10-25T12:48:26.395Z"
+    },
+    {
+      "productId": "prod_372728110216519680",
+      "sku": "DEMO-BUBBLE-001",
+      "name": "Bubble Wrap Roll",
+      "description": "Presentation demo catalogue",
+      "category": "Packaging",
+      "price": 12.99,
+      "reorderLevel": 15,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.430Z",
+      "updatedAt": "2026-10-25T12:48:26.430Z"
+    },
+    {
+      "productId": "prod_372728110350737408",
+      "sku": "DEMO-SSD-001",
+      "name": "Portable SSD 1TB",
+      "description": "Presentation demo catalogue",
+      "category": "Electronics",
+      "price": 119.99,
+      "reorderLevel": 8,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.461Z",
+      "updatedAt": "2026-10-25T12:48:26.461Z"
+    },
+    {
+      "productId": "prod_372728110463983616",
+      "sku": "DEMO-GLOVES-001",
+      "name": "Safety Gloves Pair",
+      "description": "Presentation demo catalogue",
+      "category": "Safety",
+      "price": 6.49,
+      "reorderLevel": 20,
+      "active": true,
+      "createdAt": "2026-10-25T12:48:26.488Z",
+      "updatedAt": "2026-10-25T12:48:26.488Z"
+    }
+  ],
+  "warehouses": [
+    {
+      "warehouseId": "wh_372728102473834496",
+      "name": "Bengaluru Central",
+      "location": "Bengaluru, Karnataka",
+      "status": "ACTIVE",
+      "createdAt": "2026-10-25T12:48:24.666Z",
+      "updatedAt": "2026-10-25T12:48:24.666Z"
+    },
+    {
+      "warehouseId": "wh_372728103195254784",
+      "name": "Mumbai Distribution",
+      "location": "Mumbai, Maharashtra",
+      "status": "ACTIVE",
+      "createdAt": "2026-10-25T12:48:24.766Z",
+      "updatedAt": "2026-10-25T12:48:24.766Z"
+    },
+    {
+      "warehouseId": "wh_372728103337861120",
+      "name": "Delhi Fulfilment",
+      "location": "New Delhi, Delhi",
+      "status": "ACTIVE",
+      "createdAt": "2026-10-25T12:48:24.790Z",
+      "updatedAt": "2026-10-25T12:48:24.790Z"
+    }
+  ],
+  "purchaseOrders": [
+    {
+      "demoLabel": "opening-bengaluru",
+      "orderId": "po_372728111395119104",
+      "supplierId": "demo-supplier-tech",
+      "destinationWarehouseId": "wh_372728102473834496",
+      "items": [
+        {
+          "productId": "prod_372728103857954816",
+          "quantity": 120,
+          "receivedQuantity": 120
+        },
+        {
+          "productId": "prod_372728109037920256",
+          "quantity": 60,
+          "receivedQuantity": 60
+        },
+        {
+          "productId": "prod_372728109188915200",
+          "quantity": 45,
+          "receivedQuantity": 45
+        },
+        {
+          "productId": "prod_372728109344104448",
+          "quantity": 30,
+          "receivedQuantity": 30
+        },
+        {
+          "productId": "prod_372728109520265216",
+          "quantity": 80,
+          "receivedQuantity": 80
+        },
+        {
+          "productId": "prod_372728109667065856",
+          "quantity": 200,
+          "receivedQuantity": 200
+        },
+        {
+          "productId": "prod_372728109801283584",
+          "quantity": 25,
+          "receivedQuantity": 25
+        },
+        {
+          "productId": "prod_372728109927112704",
+          "quantity": 300,
+          "receivedQuantity": 300
+        },
+        {
+          "productId": "prod_372728110069719040",
+          "quantity": 180,
+          "receivedQuantity": 180
+        },
+        {
+          "productId": "prod_372728110216519680",
+          "quantity": 65,
+          "receivedQuantity": 65
+        },
+        {
+          "productId": "prod_372728110350737408",
+          "quantity": 35,
+          "receivedQuantity": 35
+        },
+        {
+          "productId": "prod_372728110463983616",
+          "quantity": 100,
+          "receivedQuantity": 100
+        }
+      ],
+      "status": "RECEIVED",
+      "idempotencyKey": "demo-v1-po-opening-bengaluru",
+      "createdAt": "2026-10-25T12:48:26.727Z",
+      "updatedAt": "2026-10-25T12:48:27.173Z"
+    },
+    {
+      "demoLabel": "opening-mumbai",
+      "orderId": "po_372728113857175552",
+      "supplierId": "demo-supplier-distribution",
+      "destinationWarehouseId": "wh_372728103195254784",
+      "items": [
+        {
+          "productId": "prod_372728103857954816",
+          "quantity": 45,
+          "receivedQuantity": 45
+        },
+        {
+          "productId": "prod_372728109037920256",
+          "quantity": 25,
+          "receivedQuantity": 25
+        },
+        {
+          "productId": "prod_372728109188915200",
+          "quantity": 20,
+          "receivedQuantity": 20
+        },
+        {
+          "productId": "prod_372728109344104448",
+          "quantity": 12,
+          "receivedQuantity": 12
+        },
+        {
+          "productId": "prod_372728109520265216",
+          "quantity": 35,
+          "receivedQuantity": 35
+        },
+        {
+          "productId": "prod_372728109667065856",
+          "quantity": 100,
+          "receivedQuantity": 100
+        },
+        {
+          "productId": "prod_372728109801283584",
+          "quantity": 10,
+          "receivedQuantity": 10
+        },
+        {
+          "productId": "prod_372728109927112704",
+          "quantity": 150,
+          "receivedQuantity": 150
+        },
+        {
+          "productId": "prod_372728110069719040",
+          "quantity": 90,
+          "receivedQuantity": 90
+        },
+        {
+          "productId": "prod_372728110216519680",
+          "quantity": 25,
+          "receivedQuantity": 25
+        },
+        {
+          "productId": "prod_372728110350737408",
+          "quantity": 14,
+          "receivedQuantity": 14
+        },
+        {
+          "productId": "prod_372728110463983616",
+          "quantity": 45,
+          "receivedQuantity": 45
+        }
+      ],
+      "status": "RECEIVED",
+      "idempotencyKey": "demo-v1-po-opening-mumbai",
+      "createdAt": "2026-10-25T12:48:27.297Z",
+      "updatedAt": "2026-10-25T12:48:27.631Z"
+    },
+    {
+      "demoLabel": "opening-delhi",
+      "orderId": "po_372728115572645888",
+      "supplierId": "demo-supplier-tech",
+      "destinationWarehouseId": "wh_372728103337861120",
+      "items": [
+        {
+          "productId": "prod_372728103857954816",
+          "quantity": 30,
+          "receivedQuantity": 30
+        },
+        {
+          "productId": "prod_372728109037920256",
+          "quantity": 15,
+          "receivedQuantity": 15
+        },
+        {
+          "productId": "prod_372728109188915200",
+          "quantity": 10,
+          "receivedQuantity": 10
+        },
+        {
+          "productId": "prod_372728109344104448",
+          "quantity": 6,
+          "receivedQuantity": 6
+        },
+        {
+          "productId": "prod_372728109520265216",
+          "quantity": 20,
+          "receivedQuantity": 20
+        },
+        {
+          "productId": "prod_372728109667065856",
+          "quantity": 60,
+          "receivedQuantity": 60
+        },
+        {
+          "productId": "prod_372728109801283584",
+          "quantity": 3,
+          "receivedQuantity": 3
+        },
+        {
+          "productId": "prod_372728109927112704",
+          "quantity": 80,
+          "receivedQuantity": 80
+        },
+        {
+          "productId": "prod_372728110069719040",
+          "quantity": 45,
+          "receivedQuantity": 45
+        },
+        {
+          "productId": "prod_372728110216519680",
+          "quantity": 10,
+          "receivedQuantity": 10
+        },
+        {
+          "productId": "prod_372728110350737408",
+          "quantity": 5,
+          "receivedQuantity": 5
+        },
+        {
+          "productId": "prod_372728110463983616",
+          "quantity": 15,
+          "receivedQuantity": 15
+        }
+      ],
+      "status": "RECEIVED",
+      "idempotencyKey": "demo-v1-po-opening-delhi",
+      "createdAt": "2026-10-25T12:48:27.706Z",
+      "updatedAt": "2026-10-25T12:48:27.963Z"
+    },
+    {
+      "demoLabel": "office-restock",
+      "orderId": "po_372728116805771264",
+      "supplierId": "demo-supplier-tech",
+      "destinationWarehouseId": "wh_372728102473834496",
+      "items": [
+        {
+          "productId": "prod_372728103857954816",
+          "quantity": 60,
+          "receivedQuantity": 0
+        },
+        {
+          "productId": "prod_372728109037920256",
+          "quantity": 40,
+          "receivedQuantity": 0
+        },
+        {
+          "productId": "prod_372728109188915200",
+          "quantity": 20,
+          "receivedQuantity": 0
+        }
+      ],
+      "status": "CREATED",
+      "idempotencyKey": "demo-v1-po-office-restock",
+      "createdAt": "2026-10-25T12:48:28.001Z",
+      "updatedAt": "2026-10-25T12:48:28.001Z"
+    },
+    {
+      "demoLabel": "delhi-low-stock-restock",
+      "orderId": "po_372728116952571904",
+      "supplierId": "demo-supplier-tech",
+      "destinationWarehouseId": "wh_372728103337861120",
+      "items": [
+        {
+          "productId": "prod_372728109344104448",
+          "quantity": 20,
+          "receivedQuantity": 0
+        },
+        {
+          "productId": "prod_372728109801283584",
+          "quantity": 15,
+          "receivedQuantity": 0
+        }
+      ],
+      "status": "CREATED",
+      "idempotencyKey": "demo-v1-po-delhi-low-stock-restock",
+      "createdAt": "2026-10-25T12:48:28.036Z",
+      "updatedAt": "2026-10-25T12:48:28.036Z"
+    },
+    {
+      "demoLabel": "partial-mumbai-delivery",
+      "orderId": "po_372728117090983936",
+      "supplierId": "demo-supplier-distribution",
+      "destinationWarehouseId": "wh_372728103195254784",
+      "items": [
+        {
+          "productId": "prod_372728110350737408",
+          "quantity": 20,
+          "receivedQuantity": 8
+        },
+        {
+          "productId": "prod_372728110463983616",
+          "quantity": 50,
+          "receivedQuantity": 20
+        }
+      ],
+      "status": "PARTIALLY_RECEIVED",
+      "idempotencyKey": "demo-v1-po-partial-mumbai-delivery",
+      "createdAt": "2026-10-25T12:48:28.068Z",
+      "updatedAt": "2026-10-25T12:48:28.163Z"
+    }
+  ],
+  "salesOrders": [
+    {
+      "demoLabel": "office-equipment-ready",
+      "orderId": "so_372728117678186496",
+      "items": [
+        {
+          "productId": "prod_372728103857954816",
+          "warehouseId": "wh_372728102473834496",
+          "quantity": 10
+        },
+        {
+          "productId": "prod_372728109037920256",
+          "warehouseId": "wh_372728102473834496",
+          "quantity": 5
+        }
+      ],
+      "status": "RESERVED",
+      "idempotencyKey": "demo-v1-so-office-equipment-ready",
+      "createdAt": "2026-10-25T12:48:28.247Z",
+      "updatedAt": "2026-10-25T12:48:28.247Z"
+    },
+    {
+      "demoLabel": "packing-supplies-ready",
+      "orderId": "so_372728118017925120",
+      "items": [
+        {
+          "productId": "prod_372728110069719040",
+          "warehouseId": "wh_372728103195254784",
+          "quantity": 20
+        },
+        {
+          "productId": "prod_372728109927112704",
+          "warehouseId": "wh_372728103195254784",
+          "quantity": 30
+        }
+      ],
+      "status": "RESERVED",
+      "idempotencyKey": "demo-v1-so-packing-supplies-ready",
+      "createdAt": "2026-10-25T12:48:28.313Z",
+      "updatedAt": "2026-10-25T12:48:28.313Z"
+    },
+    {
+      "demoLabel": "fulfilled-it-order",
+      "orderId": "so_372728118257000448",
+      "items": [
+        {
+          "productId": "prod_372728109344104448",
+          "warehouseId": "wh_372728102473834496",
+          "quantity": 4
+        },
+        {
+          "productId": "prod_372728109188915200",
+          "warehouseId": "wh_372728102473834496",
+          "quantity": 6
+        }
+      ],
+      "status": "COMPLETED",
+      "idempotencyKey": "demo-v1-so-fulfilled-it-order",
+      "createdAt": "2026-10-25T12:48:28.374Z",
+      "updatedAt": "2026-10-25T12:48:28.450Z"
+    },
+    {
+      "demoLabel": "cancelled-gloves-order",
+      "orderId": "so_372728118819037184",
+      "items": [
+        {
+          "productId": "prod_372728110463983616",
+          "warehouseId": "wh_372728103337861120",
+          "quantity": 5
+        }
+      ],
+      "status": "CANCELLED",
+      "idempotencyKey": "demo-v1-so-cancelled-gloves-order",
+      "createdAt": "2026-10-25T12:48:28.504Z",
+      "updatedAt": "2026-10-25T12:48:28.545Z"
+    },
+    {
+      "demoLabel": "low-stock-scanners-reserved",
+      "orderId": "so_372728119209107456",
+      "items": [
+        {
+          "productId": "prod_372728109801283584",
+          "warehouseId": "wh_372728103337861120",
+          "quantity": 2
+        }
+      ],
+      "status": "RESERVED",
+      "idempotencyKey": "demo-v1-so-low-stock-scanners-reserved",
+      "createdAt": "2026-10-25T12:48:28.594Z",
+      "updatedAt": "2026-10-25T12:48:28.594Z"
+    }
+  ],
+  "transfers": [
+    {
+      "demoLabel": "mouse-delivery-in-transit",
+      "transferId": "trn_372728119435599872",
+      "sourceWarehouseId": "wh_372728102473834496",
+      "destinationWarehouseId": "wh_372728103337861120",
+      "items": [
+        {
+          "productId": "prod_372728103857954816",
+          "quantity": 15
+        }
+      ],
+      "status": "IN_TRANSIT",
+      "idempotencyKey": "demo-v1-transfer-mouse-delivery-in-transit",
+      "createdAt": "2026-10-25T12:48:28.646Z",
+      "updatedAt": "2026-10-25T12:48:28.646Z"
+    },
+    {
+      "demoLabel": "labels-delivered",
+      "transferId": "trn_372728119687258112",
+      "sourceWarehouseId": "wh_372728102473834496",
+      "destinationWarehouseId": "wh_372728103195254784",
+      "items": [
+        {
+          "productId": "prod_372728109927112704",
+          "quantity": 40
+        }
+      ],
+      "status": "COMPLETED",
+      "idempotencyKey": "demo-v1-transfer-labels-delivered",
+      "createdAt": "2026-10-25T12:48:28.704Z",
+      "updatedAt": "2026-10-25T12:48:28.758Z"
+    },
+    {
+      "demoLabel": "cable-move-cancelled",
+      "transferId": "trn_372728120136048640",
+      "sourceWarehouseId": "wh_372728103195254784",
+      "destinationWarehouseId": "wh_372728103337861120",
+      "items": [
+        {
+          "productId": "prod_372728109667065856",
+          "quantity": 25
+        }
+      ],
+      "status": "CANCELLED",
+      "idempotencyKey": "demo-v1-transfer-cable-move-cancelled",
+      "createdAt": "2026-10-25T12:48:28.805Z",
+      "updatedAt": "2026-10-25T12:48:28.842Z"
+    }
+  ],
+  "inventory": [
+    {
+      "productId": "prod_372728103857954816",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 105,
+      "reservedQuantity": 10,
+      "availableQuantity": 95,
+      "updatedAt": "2026-10-25T12:48:28.630Z"
+    },
+    {
+      "productId": "prod_372728103857954816",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 45,
+      "reservedQuantity": 0,
+      "availableQuantity": 45,
+      "updatedAt": "2026-10-25T12:48:27.347Z"
+    },
+    {
+      "productId": "prod_372728103857954816",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 30,
+      "reservedQuantity": 0,
+      "availableQuantity": 30,
+      "updatedAt": "2026-10-25T12:48:27.745Z"
+    },
+    {
+      "productId": "prod_372728109037920256",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 60,
+      "reservedQuantity": 5,
+      "availableQuantity": 55,
+      "updatedAt": "2026-10-25T12:48:28.226Z"
+    },
+    {
+      "productId": "prod_372728109037920256",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 25,
+      "reservedQuantity": 0,
+      "availableQuantity": 25,
+      "updatedAt": "2026-10-25T12:48:27.381Z"
+    },
+    {
+      "productId": "prod_372728109037920256",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 15,
+      "reservedQuantity": 0,
+      "availableQuantity": 15,
+      "updatedAt": "2026-10-25T12:48:27.766Z"
+    },
+    {
+      "productId": "prod_372728109188915200",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 39,
+      "reservedQuantity": 0,
+      "availableQuantity": 39,
+      "updatedAt": "2026-10-25T12:48:28.421Z"
+    },
+    {
+      "productId": "prod_372728109188915200",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 10,
+      "reservedQuantity": 0,
+      "availableQuantity": 10,
+      "updatedAt": "2026-10-25T12:48:27.786Z"
+    },
+    {
+      "productId": "prod_372728109188915200",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 20,
+      "reservedQuantity": 0,
+      "availableQuantity": 20,
+      "updatedAt": "2026-10-25T12:48:27.415Z"
+    },
+    {
+      "productId": "prod_372728109344104448",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 12,
+      "reservedQuantity": 0,
+      "availableQuantity": 12,
+      "updatedAt": "2026-10-25T12:48:27.442Z"
+    },
+    {
+      "productId": "prod_372728109344104448",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 6,
+      "reservedQuantity": 0,
+      "availableQuantity": 6,
+      "updatedAt": "2026-10-25T12:48:27.821Z"
+    },
+    {
+      "productId": "prod_372728109344104448",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 26,
+      "reservedQuantity": 0,
+      "availableQuantity": 26,
+      "updatedAt": "2026-10-25T12:48:28.406Z"
+    },
+    {
+      "productId": "prod_372728109520265216",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 35,
+      "reservedQuantity": 0,
+      "availableQuantity": 35,
+      "updatedAt": "2026-10-25T12:48:27.473Z"
+    },
+    {
+      "productId": "prod_372728109520265216",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 20,
+      "reservedQuantity": 0,
+      "availableQuantity": 20,
+      "updatedAt": "2026-10-25T12:48:27.839Z"
+    },
+    {
+      "productId": "prod_372728109520265216",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 80,
+      "reservedQuantity": 0,
+      "availableQuantity": 80,
+      "updatedAt": "2026-10-25T12:48:26.970Z"
+    },
+    {
+      "productId": "prod_372728109667065856",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 100,
+      "reservedQuantity": 0,
+      "availableQuantity": 100,
+      "updatedAt": "2026-10-25T12:48:28.831Z"
+    },
+    {
+      "productId": "prod_372728109667065856",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 200,
+      "reservedQuantity": 0,
+      "availableQuantity": 200,
+      "updatedAt": "2026-10-25T12:48:26.988Z"
+    },
+    {
+      "productId": "prod_372728109667065856",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 60,
+      "reservedQuantity": 0,
+      "availableQuantity": 60,
+      "updatedAt": "2026-10-25T12:48:27.854Z"
+    },
+    {
+      "productId": "prod_372728109801283584",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 25,
+      "reservedQuantity": 0,
+      "availableQuantity": 25,
+      "updatedAt": "2026-10-25T12:48:27.010Z"
+    },
+    {
+      "productId": "prod_372728109801283584",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 3,
+      "reservedQuantity": 2,
+      "availableQuantity": 1,
+      "updatedAt": "2026-10-25T12:48:28.576Z"
+    },
+    {
+      "productId": "prod_372728109801283584",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 10,
+      "reservedQuantity": 0,
+      "availableQuantity": 10,
+      "updatedAt": "2026-10-25T12:48:27.527Z"
+    },
+    {
+      "productId": "prod_372728109927112704",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 260,
+      "reservedQuantity": 0,
+      "availableQuantity": 260,
+      "updatedAt": "2026-10-25T12:48:28.689Z"
+    },
+    {
+      "productId": "prod_372728109927112704",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 80,
+      "reservedQuantity": 0,
+      "availableQuantity": 80,
+      "updatedAt": "2026-10-25T12:48:27.888Z"
+    },
+    {
+      "productId": "prod_372728109927112704",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 190,
+      "reservedQuantity": 30,
+      "availableQuantity": 160,
+      "updatedAt": "2026-10-25T12:48:28.741Z"
+    },
+    {
+      "productId": "prod_372728110069719040",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 180,
+      "reservedQuantity": 0,
+      "availableQuantity": 180,
+      "updatedAt": "2026-10-25T12:48:27.072Z"
+    },
+    {
+      "productId": "prod_372728110069719040",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 90,
+      "reservedQuantity": 20,
+      "availableQuantity": 70,
+      "updatedAt": "2026-10-25T12:48:28.290Z"
+    },
+    {
+      "productId": "prod_372728110069719040",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 45,
+      "reservedQuantity": 0,
+      "availableQuantity": 45,
+      "updatedAt": "2026-10-25T12:48:27.902Z"
+    },
+    {
+      "productId": "prod_372728110216519680",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 10,
+      "reservedQuantity": 0,
+      "availableQuantity": 10,
+      "updatedAt": "2026-10-25T12:48:27.915Z"
+    },
+    {
+      "productId": "prod_372728110216519680",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 65,
+      "reservedQuantity": 0,
+      "availableQuantity": 65,
+      "updatedAt": "2026-10-25T12:48:27.098Z"
+    },
+    {
+      "productId": "prod_372728110216519680",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 25,
+      "reservedQuantity": 0,
+      "availableQuantity": 25,
+      "updatedAt": "2026-10-25T12:48:27.575Z"
+    },
+    {
+      "productId": "prod_372728110350737408",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 35,
+      "reservedQuantity": 0,
+      "availableQuantity": 35,
+      "updatedAt": "2026-10-25T12:48:27.124Z"
+    },
+    {
+      "productId": "prod_372728110350737408",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 22,
+      "reservedQuantity": 0,
+      "availableQuantity": 22,
+      "updatedAt": "2026-10-25T12:48:28.123Z"
+    },
+    {
+      "productId": "prod_372728110350737408",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 5,
+      "reservedQuantity": 0,
+      "availableQuantity": 5,
+      "updatedAt": "2026-10-25T12:48:27.936Z"
+    },
+    {
+      "productId": "prod_372728110463983616",
+      "warehouseId": "wh_372728102473834496",
+      "quantity": 100,
+      "reservedQuantity": 0,
+      "availableQuantity": 100,
+      "updatedAt": "2026-10-25T12:48:27.152Z"
+    },
+    {
+      "productId": "prod_372728110463983616",
+      "warehouseId": "wh_372728103337861120",
+      "quantity": 15,
+      "reservedQuantity": 0,
+      "availableQuantity": 15,
+      "updatedAt": "2026-10-25T12:48:28.529Z"
+    },
+    {
+      "productId": "prod_372728110463983616",
+      "warehouseId": "wh_372728103195254784",
+      "quantity": 65,
+      "reservedQuantity": 0,
+      "availableQuantity": 65,
+      "updatedAt": "2026-10-25T12:48:28.147Z"
+    }
+  ],
+  "alerts": [
+    {
+      "id": "6addfa9b5bb2531627c4b9f0",
+      "alertId": "alert_372728115971104768",
+      "productId": "prod_372728109188915200",
+      "warehouseId": "wh_372728103337861120",
+      "threshold": 12,
+      "availableQuantity": 10,
+      "status": "ACTIVE",
+      "createdAt": "2026-10-25T12:48:27.809Z",
+      "updatedAt": "2026-10-25T12:48:27.809Z"
+    },
+    {
+      "id": "6addfa9b5bb2531627c4b9f2",
+      "alertId": "alert_372728116101128192",
+      "productId": "prod_372728109344104448",
+      "warehouseId": "wh_372728103337861120",
+      "threshold": 8,
+      "availableQuantity": 6,
+      "status": "ACTIVE",
+      "createdAt": "2026-10-25T12:48:27.833Z",
+      "updatedAt": "2026-10-25T12:48:27.833Z"
+    },
+    {
+      "id": "6addfa9b5bb2531627c4b9f6",
+      "alertId": "alert_372728116306649088",
+      "productId": "prod_372728109801283584",
+      "warehouseId": "wh_372728103337861120",
+      "threshold": 5,
+      "availableQuantity": 1,
+      "status": "ACTIVE",
+      "createdAt": "2026-10-25T12:48:27.881Z",
+      "updatedAt": "2026-10-25T12:48:28.590Z"
+    },
+    {
+      "id": "6addfa9b5bb2531627c4b9fa",
+      "alertId": "alert_372728116499587072",
+      "productId": "prod_372728110216519680",
+      "warehouseId": "wh_372728103337861120",
+      "threshold": 15,
+      "availableQuantity": 10,
+      "status": "ACTIVE",
+      "createdAt": "2026-10-25T12:48:27.928Z",
+      "updatedAt": "2026-10-25T12:48:27.928Z"
+    },
+    {
+      "id": "6addfa9b5bb2531627c4b9fc",
+      "alertId": "alert_372728116575084544",
+      "productId": "prod_372728110350737408",
+      "warehouseId": "wh_372728103337861120",
+      "threshold": 8,
+      "availableQuantity": 5,
+      "status": "ACTIVE",
+      "createdAt": "2026-10-25T12:48:27.946Z",
+      "updatedAt": "2026-10-25T12:48:27.946Z"
+    },
+    {
+      "id": "6addfa9b5bb2531627c4b9fe",
+      "alertId": "alert_372728116642193408",
+      "productId": "prod_372728110463983616",
+      "warehouseId": "wh_372728103337861120",
+      "threshold": 20,
+      "availableQuantity": 15,
+      "status": "ACTIVE",
+      "createdAt": "2026-10-25T12:48:27.961Z",
+      "updatedAt": "2026-10-25T12:48:28.541Z"
+    }
+  ],
+  "movementCount": 54,
+  "verified": true,
+  "note": "Reruns reuse SKUs/warehouses and idempotency keys. Existing records and completed demo actions are not reset."
+}

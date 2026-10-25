@@ -91,6 +91,11 @@ public class PurchaseOrderService {
         return PurchaseOrderResponse.fromDomain(saved);
     }
 
+    @Transactional(readOnly = true)
+    public org.springframework.data.domain.Page<PurchaseOrderResponse> list(org.springframework.data.domain.Pageable pageable) {
+        return purchaseOrderRepository.findAll(pageable).map(PurchaseOrderResponse::fromDomain);
+    }
+
     public PurchaseOrderResponse getPurchaseOrder(String orderId) {
         return PurchaseOrderResponse.fromDomain(getPurchaseOrderEntity(orderId));
     }

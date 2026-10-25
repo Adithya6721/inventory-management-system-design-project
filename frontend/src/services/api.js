@@ -149,6 +149,10 @@ class ApiClient {
   }
 
   // --- 4. Purchase Orders ---
+  getPurchaseOrders() {
+    return this.request('/purchase-orders?size=100');
+  }
+
   createPurchaseOrder(po) {
     return this.request('/purchase-orders', {
       method: 'POST',
@@ -164,6 +168,10 @@ class ApiClient {
   }
 
   // --- 5. Sales Orders ---
+  getSalesOrders() {
+    return this.request('/sales-orders?size=100');
+  }
+
   createSalesOrder(order) {
     return this.request('/sales-orders', {
       method: 'POST',
@@ -184,6 +192,10 @@ class ApiClient {
   }
 
   // --- 6. Stock Transfers ---
+  getTransfers() {
+    return this.request('/transfers?size=100');
+  }
+
   createTransfer(transfer) {
     return this.request('/transfers', {
       method: 'POST',

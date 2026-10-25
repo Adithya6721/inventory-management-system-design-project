@@ -114,6 +114,11 @@ public class SalesOrderService {
         return SalesOrderResponse.fromDomain(saved);
     }
 
+    @Transactional(readOnly = true)
+    public org.springframework.data.domain.Page<SalesOrderResponse> list(org.springframework.data.domain.Pageable pageable) {
+        return salesOrderRepository.findAll(pageable).map(SalesOrderResponse::fromDomain);
+    }
+
     public SalesOrderResponse getOrder(String orderId) {
         return SalesOrderResponse.fromDomain(getOrderEntity(orderId));
     }

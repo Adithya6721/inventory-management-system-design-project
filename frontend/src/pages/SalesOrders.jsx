@@ -1,4 +1,5 @@
 import useCreateRequest from '../hooks/useCreateRequest';
+import useStoredOrders from '../hooks/useStoredOrders';
 import React, { useState } from 'react';
 import { ShoppingCart, Plus, Check, X, ShieldAlert, ArrowUpRight, AlertTriangle } from 'lucide-react';
 import { api } from '../services/api';
@@ -12,7 +13,7 @@ export default function SalesOrders({
   onShowToast,
   onRefreshAll
 }) {
-  const [salesOrders, setSalesOrders] = useState([]);
+  const [salesOrders, setSalesOrders] = useStoredOrders('sales', onShowToast);
   const [showCreateModal, setShowCreateModal] = useState(false);
   useCreateRequest(createRequested, onCreateRequestHandled, setShowCreateModal);
   const [submitting, setSubmitting] = useState(false);
