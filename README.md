@@ -18,6 +18,17 @@ addition/removal physically migrates records and preserves stock reservations.
 See [the Member 2 run guide, management API and verification results](docs/sharding.md).
 Run `.\scripts\demo-sharding.ps1` against the running backend for the demonstration.
 
+## Project report and LaTeX source
+
+- [Project report (PDF)](AetherStock_Project_Report.pdf)
+- [Complete Overleaf project (ZIP)](AetherStock_LaTeX.zip)
+- [Editable LaTeX source](AetherStock_Project_Report.tex)
+- [Report images](images/) — SSN logo and seven figure screenshots at 300 DPI
+- [Compilation and editing instructions](docs/report/LATEX_README.md)
+
+The self-contained ZIP includes the source and images. Upload it to Overleaf and
+select **pdfLaTeX**. The LaTeX report has been compilation-checked at 25 A4 pages.
+
 ---
 
 ## 1. Member 1 Responsibilities & Backend Scope
@@ -27,7 +38,7 @@ Member 1 serves as the foundational backbone for the entire system design projec
 - **Database Schema & Models:** Designed all MongoDB collections, document schemas, unique indexes, and referential integrity rules.
 - **Product & Warehouse Master Data:** Registration, validation, category indexing, warehouse management, and stock visibility.
 - **Inventory Consistency & Atomic Updates:** Conditional atomic reservation/deduction to guarantee zero overselling and no negative inventory under high concurrency.
-- **Purchase & Sales Order Workflows:** Incoming stock receipt accounting, multi-item sales reservation with Saga compensation rollback, and idempotency protection.
+- **Purchase & Sales Order Workflows:** Incoming stock receipt accounting, multi-item sales reservation with transactional rollback, and idempotency protection.
 - **Warehouse-to-Warehouse Stock Transfers:** Safe multi-stage transfers with explicit state tracking (`IN_TRANSIT`) preventing double-spending or stranded inventory.
 - **Low-Stock Alerting:** Threshold monitoring with deduplication to prevent repetitive notifications, plus automatic resolution upon restocking.
 - **Audit Trails:** Immutable append-only movement logs tracing every stock change.

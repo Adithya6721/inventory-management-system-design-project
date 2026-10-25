@@ -1,0 +1,135 @@
+{
+  "source_pdf": "AetherStock_Project_Report.pdf",
+  "source_sha256": "a395ccdaffa20f2528d4a6ae9c0ac21cf35fcf3cfd53e79bc48c9dee7ef912f2",
+  "method": "Cropped rendered PDF screenshots, without captions",
+  "images": [
+    {
+      "file": "ssn_logo.png",
+      "pdf_page": 1,
+      "figure": "Cover logo",
+      "dpi": 300,
+      "pixels": [
+        504,
+        215
+      ],
+      "crop_points": [
+        237.14,
+        63.955,
+        358.14,
+        115.34
+      ]
+    },
+    {
+      "file": "architecture.png",
+      "pdf_page": 6,
+      "figure": 1,
+      "dpi": 300,
+      "pixels": [
+        2010,
+        1370
+      ],
+      "crop_points": [
+        56.5,
+        172.2,
+        538.776,
+        501.2
+      ]
+    },
+    {
+      "file": "consistent_hashing.png",
+      "pdf_page": 9,
+      "figure": 2,
+      "dpi": 300,
+      "pixels": [
+        2010,
+        708
+      ],
+      "crop_points": [
+        56.5,
+        172.2,
+        538.776,
+        342.2
+      ]
+    },
+    {
+      "file": "sales_transfer_lifecycle.png",
+      "pdf_page": 13,
+      "figure": 3,
+      "dpi": 300,
+      "pixels": [
+        2010,
+        641
+      ],
+      "crop_points": [
+        56.5,
+        118.0,
+        538.776,
+        272.0
+      ]
+    },
+    {
+      "file": "cache_comparison.png",
+      "pdf_page": 15,
+      "figure": 4,
+      "dpi": 300,
+      "pixels": [
+        1983,
+        697
+      ],
+      "crop_points": [
+        58.5,
+        368.7,
+        534.44,
+        535.85
+      ]
+    },
+    {
+      "file": "rate_limiter.png",
+      "pdf_page": 17,
+      "figure": 5,
+      "dpi": 300,
+      "pixels": [
+        1988,
+        660
+      ],
+      "crop_points": [
+        58.5,
+        367.9,
+        535.71,
+        526.2
+      ]
+    },
+    {
+      "file": "sharding_comparison.png",
+      "pdf_page": 18,
+      "figure": 6,
+      "dpi": 300,
+      "pixels": [
+        2020,
+        672
+      ],
+      "crop_points": [
+        58.5,
+        400.42,
+        543.3,
+        561.57
+      ]
+    },
+    {
+      "file": "hash_distribution.png",
+      "pdf_page": 20,
+      "figure": 7,
+      "dpi": 300,
+      "pixels": [
+        2010,
+        635
+      ],
+      "crop_points": [
+        58.5,
+        243.47,
+        540.84,
+        395.72
+      ]
+    }
+  ]
+}
