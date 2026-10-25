@@ -103,7 +103,8 @@ class Experiment:
         else: raise RuntimeError('Backend startup timeout')
         print(f'Seeding {self.args.products} products in {self.database}',flush=True)
         def create(i):
-            return http('POST',self.url+'/api/products',json={'sku':f'AS-{i:06d}','name':f'Sensor {i} Unit',
+            name = ('SparseGroup ' if i == 0 or i >= self.args.products - 10 else '') + f'Sensor {i} Unit'
+            return http('POST',self.url+'/api/products',json={'sku':f'AS-{i:06d}','name':name,
                         'category':f'Category-{i%10}','price':10,'reorderLevel':0,'active':True})
         with ThreadPoolExecutor(max_workers=8) as pool: list(pool.map(create,range(self.args.products)))
         rebuilt=http('POST',self.api+'/rebuild'); assert rebuilt['products']==self.args.products
@@ -122,6 +123,9 @@ class Experiment:
                 queries.append({'kind':kind,'prefix':item['sku'].lower().replace('-',''),'expectedIds':[item['productId']]})
         queries.extend({'kind':'missing','prefix':f'zzmissing{i}','expectedIds':[]} for i in range(8))
         queries.extend({'kind':'broad','prefix':prefix,'expectedIds':[p['productId'] for p in catalogue]} for prefix in ['sensor','category'])
+        partial_ids=[p['productId'] for p in catalogue if p['name'].startswith('SparseGroup ')]
+        assert len(partial_ids)==11
+        queries.append({'kind':'partial_local','prefix':'sparsegroup','expectedIds':partial_ids})
         self.config={'output':str(self.output),'api':self.api,'initial':self.args.initial,'queries':queries,
                      'warmLoops':self.args.warm_loops,'debounce':self.args.debounce,'repeats':self.args.repeats,
                      'debugPort':self.args.debug_port,'pageUrl':f'http://127.0.0.1:{self.args.web_port}/evaluation/autocomplete-five/index.html'}
@@ -196,6 +200,7 @@ class Experiment:
                 row={'mode':mode,'phase':phase,'queries':len(rows),
                      'work_mean_ms':statistics.mean(r['work_ms'] for r in rows),'work_p95_ms':percentile([r['work_ms'] for r in rows],.95),
                      'display_mean_ms':statistics.mean(r['display_ms'] for r in rows),'display_p95_ms':percentile([r['display_ms'] for r in rows],.95),
+                     'queries_per_second':len(rows)*1000/sum(p['elapsed_ms'] for p in phases),
                      'correct_pct':sum(r['correct'] for r in rows)*100/len(rows),
                      'valid_result_fill_pct':100*sum(r['valid'] for r in rows)/sum(r['expected'] for r in rows),
                      'api_calls':api_calls,'database_reads':counters['databaseReads'],'redis_hits':counters['redisHits'],
@@ -205,7 +210,7 @@ class Experiment:
         with (self.output/'summary.csv').open('w',newline='') as stream:
             writer=csv.DictWriter(stream,fieldnames=[k for k in summaries[0] if k!='sources']); writer.writeheader()
             writer.writerows({k:v for k,v in r.items() if k!='sources'} for r in summaries)
-        lines=['# Five autocomplete paths in Chrome','',f"Catalogue: {self.args.products}; initial browser index: {self.args.initial}; {self.args.repeats} independent repetitions; 26 queries per cold pass, {self.args.warm_loops} repeated warm passes; debounce: {self.args.debounce} ms.",'',
+        lines=['# Five autocomplete paths in Chrome','',f"Catalogue: {self.args.products}; initial browser index: {self.args.initial}; {self.args.repeats} independent repetitions; {len(self.config['queries'])} queries per cold pass, {self.args.warm_loops} repeated warm passes; debounce: {self.args.debounce} ms.",'',
             'Cache means a dedicated Redis search-result cache. All modes use the same token-prefix rules and top-eight limit. HTTP browser caching is disabled. The normal product search endpoint and operational UI are unchanged. This opt-in API queries a MongoDB token projection with a multikey token index.','',
             '| Mode | Phase | Queries | Work mean ms | Work p95 ms | Display mean ms | Correct queries % | Valid result fill % | API calls | Mongo reads | Redis hits |',
             '| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |']
@@ -216,7 +221,7 @@ class Experiment:
             'Initial catalogue download and Trie construction are recorded separately in each point. Browser-only means no API search per query; the initial index still needs catalogue data.',
             'Cold starts with a new browser index and a unique empty Redis query namespace. Warm repeats the same queries in the same client. Positive API results are added to the Trie, so repeated positive fallbacks can become local hits. Negative results remain empty locally; Redis can cache those empty lists.',
             'Correct query means every returned product is a valid token-prefix match and the number returned equals min(8, full-catalogue matches). Fill compares valid returned counts with that expected top-eight count. No ranking/order equivalence is claimed. Empty Trie results for unloaded matching products count as incomplete, not successful fast answers.',
-            'Query classes: 8 initially indexed SKU prefixes, 8 deeper-catalogue SKU prefixes, 8 absent prefixes, and 2 broad prefixes. See queries.csv for each class and phase. Expected sets are computed outside timed search work.',
+            'Query classes: 8 initially indexed SKU prefixes, 8 deeper-catalogue SKU prefixes, 8 absent prefixes, 2 broad prefixes, and one partial-local prefix with one indexed match and ten outside the original 100. Zero-hit fallback does not fetch more when a local match already exists; its incomplete result is measured rather than hidden. See queries.csv for each class and phase. Expected sets are computed outside timed search work.',
             'The server has a warm-up before measured requests; cold refers to data caches, not cold process/OS/disk. Mode order rotates across repetitions. One actual Chrome tab sends sequential completed-query events. This is not a JMeter concurrency test, a keystroke cancellation test, or the React component itself.',
             'The catalogue is immutable during measurement. Snapshot revision and run tokens isolate Redis keys; all keys expire after five minutes. This does not implement normal product-edit search-cache invalidation.',
             'resources.csv samples backend, MongoDB, Redis, driver and Chrome. Chrome RSS sums its process tree and can count shared pages repeatedly; browser heap includes the oracle and harness. Source hashes and settings are in manifest.json; browser version is saved separately.','',
@@ -224,8 +229,8 @@ class Experiment:
             'Reproduce: `powershell -ExecutionPolicy Bypass -File scripts/test-autocomplete-five.ps1`. Change `-Initial 1000` to compare a fully loaded browser index.','']
         (self.output/'README.md').write_text('\n'.join(lines),encoding='utf-8')
         write_json(self.output/'verification.json',{'passed':True,'browser_points':len(points),'query_observations':len(all_rows),
-            'cache_failures':0,'browser_server_counter_agreement':True,'fallback_and_api_results_complete':True,
-            'browser_only_incomplete_results_counted':True})
+            'cache_failures':0,'browser_server_counter_agreement':True,'api_only_results_complete':True,
+            'zero_hit_fallback_complete':True,'partial_local_and_browser_only_incomplete_results_reported':True})
 
     def close(self):
         for name,process in reversed(list(self.owned.items())):

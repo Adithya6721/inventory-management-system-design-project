@@ -69,8 +69,8 @@ export async function runPoint(config) {
   try {
     for (const phase of ['cold', 'warm']) {
       const loops = phase === 'cold' ? 1 : config.warmLoops;
-      const phaseStart = performance.now();
       const before = await (await fetch(`${config.api}/metrics`, { cache: 'no-store' })).json();
+      const phaseStart = performance.now();
       for (let loop = 0; loop < loops; loop++) {
         for (const query of config.queries) {
           status.textContent = `${MODES[config.mode].label} · repeat ${config.repeat} · ${phase} · ${query.prefix}`;
@@ -81,13 +81,16 @@ export async function runPoint(config) {
           const valid = ids.filter(id => expected.has(id)).length;
           if (new Set(ids).size !== ids.length || valid !== ids.length) throw new Error('Invalid/duplicate suggestion');
           const expectedCount = Math.min(8, expected.size), correct = ids.length === expectedCount;
-          if (config.mode !== 'trie_only' && !correct) throw new Error('Fallback/API path missed expected suggestions');
+          if (config.mode !== 'trie_only' && !correct && (query.kind !== 'partial_local' || !client.trie)) {
+            throw new Error('Fallback/API path missed expected suggestions');
+          }
           rows.push({ mode: config.mode, repeat: config.repeat, phase, loop, prefix: query.prefix, kind: query.kind,
             source: observation.source, work_ms: observation.workMs, display_ms: observation.displayMs,
             debounce_ms: observation.debounceMs, network_ms: observation.networkMs, returned: ids.length,
             expected: expectedCount, valid, correct, resultIds: ids });
         }
       }
+      const phaseElapsed = performance.now() - phaseStart;
       const after = await (await fetch(`${config.api}/metrics`, { cache: 'no-store' })).json();
       const phaseRows = rows.filter(r => r.phase === phase);
       const counters = Object.fromEntries(Object.keys(after).map(key => [key, after[key] - before[key]]));
@@ -97,7 +100,7 @@ export async function runPoint(config) {
       }
       if (!MODES[config.mode].cache && (counters.redisHits || counters.redisMisses)) throw new Error('Uncached mode used Redis');
       const summary = { mode: config.mode, repeat: config.repeat, phase, counters,
-        elapsed_ms: performance.now() - phaseStart, query_count: phaseRows.length };
+        elapsed_ms: phaseElapsed, query_count: phaseRows.length };
       window.phaseSummaries.push(summary);
       const tr = document.createElement('tr');
       const values = [MODES[config.mode].label, phase, phaseRows.length,
