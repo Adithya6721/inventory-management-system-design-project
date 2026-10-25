@@ -24,11 +24,11 @@ const groups = [
 export default function Sidebar({ activeTab, setActiveTab, lowStockCount = 0, collapsed, onToggle }) {
   return (
     <aside className="sidebar" aria-label="Main navigation">
-      <button className="brand" onClick={() => setActiveTab('dashboard')} aria-label="AetherStock overview">
+      <button className="brand" onClick={() => setActiveTab('dashboard')} aria-label="EfficientStock overview">
         <span className="brand-mark"><Boxes size={21} strokeWidth={1.7} /></span>
-        <span className="brand-name">AetherStock<span>Inventory workspace</span></span>
+        <span className="brand-name">EfficientStock<span>Inventory workspace</span></span>
       </button>
-      <div className="workspace-switch"><span className="workspace-avatar">A</span><span className="nav-label">Operations workspace</span><ChevronDown size={13} className="workspace-chevron" /></div>
+      <div className="workspace-switch"><span className="workspace-avatar">E</span><span className="nav-label">Operations workspace</span><ChevronDown size={13} className="workspace-chevron" /></div>
       <nav className="sidebar-nav">
         {groups.map(group => <div className="nav-group" key={group.label}>
           <div className="nav-group-label">{group.label}</div>
@@ -46,7 +46,7 @@ export default function Sidebar({ activeTab, setActiveTab, lowStockCount = 0, co
         <button className="nav-item collapse-control" onClick={onToggle} aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!collapsed}>
           {collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}<span className="nav-label">Collapse sidebar</span>
         </button>
-        <div className="workspace-footer"><span className="workspace-avatar">AS</span><span className="nav-label"><strong>AetherStock</strong><span>Inventory & operations</span></span></div>
+        <div className="workspace-footer"><span className="workspace-avatar">ES</span><span className="nav-label"><strong>EfficientStock</strong><span>Inventory & operations</span></span></div>
       </div>
     </aside>
   );

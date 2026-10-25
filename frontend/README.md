@@ -1,4 +1,4 @@
-# AetherStock frontend
+# EfficientStock frontend
 
 A React and Vite inventory workspace for products, warehouse stock, purchase and
 sales orders, transfers, and replenishment alerts.

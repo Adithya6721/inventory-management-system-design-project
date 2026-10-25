@@ -19,8 +19,10 @@ export default function SystemDesignLab({
   const [rateLimitStats, setRateLimitStats] = useState(null);
 
   // URL Shortener State
-  const [longUrl, setLongUrl] = useState('http://localhost:8080/api/inventory/prod_a1b2c3d4e5f6/movements?page=0&size=50&format=json');
+  const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
+  const [shortening, setShortening] = useState(false);
+  const [shortLinkError, setShortLinkError] = useState('');
 
   // 1. Concurrency Benchmark Runner (100 Competing Orders for 10 Units)
   const runConcurrencyTest = async () => {
@@ -126,15 +128,15 @@ export default function SystemDesignLab({
   };
 
   // 3. URL Shortener Utility (System Design Component)
-  const handleGenerateShortUrl = (e) => {
+  const handleGenerateShortUrl = async (e) => {
     e.preventDefault();
-    const hash = Math.random().toString(36).substring(2, 8);
-    setShortUrl(`https://inv.link/r/${hash}`);
-    onShowToast({
-      type: 'success',
-      title: 'Short Link Generated',
-      message: `Compact URL created for report sharing: inv.link/r/${hash}`
-    });
+    setShortening(true); setShortLinkError(''); setShortUrl('');
+    try {
+      const link = await api.createShortLink(longUrl.trim());
+      setShortUrl(link.shortUrl);
+      onShowToast({ type: 'success', title: 'Short link created', message: 'Open the link to visit the saved destination.' });
+    } catch (error) { setShortLinkError(error.message); }
+    finally { setShortening(false); }
   };
 
   return (
@@ -266,28 +268,32 @@ export default function SystemDesignLab({
         <div className="card" style={{ gridColumn: '1 / -1' }}>
           <div className="card-header">
             <div>
-              <h3 style={{ fontSize: '1.125rem' }}>URL shortener prototype</h3>
+              <h3 style={{ fontSize: '1.125rem' }}>URL shortener</h3>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                Generate an example compact reference. A redirect service is not connected.
+                Create a saved link to a supplier page, report, or inventory resource.
               </p>
             </div>
-            <span className="badge badge-cyan">Component #6</span>
           </div>
 
           <form onSubmit={handleGenerateShortUrl} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <input
-              type="text"
+              id="short-link-url"
+              aria-label="Destination URL"
+              type="url"
               className="form-input"
               style={{ flex: 1, minWidth: 'min(100%, 320px)' }}
               value={longUrl}
-              onChange={e => setLongUrl(e.target.value)}
+              onChange={e => { setLongUrl(e.target.value); setShortUrl(''); setShortLinkError(''); }}
               placeholder="Paste long order receipt or inventory report URL..."
               required
+              maxLength={2048}
+              disabled={shortening}
             />
-            <button type="submit" className="btn btn-primary">
-              <Link size={16} /> Shorten URL
+            <button id="btn-shorten-url" type="submit" className="btn btn-primary" disabled={shortening}>
+              <Link size={16} /> {shortening ? 'Creating…' : 'Shorten URL'}
             </button>
           </form>
+          {shortLinkError && <p role="alert" style={{ color: 'var(--accent-rose)', marginTop: 12 }}>{shortLinkError}</p>}
 
           {shortUrl && (
             <div style={{
@@ -302,14 +308,16 @@ export default function SystemDesignLab({
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Short Link:</span>
-                <code style={{ color: 'var(--accent-cyan)', fontWeight: 700, fontSize: '0.9375rem' }}>{shortUrl}</code>
+                <a id="short-link-result" href={shortUrl} target="_blank" rel="noreferrer" style={{ overflowWrap: 'anywhere' }}>{shortUrl}</a>
               </div>
               <button
                 className="btn btn-secondary"
                 style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-                onClick={() => {
-                  navigator.clipboard.writeText(shortUrl);
-                  alert('Short URL copied to clipboard!');
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(shortUrl);
+                    onShowToast({ type: 'success', title: 'Link copied', message: shortUrl });
+                  } catch { setShortLinkError('Clipboard unavailable. Select and copy the link above.'); }
                 }}
               >
                 Copy Link

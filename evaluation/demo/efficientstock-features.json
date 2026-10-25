@@ -1,0 +1,12 @@
+{
+  "onlineBenchmarkRows": 10,
+  "allMatchChecksPass": true,
+  "indexScope": "13 of 13 catalog products indexed · 310 nodes · 103 token entries",
+  "offlineErrorsShownWithoutFakeTiming": true,
+  "shortUrl": "http://127.0.0.1:8081/r/rxs30eIle8",
+  "redirectStatus": 302,
+  "destination": "http://127.0.0.1:8081/api/warehouses?view=compact#stock",
+  "invalidDestinationShownAsError": true,
+  "brand": "EfficientStock",
+  "passed": true
+}

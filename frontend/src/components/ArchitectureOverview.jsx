@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
 const components = [
+  ['URL shortener', 'Share supplier pages, reports and inventory links', 'Snowflake IDs · Base62 codes · MongoDB mappings · HTTP 302'],
   ['Inventory consistency', 'Stock reservations, receipts, transfers, and movement history', 'Atomic updates · MongoDB transactions'],
   ['Sharding & consistent hashing', 'Warehouse-level stock placement and shard membership changes', 'SHA-256 ring · Virtual nodes · Record migration'],
   ['Key-value store', 'Faster product metadata reads with cache invalidation', 'Redis · Cache-aside · Time-to-live'],

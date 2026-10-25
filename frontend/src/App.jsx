@@ -19,7 +19,7 @@ import { api } from './services/api';
 import { globalProductTrie } from './services/trie';
 
 function preference(key, fallback) {
-  try { return localStorage.getItem(key) || fallback; } catch { return fallback; }
+  try { return localStorage.getItem(key) || localStorage.getItem(key.replace('efficientstock.', 'aetherstock.')) || fallback; } catch { return fallback; }
 }
 
 export default function App() {
@@ -32,18 +32,18 @@ export default function App() {
   const [backendConnected, setBackendConnected] = useState(true);
   const [toasts, setToasts] = useState([]);
   const [inspectedProduct, setInspectedProduct] = useState(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => preference('aetherstock.sidebar', 'expanded') === 'collapsed');
-  const [theme, setTheme] = useState(() => preference('aetherstock.theme', 'light'));
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => preference('efficientstock.sidebar', 'expanded') === 'collapsed');
+  const [theme, setTheme] = useState(() => preference('efficientstock.theme', 'light'));
   const [createRequest, setCreateRequest] = useState(null);
   const finishCreateRequest = useCallback(() => setCreateRequest(null), []);
   const openCreate = tab => { setCreateRequest(tab); setActiveTab(tab); };
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    try { localStorage.setItem('aetherstock.theme', theme); } catch { /* Storage is optional. */ }
+    try { localStorage.setItem('efficientstock.theme', theme); } catch { /* Storage is optional. */ }
   }, [theme]);
   useEffect(() => {
-    try { localStorage.setItem('aetherstock.sidebar', sidebarCollapsed ? 'collapsed' : 'expanded'); } catch { /* Storage is optional. */ }
+    try { localStorage.setItem('efficientstock.sidebar', sidebarCollapsed ? 'collapsed' : 'expanded'); } catch { /* Storage is optional. */ }
   }, [sidebarCollapsed]);
 
   // Toast Helper
@@ -242,6 +242,7 @@ export default function App() {
           {activeTab === 'autocomplete' && (
             <AutocompleteLab
               products={products}
+              totalProducts={productCount}
             />
           )}
 

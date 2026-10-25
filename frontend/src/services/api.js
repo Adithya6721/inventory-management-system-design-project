@@ -79,6 +79,11 @@ class ApiClient {
   }
 
   // --- 1. Products ---
+  async createShortLink(url) {
+    const link = await this.request('/links', { method: 'POST', body: JSON.stringify({ url }) });
+    return { ...link, shortUrl: new URL(link.path, new URL(API_BASE, window.location.href)).href };
+  }
+
   getProducts(query = '', category = '', page = 0, size = 50) {
     const params = new URLSearchParams();
     if (query) params.append('query', query);
